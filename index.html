@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helium Fly ParanoizeX - Arquitecto de Realidades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET Y CONFIGURACIÓN GLOBAL --- */
+        :root {
+            --color-principal: #00FFFF; /* Cian */
+            --color-secundario: #FF00FF; /* Magenta */
+            --color-terciario: #8F00FF; /* Violeta */
+            --color-fondo: #0a0a14; /* Azul noche oscuro */
+            --color-texto: #e0e0e0;
+            --fuente-principal: 'Inter', sans-serif;
+            --fuente-codigo: 'Roboto Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            font-family: var(--fuente-principal);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- FONDO ANIMADO DE PARTÍCULAS --- */
+        #particle-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: radial-gradient(circle at 20% 20%, rgba(143, 0, 255, 0.1), transparent 30%),
+                              radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1), transparent 30%);
+            animation: move-particles 20s linear infinite;
+        }
+
+        @keyframes move-particles {
+            0% { background-position: 0 0; }
+            100% { background-position: -1000px 500px; }
+        }
+
+        /* --- ESTILOS DE COMPONENTES REUTILIZABLES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--fuente-codigo);
+            text-shadow: 0 0 5px var(--color-principal);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .glassmorphism {
+            background: rgba(15, 15, 30, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 20, 0.5);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--fuente-codigo);
+            font-size: 1.5rem;
+            color: var(--color-principal);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .nav-menu a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-principal);
+            text-shadow: 0 0 8px var(--color-principal);
+        }
+
+        /* --- SECCIÓN HERO --- */
+        #inicio {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem); /* Título adaptable */
+            font-family: var(--fuente-codigo);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--color-principal), 0 0 20px var(--color-secundario);
+            animation: flicker 4s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px var(--color-principal),
+                0 0 19px var(--color-principal),
+                0 0 40px var(--color-secundario),
+                0 0 80px var(--color-secundario);
+            }
+            20%, 24%, 55% {       
+                text-shadow: none;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-top: 1rem;
+            color: var(--color-texto);
+            letter-spacing: 2px;
+        }
+
+        /* --- SECCIÓN CÓDICE --- */
+        #codice p {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* --- SECCIÓN PORTAFOLIO --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .portfolio-card {
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px var(--color-secundario);
+        }
+        
+        .portfolio-card-content {
+            padding: 1.5rem;
+        }
+        
+        .portfolio-card h3 {
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+        }
+        
+        .portfolio-card .placeholder {
+            background: #1a1a2e;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #555;
+            font-family: var(--fuente-codigo);
+        }
+
+        /* --- SECCIÓN SERVICIOS Y TRANSMISIONES --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card, .blog-post {
+            text-align: center;
+        }
+
+        .service-card h3, .blog-post h3 {
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+        }
+
+        /* --- SECCIÓN CONTACTO --- */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .social-icon {
+            font-size: 3rem;
+            color: var(--color-texto);
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--color-principal);
+            transform: scale(1.2);
+            text-shadow: 0 0 15px var(--color-principal);
+        }
+
+        /* --- CHATBOT EIDOLON --- */
+        #eidolon-chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(15, 15, 30, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            z-index: 2000;
+            transform: translateY(200%);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s ease;
+        }
+        
+        #eidolon-chatbot.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .eidolon-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .typing-effect::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .eidolon-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .eidolon-btn {
+            background: transparent;
+            border: 1px solid var(--color-principal);
+            color: var(--color-principal);
+            padding: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--fuente-codigo);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .eidolon-btn:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none; /* Simplificado para el ejemplo, se podría implementar un menú hamburguesa */
+            }
+            .container {
+                padding: 3rem 1rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            #eidolon-chatbot {
+                width: calc(100% - 40px);
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particle-background"></div>
+
+    <header class="header">
+        <a href="#inicio" class="logo">H.F.</a>
+        <nav class="nav-menu">
+            <a href="#inicio">INICIO</a>
+            <a href="#codice">CÓDICE</a>
+            <a href="#portafolio">PORTAFOLIO</a>
+            <a href="#transmisiones">TRANSMISIONES</a>
+            <a href="#servicios">SERVICIOS</a>
+            <a href="#contacto">CONTACTO</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio">
+            <h1 class="hero-title">HELIUM FLY PARANOIZE X</h1>
+            <p class="hero-subtitle">Arquitecto de Realidades</p>
+        </section>
+
+        <section id="codice" class="container">
+            <div class="glassmorphism">
+                <h2>Códice Sintérgico</h2>
+                <p>
+                    Bienvenido al nexo de mi universo. Soy un arquitecto de realidades, un tejedor de sinergias entre arte, tecnología y conciencia. El Códice Sintérgico no es solo una filosofía, es el sistema operativo que unifica cada creación: cada nota, cada palabra, cada línea de código es un hilo en el tapiz de una realidad expandida. Mi misión es explorar los límites de la percepción y construir puentes hacia lo posible.
+                </p>
+            </div>
+        </section>
+
+        <section id="portafolio" class="container">
+            <h2>Portafolio Unificado</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card glassmorphism">
+                    <div class="placeholder">Placeholder para Spotify/SoundCloud</div>
+                    <div class="portfolio-card-content">
+                        <h3>Música</h3>
+                        <p>Paisajes sonoros que exploran la frontera entre lo orgánico y lo digital.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card glassmorphism">
+                     <div class="placeholder">Placeholder Portadas de Libros</div>
+                    <div class="portfolio-card-content">
+                        <h3>Libros</h3>
+                        <p>Manuscritos decodificados que narran viajes a través de realidades alternativas.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card glassmorphism">
+                    <div class="placeholder">Placeholder Video de YouTube</div>
+                    <div class="portfolio-card-content">
+                        <h3>Videos</h3>
+                        <p>Archivos de memoria visual; cortometrajes y exploraciones cinematográficas.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card glassmorphism">
+                    <div class="placeholder">Placeholder Proyectos Tech</div>
+                    <div class="portfolio-card-content">
+                        <h3>Tecnología</h3>
+                        <p>Artefactos como ARTUETR5D y CARSS, herramientas para la nueva realidad.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="transmisiones" class="container">
+            <h2>Últimas Transmisiones</h2>
+            <div class="grid-3">
+                <div class="blog-post glassmorphism">
+                    <h3>Protocolo de Creación 1</h3>
+                    <p>Extracto de la primera entrada del blog sobre el proceso creativo detrás de un nuevo proyecto...</p>
+                </div>
+                <div class="blog-post glassmorphism">
+                    <h3>Explorando la Sintergia</h3>
+                    <p>Análisis profundo sobre la conexión entre la tecnología y la conciencia...</p>
+                </div>
+                <div class="blog-post glassmorphism">
+                    <h3>Diario de un Arquitecto</h3>
+                    <p>Reflexiones personales sobre los desafíos y revelaciones en la construcción de realidades...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="container">
+            <h2>Servicios de Arquitectura</h2>
+            <div class="grid-3">
+                <div class="service-card glassmorphism">
+                    <h3>Diseño de Logos</h3>
+                    <p>Creación de símbolos y firmas vibracionales para tu proyecto o identidad.</p>
+                </div>
+                <div class="service-card glassmorphism">
+                    <h3>Producción Audio/Video</h3>
+                    <p>Construcción de paisajes sonoros y narrativas visuales inmersivas.</p>
+                </div>
+                <div class="service-card glassmorphism">
+                    <h3>Contenido Creativo</h3>
+                    <p>Desarrollo de conceptos y lore para expandir universos narrativos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="container">
+            <h2>Red de Conexiones</h2>
+            <div class="social-icons">
+                <a href="#" class="social-icon" title="YouTube">YT</a>
+                <a href="#" class="social-icon" title="Spotify">SP</a>
+                <a href="#" class="social-icon" title="Instagram">IN</a>
+                <a href="#" class="social-icon" title="Twitter/X">X</a>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="eidolon-chatbot">
+        <div class="eidolon-message" id="eidolon-text"></div>
+        <div class="eidolon-options" id="eidolon-options-container">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- LÓGICA DEL CHATBOT EIDOLON ---
+            const chatbot = document.getElementById('eidolon-chatbot');
+            const chatbotTextElement = document.getElementById('eidolon-text');
+            const optionsContainer = document.getElementById('eidolon-options-container');
+
+            // Mensaje inicial y opciones
+            const initialMessage = "Transmisión recibida... Firma vibracional reconocida. Bienvenido, Viajero, al Puente de Mando del Arquitecto. Tu presencia ha sido registrada en el Códice. El sistema está en línea. ¿Estás listo para iniciar tu protocolo de descubrimiento?";
+            const options = [
+                { text: "[Sintonizar Transmisiones (Música)]", target: "#portafolio" },
+                { text: "[Decodificar Manuscritos (Libros)]", target: "#portafolio" },
+                { text: "[Acceder a Archivos de Memoria (Videos)]", target: "#portafolio" },
+                { text: "[Contactar al Arquitecto]", target: "#contacto" }
+            ];
+
+            // Función para animar el texto como si se estuviera escribiendo
+            function typeWriter(text, element, onComplete) {
+                let i = 0;
+                element.innerHTML = "";
+                const speed = 40; // Velocidad en milisegundos
+                
+                function type() {
+                    if (i < text.length) {
+                        // Añade el efecto de "[Escribiendo...]"
+                        if (text.substring(i, i+15) === "Firma vibracional") {
+                             element.innerHTML = text.substring(0, i) + '<span class="typing-effect">[Escribiendo...]</span>';
+                        } else {
+                             element.innerHTML = text.substring(0, i) + '<span class="typing-effect"></span>';
+                        }
+                       
+                        if (i > 1 && text.substring(i-1, i+14) === "Firma vibracional") {
+                            element.innerHTML = text.substring(0, i);
+                        }
+                        
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        element.innerHTML = text; // Muestra el texto completo al final
+                        if (onComplete) onComplete();
+                    }
+                }
+                type();
+            }
+            
+            // Función para mostrar los botones de opción
+            function showOptions() {
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'eidolon-btn';
+                    button.textContent = option.text;
+                    button.dataset.target = option.target;
+                    
+                    button.addEventListener('click', () => {
+                        const targetElement = document.querySelector(button.dataset.target);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        // Opcional: Ocultar el chatbot después de la interacción
+                        // chatbot.classList.remove('active');
+                    });
+                    
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            // Activar el chatbot después de 3 segundos
+            setTimeout(() => {
+                chatbot.classList.add('active');
+                typeWriter(initialMessage, chatbotTextElement, showOptions);
+            }, 3000);
+
+        });
+    </script>
+</body>
+</html>
