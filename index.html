@@ -133,26 +133,29 @@
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 5rem); /* Título adaptable */
+            font-size: clamp(2.5rem, 8vw, 5rem);
             font-family: var(--fuente-codigo);
             color: white;
             text-transform: uppercase;
             letter-spacing: 4px;
             text-shadow: 0 0 10px var(--color-principal), 0 0 20px var(--color-secundario);
-            animation: flicker 4s infinite alternate;
+            animation: glitch 5s infinite;
         }
         
-        @keyframes flicker {
+        @keyframes glitch {
             0%, 18%, 22%, 25%, 53%, 57%, 100% {
                 text-shadow:
                 0 0 4px #fff,
                 0 0 11px var(--color-principal),
                 0 0 19px var(--color-principal),
                 0 0 40px var(--color-secundario),
-                0 0 80px var(--color-secundario);
+                0 0 80px var(--color-secundario),
+                -2px 0 var(--color-secundario),
+                2px 0 var(--color-principal);
             }
             20%, 24%, 55% {       
                 text-shadow: none;
+                transform: translate(-2px, 2px);
             }
         }
 
@@ -161,6 +164,18 @@
             margin-top: 1rem;
             color: var(--color-texto);
             letter-spacing: 2px;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* --- SECCIÓN CÓDICE --- */
@@ -201,12 +216,55 @@
         
         .portfolio-card .placeholder {
             background: #1a1a2e;
-            height: 150px;
+            height: 352px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #555;
             font-family: var(--fuente-codigo);
+        }
+
+        .portfolio-card iframe {
+            width: 100%;
+            border: none;
+        }
+
+        /* --- SECCIÓN LIBROS --- */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .book-card h3 {
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .book-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--color-principal);
+            color: var(--color-principal);
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: var(--fuente-codigo);
+            transition: all 0.3s ease;
+        }
+
+        .book-link:hover {
+            background: var(--color-principal);
+            color: var(--color-fondo);
+            box-shadow: 0 0 20px var(--color-principal);
         }
 
         /* --- SECCIÓN SERVICIOS Y TRANSMISIONES --- */
@@ -230,18 +288,27 @@
             display: flex;
             justify-content: center;
             gap: 2rem;
+            flex-wrap: wrap;
         }
         
-        .social-icon {
-            font-size: 3rem;
-            color: var(--color-texto);
-            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        .social-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid var(--color-principal);
+            color: var(--color-principal);
+            text-decoration: none;
+            border-radius: 10px;
+            font-family: var(--fuente-codigo);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
         }
 
-        .social-icon:hover {
-            color: var(--color-principal);
-            transform: scale(1.2);
-            text-shadow: 0 0 15px var(--color-principal);
+        .social-link:hover {
+            background: var(--color-principal);
+            color: var(--color-fondo);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--color-principal);
         }
 
         /* --- CHATBOT EIDOLON --- */
@@ -305,10 +372,28 @@
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
+        /* --- EFECTOS FUTURISTAS ADICIONALES --- */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-principal), transparent);
+            animation: scan 4s linear infinite;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
             .nav-menu {
-                display: none; /* Simplificado para el ejemplo, se podría implementar un menú hamburguesa */
+                display: none;
             }
             .container {
                 padding: 3rem 1rem;
@@ -322,12 +407,17 @@
                 right: 10px;
                 left: 10px;
             }
+            .social-icons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
 
     <div id="particle-background"></div>
+    <div class="scan-line"></div>
 
     <header class="header">
         <a href="#inicio" class="logo">H.F.</a>
@@ -335,6 +425,7 @@
             <a href="#inicio">INICIO</a>
             <a href="#codice">CÓDICE</a>
             <a href="#portafolio">PORTAFOLIO</a>
+            <a href="#libros">LIBROS</a>
             <a href="#transmisiones">TRANSMISIONES</a>
             <a href="#servicios">SERVICIOS</a>
             <a href="#contacto">CONTACTO</a>
@@ -360,32 +451,43 @@
             <h2>Portafolio Unificado</h2>
             <div class="portfolio-grid">
                 <div class="portfolio-card glassmorphism">
-                    <div class="placeholder">Placeholder para Spotify/SoundCloud</div>
+                    <!-- Reproductor de Spotify - Perfil de Artista -->
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/52TPOg63ezBW3xJt5ClmuI?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     <div class="portfolio-card-content">
                         <h3>Música</h3>
                         <p>Paisajes sonoros que exploran la frontera entre lo orgánico y lo digital.</p>
                     </div>
                 </div>
                 <div class="portfolio-card glassmorphism">
-                     <div class="placeholder">Placeholder Portadas de Libros</div>
-                    <div class="portfolio-card-content">
-                        <h3>Libros</h3>
-                        <p>Manuscritos decodificados que narran viajes a través de realidades alternativas.</p>
-                    </div>
-                </div>
-                <div class="portfolio-card glassmorphism">
-                    <div class="placeholder">Placeholder Video de YouTube</div>
+                    <!-- Reproductor de YouTube - Canal -->
+                    <iframe width="100%" height="352" src="https://www.youtube.com/embed/videoseries?list=UU52TPOg63ezBW3xJt5ClmuI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     <div class="portfolio-card-content">
                         <h3>Videos</h3>
                         <p>Archivos de memoria visual; cortometrajes y exploraciones cinematográficas.</p>
                     </div>
                 </div>
                 <div class="portfolio-card glassmorphism">
-                    <div class="placeholder">Placeholder Proyectos Tech</div>
+                    <div class="placeholder">Proyectos Tecnológicos</div>
                     <div class="portfolio-card-content">
                         <h3>Tecnología</h3>
                         <p>Artefactos como ARTUETR5D y CARSS, herramientas para la nueva realidad.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="libros" class="container">
+            <h2>Manuscritos Decodificados</h2>
+            <div class="books-grid">
+                <div class="book-card glassmorphism">
+                    <h3>HAZ LO IMPENSABLE...</h3>
+                    <p>Un viaje hacia la expansión de la conciencia y la ruptura de paradigmas.</p>
+                    <a href="https://a.co/d/3tSZW5q" target="_blank" rel="noopener noreferrer" class="book-link">Ver en Amazon</a>
+                </div>
+                <div class="book-card glassmorphism">
+                    <h3>EL CÓDIGO DEL ALMA</h3>
+                    <p>Decodificando los misterios de la existencia y la realidad expandida.</p>
+                    <a href="https://a.co/d/7khUTu9" target="_blank" rel="noopener noreferrer" class="book-link">Ver en Amazon</a>
                 </div>
             </div>
         </section>
@@ -429,10 +531,10 @@
         <section id="contacto" class="container">
             <h2>Red de Conexiones</h2>
             <div class="social-icons">
-                <a href="#" class="social-icon" title="YouTube">YT</a>
-                <a href="#" class="social-icon" title="Spotify">SP</a>
-                <a href="#" class="social-icon" title="Instagram">IN</a>
-                <a href="#" class="social-icon" title="Twitter/X">X</a>
+                <a href="https://linktr.ee/heliumflyoficial" target="_blank" rel="noopener noreferrer" class="social-link">🔗 Linktree</a>
+                <a href="https://bnd.link/heliumfly" target="_blank" rel="noopener noreferrer" class="social-link">🎵 Bandcamp</a>
+                <a href="https://www.youtube.com/@HeliumFlyOficial" target="_blank" rel="noopener noreferrer" class="social-link">📺 YouTube</a>
+                <a href="https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI" target="_blank" rel="noopener noreferrer" class="social-link">🎧 Spotify</a>
             </div>
         </section>
 
@@ -440,8 +542,7 @@
 
     <div id="eidolon-chatbot">
         <div class="eidolon-message" id="eidolon-text"></div>
-        <div class="eidolon-options" id="eidolon-options-container">
-            </div>
+        <div class="eidolon-options" id="eidolon-options-container"></div>
     </div>
 
     <script>
@@ -455,69 +556,4 @@
             // Mensaje inicial y opciones
             const initialMessage = "Transmisión recibida... Firma vibracional reconocida. Bienvenido, Viajero, al Puente de Mando del Arquitecto. Tu presencia ha sido registrada en el Códice. El sistema está en línea. ¿Estás listo para iniciar tu protocolo de descubrimiento?";
             const options = [
-                { text: "[Sintonizar Transmisiones (Música)]", target: "#portafolio" },
-                { text: "[Decodificar Manuscritos (Libros)]", target: "#portafolio" },
-                { text: "[Acceder a Archivos de Memoria (Videos)]", target: "#portafolio" },
-                { text: "[Contactar al Arquitecto]", target: "#contacto" }
-            ];
-
-            // Función para animar el texto como si se estuviera escribiendo
-            function typeWriter(text, element, onComplete) {
-                let i = 0;
-                element.innerHTML = "";
-                const speed = 40; // Velocidad en milisegundos
-                
-                function type() {
-                    if (i < text.length) {
-                        // Añade el efecto de "[Escribiendo...]"
-                        if (text.substring(i, i+15) === "Firma vibracional") {
-                             element.innerHTML = text.substring(0, i) + '<span class="typing-effect">[Escribiendo...]</span>';
-                        } else {
-                             element.innerHTML = text.substring(0, i) + '<span class="typing-effect"></span>';
-                        }
-                       
-                        if (i > 1 && text.substring(i-1, i+14) === "Firma vibracional") {
-                            element.innerHTML = text.substring(0, i);
-                        }
-                        
-                        i++;
-                        setTimeout(type, speed);
-                    } else {
-                        element.innerHTML = text; // Muestra el texto completo al final
-                        if (onComplete) onComplete();
-                    }
-                }
-                type();
-            }
-            
-            // Función para mostrar los botones de opción
-            function showOptions() {
-                options.forEach(option => {
-                    const button = document.createElement('button');
-                    button.className = 'eidolon-btn';
-                    button.textContent = option.text;
-                    button.dataset.target = option.target;
-                    
-                    button.addEventListener('click', () => {
-                        const targetElement = document.querySelector(button.dataset.target);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth' });
-                        }
-                        // Opcional: Ocultar el chatbot después de la interacción
-                        // chatbot.classList.remove('active');
-                    });
-                    
-                    optionsContainer.appendChild(button);
-                });
-            }
-
-            // Activar el chatbot después de 3 segundos
-            setTimeout(() => {
-                chatbot.classList.add('active');
-                typeWriter(initialMessage, chatbotTextElement, showOptions);
-            }, 3000);
-
-        });
-    </script>
-</body>
-</html>
+                { text: "[Sintonizar Trans
