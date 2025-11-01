@@ -556,4 +556,58 @@
             // Mensaje inicial y opciones
             const initialMessage = "Transmisión recibida... Firma vibracional reconocida. Bienvenido, Viajero, al Puente de Mando del Arquitecto. Tu presencia ha sido registrada en el Códice. El sistema está en línea. ¿Estás listo para iniciar tu protocolo de descubrimiento?";
             const options = [
-                { text: "[Sintonizar Trans
+                { text: "[Sintonizar Transmisiones (Música)]", target: "#portafolio" },
+                { text: "[Decodificar Manuscritos (Libros)]", target: "#libros" },
+                { text: "[Acceder a Archivos de Memoria (Videos)]", target: "#portafolio" },
+                { text: "[Contactar al Arquitecto]", target: "#contacto" }
+            ];
+
+            // Función para efecto de escritura
+            function typeWriter(text, element, callback) {
+                let i = 0;
+                element.classList.add('typing-effect');
+                const speed = 30;
+                
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        element.classList.remove('typing-effect');
+                        if (callback) callback();
+                    }
+                }
+                
+                type();
+            }
+
+            // Función para mostrar opciones
+            function showOptions() {
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.classList.add('eidolon-btn');
+                    button.textContent = option.text;
+                    button.dataset.target = option.target;
+                    
+                    button.addEventListener('click', () => {
+                        const targetElement = document.querySelector(button.dataset.target);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                    
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            // Activar el chatbot después de 3 segundos
+            setTimeout(() => {
+                chatbot.classList.add('active');
+                typeWriter(initialMessage, chatbotTextElement, showOptions);
+            }, 3000);
+
+        });
+    </script>
+</body>
+</html>
