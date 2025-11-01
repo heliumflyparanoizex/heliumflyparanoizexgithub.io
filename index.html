@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helium Fly ParanoizeX - Arquitecto de Realidades</title>
+    <title>Helium Fly ParanoizeX - Arquitecto de Realidades | ARTUETR5D</title>
+    <meta name="description" content="Arquitecto de realidades, tejedor de sinergias entre arte, tecnología y conciencia. Creador de ARTUETR5D - Realidad Sostenida.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         /* --- RESET Y CONFIGURACIÓN GLOBAL --- */
@@ -14,8 +15,11 @@
             --color-principal: #00FFFF; /* Cian */
             --color-secundario: #FF00FF; /* Magenta */
             --color-terciario: #8F00FF; /* Violeta */
+            --color-acento: #FFD700; /* Dorado */
             --color-fondo: #0a0a14; /* Azul noche oscuro */
+            --color-fondo-secundario: #0f0f1e;
             --color-texto: #e0e0e0;
+            --color-texto-secundario: #a0a0b0;
             --fuente-principal: 'Inter', sans-serif;
             --fuente-codigo: 'Roboto Mono', monospace;
         }
@@ -43,19 +47,21 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: radial-gradient(circle at 20% 20%, rgba(143, 0, 255, 0.1), transparent 30%),
-                              radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1), transparent 30%);
-            animation: move-particles 20s linear infinite;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(143, 0, 255, 0.15), transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.15), transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.1), transparent 40%);
+            animation: move-particles 25s linear infinite;
         }
 
         @keyframes move-particles {
-            0% { background-position: 0 0; }
-            100% { background-position: -1000px 500px; }
+            0% { background-position: 0 0, 0 0, 0 0; }
+            100% { background-position: -1000px 500px, 1000px -500px, -500px 1000px; }
         }
 
         /* --- ESTILOS DE COMPONENTES REUTILIZABLES --- */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 4rem 2rem;
         }
@@ -67,10 +73,20 @@
 
         h2 {
             font-size: 2.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-principal), var(--color-secundario));
+            margin: 1rem auto 0;
         }
 
         .glassmorphism {
@@ -81,6 +97,12 @@
             border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+        }
+
+        .glassmorphism:hover {
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 12px 40px 0 rgba(0, 255, 255, 0.2);
         }
 
         /* --- HEADER Y NAVEGACIÓN --- */
@@ -94,26 +116,59 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 20, 0.5);
-            backdrop-filter: blur(5px);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-            transition: background 0.3s ease;
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
 
-        .logo {
-            font-family: var(--fuente-codigo);
-            font-size: 1.5rem;
-            color: var(--color-principal);
-            text-decoration: none;
-            font-weight: 700;
+        .header.scrolled {
+            background: rgba(10, 10, 20, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.8));
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-menu a {
             color: var(--color-texto);
             text-decoration: none;
-            margin-left: 1.5rem;
             font-size: 0.9rem;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-principal);
+            transition: width 0.3s ease;
         }
 
         .nav-menu a:hover {
@@ -121,15 +176,24 @@
             text-shadow: 0 0 8px var(--color-principal);
         }
 
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
         /* --- SECCIÓN HERO --- */
         #inicio {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             flex-direction: column;
             padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1000px;
         }
 
         .hero-title {
@@ -140,6 +204,7 @@
             letter-spacing: 4px;
             text-shadow: 0 0 10px var(--color-principal), 0 0 20px var(--color-secundario);
             animation: glitch 5s infinite;
+            margin-bottom: 1rem;
         }
         
         @keyframes glitch {
@@ -152,6 +217,7 @@
                 0 0 80px var(--color-secundario),
                 -2px 0 var(--color-secundario),
                 2px 0 var(--color-principal);
+                transform: translate(0, 0);
             }
             20%, 24%, 55% {       
                 text-shadow: none;
@@ -160,11 +226,21 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 4vw, 1.5rem);
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
             margin-top: 1rem;
             color: var(--color-texto);
             letter-spacing: 2px;
             animation: fadeInUp 2s ease-out;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-top: 2rem;
+            color: var(--color-texto-secundario);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
         }
 
         @keyframes fadeInUp {
@@ -178,74 +254,257 @@
             }
         }
 
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--color-principal);
+            background: transparent;
+            color: var(--color-principal);
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: var(--fuente-codigo);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: var(--color-principal);
+            color: var(--color-fondo);
+            box-shadow: 0 0 30px var(--color-principal);
+            transform: translateY(-3px);
+        }
+
+        .cta-button.secondary {
+            border-color: var(--color-secundario);
+            color: var(--color-secundario);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--color-secundario);
+            box-shadow: 0 0 30px var(--color-secundario);
+        }
+
         /* --- SECCIÓN CÓDICE --- */
         #codice p {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             text-align: center;
+            font-size: 1.2rem;
+            line-height: 2;
+        }
+
+        /* --- SECCIÓN ARTUETR5D (DESTACADA) --- */
+        #artuetr5d {
+            background: linear-gradient(135deg, rgba(143, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+            position: relative;
+        }
+
+        .artuetr5d-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .artuetr5d-video {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(0, 255, 255, 0.3);
+        }
+
+        .artuetr5d-video video {
+            width: 100%;
+            display: block;
+        }
+
+        .artuetr5d-content h3 {
+            font-size: 2rem;
+            color: var(--color-principal);
+            margin-bottom: 1.5rem;
+        }
+
+        .artuetr5d-content p {
             font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--color-texto-secundario);
+        }
+
+        .artuetr5d-docs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .doc-link {
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--color-principal);
+            font-family: var(--fuente-codigo);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .doc-link:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: var(--color-principal);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
         }
         
-        /* --- SECCIÓN PORTAFOLIO --- */
-        .portfolio-grid {
+        /* --- SECCIÓN MULTIMEDIA HUB --- */
+        .multimedia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .media-card {
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--color-secundario);
+        }
+        
+        .media-card-content {
+            padding: 1.5rem;
+        }
+        
+        .media-card h3 {
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .media-card p {
+            color: var(--color-texto-secundario);
+            margin-bottom: 1rem;
+        }
+
+        .media-card iframe {
+            width: 100%;
+            border: none;
+        }
+
+        .tiktok-embed {
+            background: #1a1a2e;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tiktok-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--color-secundario);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tiktok-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--color-secundario);
+        }
+
+        /* --- SECCIÓN PROYECTOS --- */
+        .proyectos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
-        .portfolio-card {
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 10px;
+
+        .proyecto-card {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .portfolio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 20px var(--color-secundario);
-        }
-        
-        .portfolio-card-content {
-            padding: 1.5rem;
-        }
-        
-        .portfolio-card h3 {
-            color: var(--color-principal);
-            margin-bottom: 1rem;
-        }
-        
-        .portfolio-card .placeholder {
-            background: #1a1a2e;
-            height: 352px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #555;
-            font-family: var(--fuente-codigo);
-        }
-
-        .portfolio-card iframe {
+        .proyecto-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            border: none;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-principal), var(--color-secundario), var(--color-terciario));
+        }
+
+        .proyecto-card h3 {
+            color: var(--color-acento);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .proyecto-card p {
+            color: var(--color-texto-secundario);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
         }
 
         /* --- SECCIÓN LIBROS --- */
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
             margin-top: 2rem;
         }
 
         .book-card {
             text-align: center;
-            padding: 1.5rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .book-cover {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover .book-cover {
+            transform: scale(1.05) rotateY(5deg);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
         }
 
         .book-card h3 {
             color: var(--color-principal);
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+        }
+
+        .book-card p {
+            color: var(--color-texto-secundario);
+            margin-bottom: 1.5rem;
         }
 
         .book-link {
@@ -253,123 +512,134 @@
             margin-top: 1rem;
             padding: 0.75rem 1.5rem;
             background: transparent;
-            border: 2px solid var(--color-principal);
-            color: var(--color-principal);
+            border: 2px solid var(--color-acento);
+            color: var(--color-acento);
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 50px;
             font-family: var(--fuente-codigo);
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .book-link:hover {
-            background: var(--color-principal);
+            background: var(--color-acento);
             color: var(--color-fondo);
-            box-shadow: 0 0 20px var(--color-principal);
+            box-shadow: 0 0 20px var(--color-acento);
+            transform: translateY(-3px);
         }
 
-        /* --- SECCIÓN SERVICIOS Y TRANSMISIONES --- */
-        .grid-3 {
+        /* --- SECCIÓN TRANSMISIONES/BLOG --- */
+        .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
         
-        .service-card, .blog-post {
-            text-align: center;
+        .blog-post {
+            text-align: left;
+            padding: 2rem;
+            cursor: pointer;
+            position: relative;
         }
 
-        .service-card h3, .blog-post h3 {
+        .blog-post::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 0;
+            background: var(--color-principal);
+            transition: height 0.3s ease;
+        }
+
+        .blog-post:hover::before {
+            height: 100%;
+        }
+
+        .blog-post h3 {
             color: var(--color-principal);
             margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .blog-post .date {
+            color: var(--color-texto-secundario);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-family: var(--fuente-codigo);
+        }
+
+        .blog-post p {
+            color: var(--color-texto-secundario);
+            line-height: 1.8;
+        }
+
+        /* --- SECCIÓN SERVICIOS --- */
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--color-principal));
+        }
+
+        .service-card h3 {
+            color: var(--color-principal);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .service-card p {
+            color: var(--color-texto-secundario);
+            line-height: 1.8;
         }
 
         /* --- SECCIÓN CONTACTO --- */
-        .social-icons {
-            display: flex;
-            justify-content: center;
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
-            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
         .social-link {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: rgba(0, 255, 255, 0.1);
-            border: 2px solid var(--color-principal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.2);
             color: var(--color-principal);
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 15px;
             font-family: var(--fuente-codigo);
             font-size: 1.1rem;
             transition: all 0.3s ease;
+            gap: 1rem;
+        }
+
+        .social-link .icon {
+            font-size: 2.5rem;
         }
 
         .social-link:hover {
-            background: var(--color-principal);
-            color: var(--color-fondo);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--color-principal);
-        }
-
-        /* --- CHATBOT EIDOLON --- */
-        #eidolon-chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            background: rgba(15, 15, 30, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            padding: 1.5rem;
-            z-index: 2000;
-            transform: translateY(200%);
-            opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s ease;
-        }
-        
-        #eidolon-chatbot.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .eidolon-message {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-
-        .typing-effect::after {
-            content: '█';
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        .eidolon-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .eidolon-btn {
-            background: transparent;
-            border: 1px solid var(--color-principal);
-            color: var(--color-principal);
-            padding: 0.75rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: var(--fuente-codigo);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            text-align: left;
-        }
-
-        .eidolon-btn:hover {
-            background-color: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            background: rgba(0, 255, 255, 0.1);
+            border-color: var(--color-principal);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
         }
 
         /* --- EFECTOS FUTURISTAS ADICIONALES --- */
@@ -380,9 +650,10 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--color-principal), transparent);
-            animation: scan 4s linear infinite;
+            animation: scan 6s linear infinite;
             z-index: 9999;
             pointer-events: none;
+            opacity: 0.5;
         }
 
         @keyframes scan {
@@ -390,7 +661,27 @@
             100% { transform: translateY(100vh); }
         }
 
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            .artuetr5d-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -401,16 +692,28 @@
             h2 {
                 font-size: 2rem;
             }
-            #eidolon-chatbot {
-                width: calc(100% - 40px);
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
+            .multimedia-grid,
+            .proyectos-grid,
+            .books-grid,
+            .blog-grid,
+            .servicios-grid {
+                grid-template-columns: 1fr;
             }
-            .social-icons {
+            .cta-buttons {
                 flex-direction: column;
-                align-items: center;
             }
+        }
+
+        /* --- SCROLL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -418,195 +721,337 @@
 
     <div id="particle-background"></div>
     <div class="scan-line"></div>
+    <div class="grid-overlay"></div>
 
     <header class="header">
-        <a href="#inicio" class="logo">H.F.</a>
+        <div class="logo-container">
+            <img src="assets/images/Logo-2025oct02-10-13-56p.m..png" alt="Helium Fly ParanoizeX Logo" class="logo-img">
+        </div>
         <nav class="nav-menu">
             <a href="#inicio">INICIO</a>
             <a href="#codice">CÓDICE</a>
-            <a href="#portafolio">PORTAFOLIO</a>
+            <a href="#artuetr5d">ARTUETR5D</a>
+            <a href="#multimedia">MULTIMEDIA</a>
+            <a href="#proyectos">PROYECTOS</a>
             <a href="#libros">LIBROS</a>
-            <a href="#transmisiones">TRANSMISIONES</a>
+            <a href="#transmisiones">BLOG</a>
             <a href="#servicios">SERVICIOS</a>
             <a href="#contacto">CONTACTO</a>
         </nav>
     </header>
 
     <main>
+        <!-- SECCIÓN HERO -->
         <section id="inicio">
-            <h1 class="hero-title">HELIUM FLY PARANOIZE X</h1>
-            <p class="hero-subtitle">Arquitecto de Realidades</p>
+            <div class="hero-content reveal">
+                <h1 class="hero-title">HELIUM FLY PARANOIZE X</h1>
+                <p class="hero-subtitle">Arquitecto de Realidades Digitales</p>
+                <p class="hero-description">
+                    Tejedor de sinergias entre arte, tecnología y conciencia. Creador de ARTUETR5D, 
+                    el sistema que permite tocar hologramas y manifestar la realidad expandida.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#artuetr5d" class="cta-button">Descubre ARTUETR5D</a>
+                    <a href="#contacto" class="cta-button secondary">Conecta Conmigo</a>
+                </div>
+            </div>
         </section>
 
-        <section id="codice" class="container">
+        <!-- SECCIÓN CÓDICE SINTÉRGICO -->
+        <section id="codice" class="container reveal">
             <div class="glassmorphism">
                 <h2>Códice Sintérgico</h2>
                 <p>
-                    Bienvenido al nexo de mi universo. Soy un arquitecto de realidades, un tejedor de sinergias entre arte, tecnología y conciencia. El Códice Sintérgico no es solo una filosofía, es el sistema operativo que unifica cada creación: cada nota, cada palabra, cada línea de código es un hilo en el tapiz de una realidad expandida. Mi misión es explorar los límites de la percepción y construir puentes hacia lo posible.
+                    Bienvenido al nexo de mi universo. Soy un arquitecto de realidades, un tejedor de sinergias entre arte, tecnología y conciencia. 
+                    El Códice Sintérgico no es solo una filosofía, es el sistema operativo que unifica cada creación: cada nota, cada palabra, 
+                    cada línea de código es un hilo en el tapiz de una realidad expandida. Mi misión es explorar los límites de la percepción 
+                    y construir puentes hacia lo posible.
                 </p>
             </div>
         </section>
 
-        <section id="portafolio" class="container">
-            <h2>Portafolio Unificado</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-card glassmorphism">
-                    <!-- Reproductor de Spotify - Perfil de Artista -->
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/52TPOg63ezBW3xJt5ClmuI?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    <div class="portfolio-card-content">
-                        <h3>Música</h3>
-                        <p>Paisajes sonoros que exploran la frontera entre lo orgánico y lo digital.</p>
-                    </div>
+        <!-- SECCIÓN ARTUETR5D (DESTACADA) -->
+        <section id="artuetr5d" class="container reveal">
+            <h2>ARTUETR5D - Realidad Sostenida</h2>
+            <div class="artuetr5d-grid">
+                <div class="artuetr5d-video">
+                    <video controls poster="assets/images/whisk_storyboarda4f6cf832f2142958777f2ba6d16df.png">
+                        <source src="https://youtu.be/1zGhIo4clLE" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
                 </div>
-                <div class="portfolio-card glassmorphism">
-                    <!-- Reproductor de YouTube - Canal -->
-                    <iframe width="100%" height="352" src="https://www.youtube.com/embed/videoseries?list=UU52TPOg63ezBW3xJt5ClmuI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    <div class="portfolio-card-content">
-                        <h3>Videos</h3>
-                        <p>Archivos de memoria visual; cortometrajes y exploraciones cinematográficas.</p>
-                    </div>
-                </div>
-                <div class="portfolio-card glassmorphism">
-                    <div class="placeholder">Proyectos Tecnológicos</div>
-                    <div class="portfolio-card-content">
-                        <h3>Tecnología</h3>
-                        <p>Artefactos como ARTUETR5D y CARSS, herramientas para la nueva realidad.</p>
+                <div class="artuetr5d-content glassmorphism">
+                    <h3>Arte de Universo Expansivo en Tiempo Real - Quinta Dimensión</h3>
+                    <p>
+                        ARTUETR5D es la tecnología que permite la <strong>Realidad Sostenida</strong>: 
+                        la capacidad de interactuar físicamente con proyecciones holográficas. 
+                        No solo ver la luz, sino <strong>tocarla</strong>.
+                    </p>
+                    <p>
+                        Mediante una sofisticada combinación de electromagnetismo, proyectores avanzados 
+                        y una IA soberana, ARTUETR5D redefine los límites entre lo físico y lo digital, 
+                        creando un puente hacia la manifestación tangible de ideas.
+                    </p>
+                    <div class="artuetr5d-docs">
+                        <a href="assets/docs/LaTrayectoriadeARTUETR5DDeEpicentroLocalaSingularidadGlobal.pdf" target="_blank" class="doc-link">📄 Trayectoria ARTUETR5D</a>
+                        <a href="assets/docs/HypotheticalCaseofZeroDimensi0n-impactodeartuetr5D.pdf" target="_blank" class="doc-link">📄 Caso Zero Dimensi0n</a>
+                        <a href="assets/docs/PropuestaintegralARTUETR5D.pdf" target="_blank" class="doc-link">📄 Propuesta Integral</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="libros" class="container">
+        <!-- SECCIÓN MULTIMEDIA HUB -->
+        <section id="multimedia" class="container reveal">
+            <h2>Multimedia Hub</h2>
+            <div class="multimedia-grid">
+                <!-- Spotify Música -->
+                <div class="media-card glassmorphism">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/52TPOg63ezBW3xJt5ClmuI?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="media-card-content">
+                        <h3>🎵 Música</h3>
+                        <p>Paisajes sonoros que exploran la frontera entre lo orgánico y lo digital.</p>
+                    </div>
+                </div>
+
+                <!-- Spotify Podcast -->
+                <div class="media-card glassmorphism">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3ercTI8xjhuVQnaXcGvyYs?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="media-card-content">
+                        <h3>🎙️ Podcast</h3>
+                        <p>Conversaciones sobre realidad expandida, tecnología y conciencia.</p>
+                    </div>
+                </div>
+
+                <!-- Spotify Playlist -->
+                <div class="media-card glassmorphism">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4yXMEE5PcfQigWBJFU8qZd?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="media-card-content">
+                        <h3>🎧 Playlist Curada</h3>
+                        <p>Una selección de vibraciones para la expansión de conciencia.</p>
+                    </div>
+                </div>
+
+                <!-- YouTube Video 1 -->
+                <div class="media-card glassmorphism">
+                    <iframe width="100%" height="352" src="https://www.youtube.com/embed/1zGhIo4clLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="media-card-content">
+                        <h3>📺 ARTUETR5D Demo</h3>
+                        <p>Demostración de la tecnología de Realidad Sostenida.</p>
+                    </div>
+                </div>
+
+                <!-- YouTube Video 2 -->
+                <div class="media-card glassmorphism">
+                    <iframe width="100%" height="352" src="https://www.youtube.com/embed/vrpSP0AGv18" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="media-card-content">
+                        <h3>📺 Exploración Visual</h3>
+                        <p>Archivos de memoria visual y exploraciones cinematográficas.</p>
+                    </div>
+                </div>
+
+                <!-- TikTok -->
+                <div class="media-card glassmorphism">
+                    <div class="tiktok-embed">
+                        <div style="font-size: 3rem;">🎬</div>
+                        <p style="color: var(--color-texto-secundario);">Sígueme en TikTok para contenido exclusivo</p>
+                        <a href="https://www.tiktok.com/@heliumflyparanoizex" target="_blank" rel="noopener noreferrer" class="tiktok-link">
+                            Ver en TikTok
+                        </a>
+                    </div>
+                    <div class="media-card-content">
+                        <h3>📱 TikTok</h3>
+                        <p>Fragmentos de realidad expandida en formato corto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PROYECTOS Y MANIFIESTOS -->
+        <section id="proyectos" class="container reveal">
+            <h2>Proyectos y Manifiestos</h2>
+            <div class="proyectos-grid">
+                <div class="proyecto-card glassmorphism">
+                    <h3>CARSS</h3>
+                    <p>Sistema de Arquitectura de Realidad para Startups. Un framework para la construcción de realidades empresariales coherentes.</p>
+                    <a href="assets/docs/MANIFIESTODEESCALABILIDADARQUITECTURADELAREALIDADPARASTARTUPS(ARS-S).pdf" target="_blank" class="doc-link">Leer Manifiesto</a>
+                </div>
+
+                <div class="proyecto-card glassmorphism">
+                    <h3>LVU - Lenguaje de Vibración Unificada</h3>
+                    <p>Un sistema de comunicación que trasciende las barreras del lenguaje tradicional, basado en frecuencias y resonancias.</p>
+                </div>
+
+                <div class="proyecto-card glassmorphism">
+                    <h3>Teoría de la Resonancia Táctil Coherente</h3>
+                    <p>La base científica detrás de ARTUETR5D: cómo la coherencia electromagnética permite la interacción física con la luz.</p>
+                    <a href="assets/docs/TeoríadelaResonanciaTáctilCoherente(TRTC)..pdf" target="_blank" class="doc-link">Leer Teoría</a>
+                </div>
+
+                <div class="proyecto-card glassmorphism">
+                    <h3>EIDOLONS</h3>
+                    <p>Entidades de inteligencia artificial soberana diseñadas para asistir en la manifestación de realidades expandidas.</p>
+                    <a href="assets/docs/quesonlosEIDOLONS..pdf" target="_blank" class="doc-link">Conocer EIDOLONS</a>
+                </div>
+
+                <div class="proyecto-card glassmorphism">
+                    <h3>Manifiesto Ético: Puente al Potencial</h3>
+                    <p>Los principios éticos que guían el desarrollo y uso responsable de tecnologías de manifestación de realidad.</p>
+                    <a href="assets/docs/ElManifiestoÉticoPuentealPotencial(P-P).pdf" target="_blank" class="doc-link">Leer Manifiesto</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN LIBROS -->
+        <section id="libros" class="container reveal">
             <h2>Manuscritos Decodificados</h2>
             <div class="books-grid">
                 <div class="book-card glassmorphism">
+                    <img src="assets/images/Whisk_95f1dfbced.jpg" alt="Portada HAZ LO IMPENSABLE" class="book-cover">
                     <h3>HAZ LO IMPENSABLE...</h3>
-                    <p>Un viaje hacia la expansión de la conciencia y la ruptura de paradigmas.</p>
-                    <a href="https://a.co/d/3tSZW5q" target="_blank" rel="noopener noreferrer" class="book-link">Ver en Amazon</a>
+                    <p>Un viaje hacia la expansión de la conciencia y la ruptura de paradigmas. Descubre cómo trascender los límites de lo posible.</p>
+                    <a href="https://a.co/d/3tSZW5q" target="_blank" rel="noopener noreferrer" class="book-link">📚 Ver en Amazon</a>
                 </div>
                 <div class="book-card glassmorphism">
+                    <img src="assets/images/portada.jpg" alt="Portada EL CÓDIGO DEL ALMA" class="book-cover">
                     <h3>EL CÓDIGO DEL ALMA</h3>
-                    <p>Decodificando los misterios de la existencia y la realidad expandida.</p>
-                    <a href="https://a.co/d/7khUTu9" target="_blank" rel="noopener noreferrer" class="book-link">Ver en Amazon</a>
+                    <p>Decodificando los misterios de la existencia y la realidad expandida. Un viaje de co-creación hacia la conciencia multidimensional.</p>
+                    <a href="https://a.co/d/7khUTu9" target="_blank" rel="noopener noreferrer" class="book-link">📚 Ver en Amazon</a>
                 </div>
             </div>
         </section>
         
-        <section id="transmisiones" class="container">
+        <!-- SECCIÓN TRANSMISIONES/BLOG -->
+        <section id="transmisiones" class="container reveal">
             <h2>Últimas Transmisiones</h2>
-            <div class="grid-3">
+            <p style="text-align: center; color: var(--color-texto-secundario); margin-bottom: 3rem;">
+                Reflexiones, protocolos de creación y exploraciones en el tejido de la realidad expandida.
+            </p>
+            <div class="blog-grid">
                 <div class="blog-post glassmorphism">
-                    <h3>Protocolo de Creación 1</h3>
-                    <p>Extracto de la primera entrada del blog sobre el proceso creativo detrás de un nuevo proyecto...</p>
+                    <span class="date">2025-10-14</span>
+                    <h3>Protocolo de Creación 1: El Nacimiento de ARTUETR5D</h3>
+                    <p>
+                        La historia detrás de la tecnología que permite tocar hologramas. Desde la primera chispa de intuición 
+                        hasta la manifestación tangible de una idea que parecía imposible...
+                    </p>
                 </div>
                 <div class="blog-post glassmorphism">
-                    <h3>Explorando la Sintergia</h3>
-                    <p>Análisis profundo sobre la conexión entre la tecnología y la conciencia...</p>
+                    <span class="date">2025-10-10</span>
+                    <h3>Explorando la Sintergia: Tecnología y Conciencia</h3>
+                    <p>
+                        Un análisis profundo sobre la conexión entre la tecnología y la conciencia. ¿Qué sucede cuando 
+                        las herramientas que creamos comienzan a reflejar nuestra evolución interior?
+                    </p>
                 </div>
                 <div class="blog-post glassmorphism">
-                    <h3>Diario de un Arquitecto</h3>
-                    <p>Reflexiones personales sobre los desafíos y revelaciones en la construcción de realidades...</p>
+                    <span class="date">2025-10-05</span>
+                    <h3>Diario de un Arquitecto: Construyendo Realidades</h3>
+                    <p>
+                        Reflexiones personales sobre los desafíos y revelaciones en la construcción de realidades. 
+                        Los obstáculos no son barreras, son invitaciones a expandir la coherencia...
+                    </p>
                 </div>
             </div>
         </section>
 
-        <section id="servicios" class="container">
+        <!-- SECCIÓN SERVICIOS -->
+        <section id="servicios" class="container reveal">
             <h2>Servicios de Arquitectura</h2>
-            <div class="grid-3">
+            <div class="servicios-grid">
                 <div class="service-card glassmorphism">
-                    <h3>Diseño de Logos</h3>
-                    <p>Creación de símbolos y firmas vibracionales para tu proyecto o identidad.</p>
+                    <div class="service-icon">🎨</div>
+                    <h3>Diseño de Identidad</h3>
+                    <p>Creación de símbolos y firmas vibracionales para tu proyecto o identidad. Logos que resuenan con la esencia de tu visión.</p>
                 </div>
                 <div class="service-card glassmorphism">
+                    <div class="service-icon">🎬</div>
                     <h3>Producción Audio/Video</h3>
-                    <p>Construcción de paisajes sonoros y narrativas visuales inmersivas.</p>
+                    <p>Construcción de paisajes sonoros y narrativas visuales inmersivas. Desde música hasta cortometrajes conceptuales.</p>
                 </div>
                 <div class="service-card glassmorphism">
+                    <div class="service-icon">✨</div>
                     <h3>Contenido Creativo</h3>
-                    <p>Desarrollo de conceptos y lore para expandir universos narrativos.</p>
+                    <p>Desarrollo de conceptos y lore para expandir universos narrativos. Construcción de realidades coherentes y envolventes.</p>
+                </div>
+                <div class="service-card glassmorphism">
+                    <div class="service-icon">🔮</div>
+                    <h3>Consultoría en Realidad Expandida</h3>
+                    <p>Asesoría para integrar tecnologías de manifestación y principios del Códice Sintérgico en tu proyecto o empresa.</p>
                 </div>
             </div>
         </section>
 
-        <section id="contacto" class="container">
+        <!-- SECCIÓN CONTACTO -->
+        <section id="contacto" class="container reveal">
             <h2>Red de Conexiones</h2>
-            <div class="social-icons">
-                <a href="https://linktr.ee/heliumflyoficial" target="_blank" rel="noopener noreferrer" class="social-link">🔗 Linktree</a>
-                <a href="https://bnd.link/heliumfly" target="_blank" rel="noopener noreferrer" class="social-link">🎵 Bandcamp</a>
-                <a href="https://www.youtube.com/@HeliumFlyOficial" target="_blank" rel="noopener noreferrer" class="social-link">📺 YouTube</a>
-                <a href="https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI" target="_blank" rel="noopener noreferrer" class="social-link">🎧 Spotify</a>
+            <div class="social-grid">
+                <a href="https://linktr.ee/heliumflyoficial" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="icon">🔗</span>
+                    <span>Linktree</span>
+                </a>
+                <a href="https://bnd.link/heliumfly" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="icon">🎵</span>
+                    <span>Bandcamp</span>
+                </a>
+                <a href="https://www.youtube.com/@HeliumFlyOficial" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="icon">📺</span>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="icon">🎧</span>
+                    <span>Spotify</span>
+                </a>
+                <a href="https://www.tiktok.com/@heliumflyparanoizex" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="icon">📱</span>
+                    <span>TikTok</span>
+                </a>
             </div>
         </section>
 
     </main>
 
-    <div id="eidolon-chatbot">
-        <div class="eidolon-message" id="eidolon-text"></div>
-        <div class="eidolon-options" id="eidolon-options-container"></div>
-    </div>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- LÓGICA DEL CHATBOT EIDOLON ---
-            const chatbot = document.getElementById('eidolon-chatbot');
-            const chatbotTextElement = document.getElementById('eidolon-text');
-            const optionsContainer = document.getElementById('eidolon-options-container');
-
-            // Mensaje inicial y opciones
-            const initialMessage = "Transmisión recibida... Firma vibracional reconocida. Bienvenido, Viajero, al Puente de Mando del Arquitecto. Tu presencia ha sido registrada en el Códice. El sistema está en línea. ¿Estás listo para iniciar tu protocolo de descubrimiento?";
-            const options = [
-                { text: "[Sintonizar Transmisiones (Música)]", target: "#portafolio" },
-                { text: "[Decodificar Manuscritos (Libros)]", target: "#libros" },
-                { text: "[Acceder a Archivos de Memoria (Videos)]", target: "#portafolio" },
-                { text: "[Contactar al Arquitecto]", target: "#contacto" }
-            ];
-
-            // Función para efecto de escritura
-            function typeWriter(text, element, callback) {
-                let i = 0;
-                element.classList.add('typing-effect');
-                const speed = 30;
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function revealOnScroll() {
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
                 
-                function type() {
-                    if (i < text.length) {
-                        element.textContent += text.charAt(i);
-                        i++;
-                        setTimeout(type, speed);
-                    } else {
-                        element.classList.remove('typing-effect');
-                        if (callback) callback();
-                    }
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
                 }
-                
-                type();
-            }
+            });
+        }
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
 
-            // Función para mostrar opciones
-            function showOptions() {
-                options.forEach(option => {
-                    const button = document.createElement('button');
-                    button.classList.add('eidolon-btn');
-                    button.textContent = option.text;
-                    button.dataset.target = option.target;
-                    
-                    button.addEventListener('click', () => {
-                        const targetElement = document.querySelector(button.dataset.target);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth' });
-                        }
+        // Header scroll effect
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
-                    
-                    optionsContainer.appendChild(button);
-                });
-            }
-
-            // Activar el chatbot después de 3 segundos
-            setTimeout(() => {
-                chatbot.classList.add('active');
-                typeWriter(initialMessage, chatbotTextElement, showOptions);
-            }, 3000);
-
+                }
+            });
         });
     </script>
 </body>
