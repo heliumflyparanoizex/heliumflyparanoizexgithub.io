@@ -1,0 +1,68 @@
+/* Estilo Base - Coherencia ARTUETR5D */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0a0a0f; /* Negro Cósmico */
+    color: #e0e0e0; /* Luz de Cristal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+#game-container {
+    width: 90%;
+    max-width: 800px;
+    border: 1px solid #00ffff; [span_0](start_span)/* Azul Turquesa (Tu color)[span_0](end_span) */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    overflow: hidden;
+    background: #1a1a2e; /* Azul Oscuro de Fondo */
+}
+
+#image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #00ffff;
+}
+
+#story-text {
+    padding: 20px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    min-height: 100px;
+}
+
+#choices-container {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.choice-btn {
+    background-color: #7f00ff; [span_1](start_span)/* Violeta Metálico (Tu color)[span_1](end_span) */
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.choice-btn:hover {
+    background-color: #9d4bff;
+    box-shadow: 0 0 15px rgba(157, 75, 255, 0.5);
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #0a0a0f;
+    color: #00ffff;
+    font-size: 0.8em;
+    border-top: 1px solid #00ffff;
+}
+
