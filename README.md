@@ -1,200 +1,122 @@
-# 🌌 Helium Fly ParanoizeX - Sitio Web Oficial
+# Helium Fly ParanoizeX - Sitio Web Oficial
 
-**Arquitecto de Realidades Digitales | Creador de ARTUETR5D**
+Bienvenido al repositorio oficial de **Helium Fly ParanoizeX**, el Arquitecto de Realidades Digitales y creador de **ARTUETR5D**.
 
-## 📋 Descripción
+## 🌟 Características Principales
 
-Sitio web personal completamente rediseñado con:
-- ✨ Diseño inmersivo inspirado en lusion.co
-- 🔤 Efectos glitch dinámicos y animaciones futuristas
-- 🍔 Menú hamburguesa responsivo
-- 🌐 Selector de idioma (Español/English)
-- 🎬 Integración multimedia (Spotify, YouTube, TikTok, Videos locales)
-- 📚 Secciones de proyectos, manifiestos y libros
-- 📱 Completamente responsivo (móvil, tablet, escritorio)
+### ✨ Diseño Moderno e Inmersivo
+- Interfaz futurista con animaciones fluidas y efectos visuales avanzados
+- Diseño completamente responsivo (móvil, tablet y desktop)
+- Tema oscuro con colores primarios cian, magenta y púrpura
+- Efectos de parallax y scroll animations
 
-## 🚀 Estructura de Archivos
+### 🎬 Multimedia Integrada
+- **Logo animado**: Video LOGO.mp4 como animación principal del logo
+- **Transmisiones**: Sección de videos audiovisuales inmersivos
+- **Multimedia**: Integración de Spotify, YouTube, TikTok y Bandcamp
+- **Esquemas visuales**: Galería de imágenes con sistema de pestañas
+
+### 📚 Contenido Completo
+- **ARTUETR5D**: Proyecto revolucionario de arte, tecnología y conciencia
+- **Códice Sintérgico**: Documentación completa con acordeón interactivo
+- **Servicios profesionales**: Tres servicios premium con detalles completos
+- **Libros**: Enlaces a ebooks en Amazon
+- **Contacto**: Redes sociales y correo directo (artuetr5d@gmail.com)
+
+### 🌐 Funcionalidades Avanzadas
+- Sistema bilingüe (Español/Inglés) con persistencia en localStorage
+- Menú responsivo con hamburguesa en dispositivos móviles
+- Animaciones de scroll con Intersection Observer
+- Efectos de giroscopio para dispositivos móviles
+- Optimización de imágenes para diferentes resoluciones
+- Transiciones suaves y efectos hover en todos los elementos
+
+## 📁 Estructura del Proyecto
 
 ```
-/
-├── index.html              # Página principal
-├── style.css              # Estilos (glitch, inmersivos, responsivos)
-├── script.js              # Interactividad (menú, idioma, scroll effects)
-├── README.md              # Este archivo
+heliumfly-website-v4/
+├── index.html              # Archivo principal HTML
+├── style.css               # Estilos CSS completos
+├── script.js               # JavaScript con interactividad
+├── README.md               # Este archivo
 └── assets/
-    ├── Logo-2025oct02-10-13-56p.m..png
-    ├── portada.jpg
-    ├── Whisk_95f1dfbced.jpg
-    ├── whisk_storyboarda4f6cf832f2142958777f2ba6d16df.png
-    ├── artuetr5d.mp4
-    ├── Conciencia_Artificial.mp4
-    ├── Perdidos_en_Amnesia.mp4
-    ├── El_Códice_de_la_Coherencia.mp4
-    ├── Visual_elements_interlocking_202506060904.mp4
-    ├── Visual_elements_interlocking_202506061007.mp4
-    └── [PDFs y documentos]
+    ├── images/             # Imágenes y video del logo
+    │   ├── LOGO.mp4        # Video animado del logo
+    │   ├── backgrounds/    # Fondos de secciones
+    │   └── [esquemas]      # Imágenes de esquemas
+    ├── docs/               # Documentos PDF
+    └── video/              # Videos de transmisiones
 ```
 
-## 📝 Cómo Subir a GitHub
+## 🚀 Cómo Usar
 
-### ⚠️ IMPORTANTE: Estructura Correcta
+### Instalación Local
+1. Clona el repositorio
+2. Abre `index.html` en tu navegador
+3. No requiere instalación de dependencias
 
-Los archivos **DEBEN estar en la raíz del repositorio**, NO dentro de una carpeta `website/`.
+### Desplegar en GitHub Pages
+1. Sube los archivos a tu repositorio de GitHub
+2. Ve a Settings → Pages
+3. Selecciona la rama `main` como fuente
+4. Tu sitio estará disponible en `https://tu-usuario.github.io/tu-repositorio`
 
-### Opción 1: Subida Manual (Recomendado para principiantes)
-
-1. **Ve a tu repositorio en GitHub:**
-   ```
-   https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io
-   ```
-
-2. **Haz clic en "Add file" > "Upload files"**
-
-3. **Arrastra TODOS los archivos y carpetas:**
-   - `index.html`
-   - `style.css`
-   - `script.js`
-   - `README.md`
-   - Carpeta `assets/` (con todos sus contenidos)
-
-4. **Escribe un mensaje de commit:**
-   ```
-   Rediseño completo: Diseño inmersivo, menú hamburguesa, selector de idioma
-   ```
-
-5. **Haz clic en "Commit changes"**
-
-### Opción 2: Git desde la Terminal
-
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io.git
-cd heliumflyparanoizexgithub.io
-
-# 2. Eliminar archivos antiguos (si existen)
-rm -rf website/ index.html style.css script.js
-
-# 3. Copiar los nuevos archivos a la raíz
-cp -r /ruta/a/heliumfly-website/* .
-
-# 4. Añadir todos los archivos
-git add .
-
-# 5. Hacer commit
-git commit -m "Rediseño completo: Diseño inmersivo, menú hamburguesa, selector de idioma"
-
-# 6. Subir a GitHub
-git push origin main
-```
-
-## ✅ Verificar que Funciona
-
-1. **Espera 2-3 minutos** para que GitHub Pages construya el sitio
-2. **Visita tu página:**
-   ```
-   https://heliumflyparanoizex.github.io/
-   ```
-3. **Verifica que:**
-   - ✅ Se carga correctamente
-   - ✅ El menú hamburguesa funciona (en móvil)
-   - ✅ El selector de idioma cambia el contenido
-   - ✅ Los videos se cargan
-   - ✅ Los efectos glitch funcionan
-
-## 🎨 Características Principales
-
-### Menú Hamburguesa
-- Aparece automáticamente en dispositivos móviles (< 768px)
-- Se cierra al hacer clic en un enlace
-- Animación suave de apertura/cierre
-
-### Selector de Idioma
-- Botón "ES/EN" en el header
-- Cambia todo el contenido entre Español e Inglés
-- Se guarda la preferencia en localStorage
-
-### Efectos Visuales
-- **Glitch:** Efecto dinámico en el título principal
-- **Scanlines:** Líneas de escaneo animadas en el fondo
-- **Glassmorphism:** Efecto de vidrio en las tarjetas
-- **Scroll Reveal:** Animaciones al hacer scroll
-- **Parallax sutil:** Movimiento en el fondo del hero
-
-### Multimedia
-- Reproductores de Spotify (artista, podcast, playlist)
-- Reproductor de YouTube
-- Enlace directo a TikTok
-- Videos locales con controles nativos
-
-## 🌐 Secciones
-
-1. **Inicio (Hero)** - Presentación principal con efectos glitch
-2. **ARTUETR5D** - Sección destacada con video y documentación
-3. **Multimedia** - Reproductores de Spotify, YouTube y TikTok
-4. **Transmisiones** - Galería de videos locales
-5. **Proyectos y Manifiestos** - EIDOLONS, LVU, TRTC, ARS-S, P-P, CARSS
-6. **Manuscritos Decodificados** - Tus libros en Amazon
-7. **Conecta Conmigo** - Enlaces a redes sociales
-
-## 🔧 Personalización
+## 🎨 Personalización
 
 ### Cambiar Colores
-
 Edita las variables CSS en `style.css`:
-
 ```css
 :root {
-    --color-principal: #00FFFF;    /* Cian */
-    --color-secundario: #FF00FF;   /* Magenta */
-    --color-terciario: #8F00FF;    /* Violeta */
-    --color-acento: #FFD700;       /* Dorado */
-    --color-fondo: #0a0a14;        /* Fondo */
+    --color-primary: #00d4ff;      /* Cian */
+    --color-secondary: #ff006e;    /* Magenta */
+    --color-tertiary: #8338ec;     /* Púrpura */
+    --color-dark: #0a0e27;         /* Fondo oscuro */
 }
 ```
 
-### Cambiar Tipografía
+### Agregar Nuevas Secciones
+1. Crea una nueva sección en `index.html`
+2. Añade estilos en `style.css`
+3. Implementa interactividad en `script.js` si es necesario
 
-Las fuentes se definen en las variables CSS:
+### Actualizar Contenido
+- Reemplaza imágenes en `assets/images/`
+- Actualiza documentos PDF en `assets/docs/`
+- Modifica textos directamente en `index.html`
 
-```css
---font-primary: 'Rajdhani', 'Courier New', monospace;
---font-secondary: 'Orbitron', 'Arial', sans-serif;
-```
+## 🌍 Soporte Multiidioma
 
-### Añadir Más Contenido
+El sitio soporta español e inglés. Para agregar un nuevo idioma:
+1. Añade atributos `data-es` y `data-en` a los elementos
+2. El sistema automáticamente detectará y traducirá
 
-Simplemente añade nuevas secciones siguiendo la estructura HTML existente.
+## 📱 Optimización Responsiva
 
-## 📱 Responsividad
+- **Desktop**: Diseño de múltiples columnas
+- **Tablet**: Ajuste de tamaños y espaciados
+- **Móvil**: Diseño vertical con navegación hamburguesa
+- **Imágenes**: Optimizadas para diferentes resoluciones
 
-El sitio está optimizado para:
-- 📱 **Móviles:** < 480px
-- 📱 **Tablets:** 480px - 1024px
-- 🖥️ **Escritorio:** > 1024px
+## 🎯 Características Interactivas
 
-## 🚀 Próximas Mejoras
+- **Acordeón**: Secciones expandibles en Códice Sintérgico
+- **Pestañas**: Galería de esquemas con navegación
+- **Scroll Animations**: Elementos que aparecen al hacer scroll
+- **Giroscopio**: Efectos de movimiento en dispositivos móviles
+- **Hover Effects**: Transiciones suaves en botones y tarjetas
 
-- [ ] Formulario de contacto funcional
-- [ ] Blog dinámico con Jekyll
-- [ ] Galería de imágenes interactiva
-- [ ] Modo oscuro/claro (toggle)
-- [ ] Google Analytics
-- [ ] Comentarios en el blog
+## 📧 Contacto
 
-## 📞 Soporte
-
-Si tienes problemas:
-
-1. **Verifica que los archivos estén en la raíz** (no en una carpeta)
-2. **Revisa la configuración de GitHub Pages** en Settings > Pages
-3. **Limpia el caché del navegador** (Ctrl+Shift+Delete)
-4. **Espera 5 minutos** para que GitHub Pages reconstruya el sitio
+- **Email**: artuetr5d@gmail.com
+- **YouTube**: [@HeliumFlyOficial](https://www.youtube.com/@HeliumFlyOficial)
+- **Spotify**: [Helium Fly](https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI)
+- **TikTok**: [@heliumflyparanoizex](https://www.tiktok.com/@heliumflyparanoizex)
+- **Linktree**: [heliumflyoficial](https://linktr.ee/heliumflyoficial)
 
 ## 📄 Licencia
 
-Contenido original de Helium Fly ParanoizeX © 2025
+© 2025 Helium Fly ParanoizeX. Todos los derechos reservados.
 
 ---
 
-**Creado con 💜 por Manus AI**  
-*Arquitecto de Realidades Digitales*
+**Creado con intención y coherencia** ✨
