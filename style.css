@@ -160,35 +160,58 @@ body {
 
 /* TIPOGRAFÍA GLITCH (TÍTULO PRINCIPAL) */
 .glitch-text {
-    font-family: var(--font-glitch);
-    font-size: clamp(2.5rem, 12vw, 8rem);
-    color: var(--color-primary);
-    text-shadow: 
-        0 0 10px var(--color-primary),
-        0 0 20px var(--color-secondary);
-    animation: glitch-shadow 5s infinite alternate;
-    text-align: center;
-    letter-spacing: 8px;
-    line-height: 1;
-    margin-bottom: 20px;
+    font-family: var(--font-title); /* Cambiado a Orbitron para mejor legibilidad */
+    font-size: clamp(2rem, 10vw, 6rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(255, 0, 255, 0.8);
+    letter-spacing: 10px;
+    z-index: 1;
+    animation: main-float 3s ease-in-out infinite;
 }
 
-@keyframes glitch-shadow {
-    0% {
-        text-shadow: 3px 3px 0 var(--color-secondary), -3px -3px 0 var(--color-primary);
-    }
-    25% {
-        text-shadow: -3px 3px 0 var(--color-primary), 3px -3px 0 var(--color-secondary);
-    }
-    50% {
-        text-shadow: 5px -5px 0 var(--color-secondary), -5px 5px 0 var(--color-primary);
-    }
-    75% {
-        text-shadow: -5px -5px 0 var(--color-primary), 5px 5px 0 var(--color-secondary);
-    }
-    100% {
-        text-shadow: 3px 3px 0 var(--color-secondary), -3px -3px 0 var(--color-primary);
-    }
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.glitch-text::before {
+    color: var(--color-primary);
+    animation: glitch-effect 3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    transform: translate(-2px, -2px);
+    opacity: 0.75;
+}
+
+.glitch-text::after {
+    color: var(--color-secondary);
+    animation: glitch-effect 2s infinite reverse;
+    clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%);
+    transform: translate(2px, 2px);
+    opacity: 0.75;
+}
+
+@keyframes main-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glitch-effect {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
 }
 
 /* TÍTULOS GRANDES (ORBITRON) */
@@ -937,7 +960,8 @@ footer {
     }
     
     .glitch-text {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        letter-spacing: 4px;
     }
     
     .servicios-grid {
