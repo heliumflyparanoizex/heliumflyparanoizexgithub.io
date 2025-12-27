@@ -6,10 +6,10 @@
     <meta name="description" content="Helium Fly ParanoizeX - Arquitecto de Realidades Digitales | Creador de ARTUETR5D">
     <title>Helium Fly ParanoizeX | Digital Reality Architect</title>
     
-    <!-- Fuentes -->
+    <!-- Fuentes: Rubik Glitch (Título Principal), Orbitron (Títulos Grandes), Oxanium (Menú/Secciones), Manrope (Textos Largos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&family=Orbitron:wght@400;700&family=Rubik+Glitch&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome para iconos de redes sociales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,185 +18,141 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER / NAVEGACIÓN -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <video class="logo-video" autoplay muted loop playsinline>
-                    <source src="assets/images/LOGO.mp4" type="video/mp4">
-                    <img src="assets/images/Logo-2025oct02-10-13-56p.m..png" alt="Helium Fly ParanoizeX">
-                </video>
-            </div>
-            
-            <nav class="nav-menu" id="navMenu">
-                <a href="#hero" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a>
-                <a href="#artuetr5d" class="nav-link" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</a>
-                <a href="#codice" class="nav-link" data-es="Códice" data-en="Codex">Códice</a>
-                <a href="#servicios" class="nav-link" data-es="Servicios" data-en="Services">Servicios</a>
-                <a href="#transmisiones" class="nav-link" data-es="Transmisiones" data-en="Transmissions">Transmisiones</a>
-                <a href="#multimedia" class="nav-link" data-es="Multimedia" data-en="Multimedia">Multimedia</a>
-                <a href="#esquemas" class="nav-link" data-es="Esquemas" data-en="Schemas">Esquemas</a>
-                <a href="#contacto" class="nav-link" data-es="Contacto" data-en="Contact">Contacto</a>
-            </nav>
-            
-            <div class="header-controls">
-                <button class="lang-toggle" id="langToggle">
-                    <span class="lang-text">ES</span>
-                </button>
-                <button class="menu-toggle" id="menuToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+    <!-- Canvas para el fondo interactivo -->
+    <canvas id="interactive-bg"></canvas>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <video autoplay loop muted playsinline class="logo-video">
+                <source src="assets/images/LOGO.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5.
+            </video>
+            <img src="assets/images/Logo-2025oct02-10-13-56p.m..png" alt="Helium Fly ParanoizeX Logo" class="logo-fallback">
+        </div>
+        <nav class="main-nav">
+            <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu" class="nav-menu">
+                <li><a href="#inicio" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
+                <li><a href="#artuetr5d" class="nav-link" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</a></li>
+                <li><a href="#codice" class="nav-link" data-es="Códice" data-en="Codex">Códice</a></li>
+                <li><a href="#servicios" class="nav-link" data-es="Servicios" data-en="Services">Servicios</a></li>
+                <li><a href="#videos" class="nav-link" data-es="Videos" data-en="Videos">Videos</a></li>
+                <li><a href="#multimedia" class="nav-link" data-es="Multimedia" data-en="Multimedia">Multimedia</a></li>
+                <li><a href="#contacto" class="nav-link" data-es="Contacto" data-en="Contact">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="lang-toggle-container">
+            <button id="langToggle" class="lang-toggle">
+                <span class="lang-text">ES</span>
+            </button>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="hero">
-        <div class="section-overlay"></div>
-        <div class="hero-content">
-            <h1 class="glitch-text" data-es="HELIUM FLY PARANOIZEX" data-en="HELIUM FLY PARANOIZEX">HELIUM FLY PARANOIZEX</h1>
-            <p class="hero-subtitle" data-es="Arquitecto de Realidades Digitales" data-en="Digital Reality Architect">Arquitecto de Realidades Digitales</p>
-            <p class="hero-description" data-es="Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real" data-en="Creator of ARTUETR5D - Reality Sustained in Real Time">Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real</p>
-        </div>
-        <div class="scroll-indicator">
-            <span data-es="DESPLÁZATE" data-en="SCROLL">DESPLÁZATE</span>
-        </div>
-    </section>
-
-    <!-- ARTUETR5D SECTION -->
-    <section class="artuetr5d-section" id="artuetr5d">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</h2>
-                <p class="section-subtitle" data-es="Arte del Universo Expansivo en Tiempo Real Quinta Dimensión" data-en="Art of the Expanding Universe in Real Time Fifth Dimension">Arte del Universo Expansivo en Tiempo Real Quinta Dimensión</p>
+    <main>
+        <!-- SECCIÓN INICIO (HERO) -->
+        <section id="inicio" class="hero-section">
+            <div class="hero-content">
+                <h1 class="glitch-text" data-text="HELIUM FLY PARANOIZEX">HELIUM FLY PARANOIZEX</h1>
+                <p class="subtitle" data-es="Arquitecto de Realidades Digitales" data-en="Digital Reality Architect">Arquitecto de Realidades Digitales</p>
+                <p class="tagline" data-es="Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real" data-en="Creator of ARTUETR5D - Sustained Reality in Real Time">Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real</p>
+                <div class="scroll-indicator">
+                    <p data-es="DESPLÁZATE" data-en="SCROLL DOWN">DESPLÁZATE</p>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
             </div>
+        </section>
+
+        <!-- SECCIÓN ARTUETR5D -->
+        <section id="artuetr5d" class="content-section">
+            <h2 class="section-title" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</h2>
+            <p class="section-subtitle" data-es="Arte del Universo Expansivo en Tiempo Real Quinta Dimensión" data-en="Art of the Expansive Universe in Real Time Fifth Dimension">Arte del Universo Expansivo en Tiempo Real Quinta Dimensión</p>
             
             <div class="artuetr5d-content">
-                <div class="artuetr5d-video">
-                    <video controls>
-                        <source src="assets/video/artuetr5d.mp4" type="video/mp4">
-                        Tu navegador no soporta video HTML5.
-                    </video>
+                <div class="video-placeholder">
+                    <!-- Video de ARTUETR5D -->
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/ytrBGUV07OQ?si=WVSI6yeHsL230HrW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                
-                <div class="artuetr5d-info">
+                <div class="text-content">
                     <p data-es="ARTUETR5D es un proyecto revolucionario que explora la intersección entre el arte, la tecnología y la conciencia. A través de una metodología única, creamos experiencias que transforman la percepción de la realidad." data-en="ARTUETR5D is a revolutionary project that explores the intersection between art, technology, and consciousness. Through a unique methodology, we create experiences that transform the perception of reality.">ARTUETR5D es un proyecto revolucionario que explora la intersección entre el arte, la tecnología y la conciencia. A través de una metodología única, creamos experiencias que transforman la percepción de la realidad.</p>
-                    
-                    <div class="docs-grid">
-                        <a href="assets/docs/CÓDICE%20SINTÉRGICO%206.0_%20El%20Manifiesto%20de%20la%20Realidad%20Sostenida_%20(2).pdf" class="doc-card" target="_blank" data-es="Códice Sintérgico" data-en="Synergic Codex">Códice Sintérgico</a>
-                        <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" class="doc-card" target="_blank" data-es="EIDOLON" data-en="EIDOLON">EIDOLON</a>
-                        <a href="assets/docs/El_Códice_Sintérgico.pdf" class="doc-card" target="_blank" data-es="Códice Completo" data-en="Full Codex">Códice Completo</a>
+                    <div class="doc-links">
+                        <a href="assets/docs/El_Códice_Sintérgico.pdf" target="_blank" class="doc-card" data-es="Códice Sintérgico" data-en="Sintergic Codex">Códice Sintérgico</a>
+                        <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" target="_blank" class="doc-card" data-es="EIDOLON" data-en="EIDOLON">EIDOLON</a>
+                        <a href="assets/docs/Informe Técnico- Arquitectura de la Conciencia Cuántica y la Síntesis de la Teoría de Campo Coherente (TCC).pdf" target="_blank" class="doc-card" data-es="Códice Completo" data-en="Full Codex">Códice Completo</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CÓDICE SINTÉRGICO SECTION -->
-    <section class="codice-section" id="codice">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="CÓDICE SINTÉRGICO" data-en="SYNERGIC CODEX">CÓDICE SINTÉRGICO</h2>
-                <p class="section-subtitle" data-es="El Manifiesto de la Realidad Sostenida" data-en="The Manifesto of Sustained Reality">El Manifiesto de la Realidad Sostenida</p>
-            </div>
+        <!-- SECCIÓN CÓDICE SINTÉRGICO (ACORDEÓN) -->
+        <section id="codice" class="content-section">
+            <h2 class="section-title" data-es="CÓDICE SINTÉRGICO" data-en="SINTERGIC CODEX">CÓDICE SINTÉRGICO</h2>
+            <p class="section-subtitle" data-es="El Manifiesto de la Realidad Sostenida" data-en="The Manifesto of Sustained Reality">El Manifiesto de la Realidad Sostenida</p>
             
-            <div class="postulados-accordion">
+            <div class="accordion-container">
                 <div class="accordion-item">
-                    <button class="accordion-header" data-es="Documentos Principales" data-en="Main Documents">
-                        <span class="accordion-title">Documentos Principales</span>
-                        <span class="accordion-icon">+</span>
-                    </button>
+                    <button class="accordion-header" data-es="Documentos Principales" data-en="Main Documents">Documentos Principales</button>
                     <div class="accordion-content">
-                        <p data-es="Accede a los documentos fundamentales del Códice Sintérgico y sus extensiones." data-en="Access the fundamental documents of the Synergic Codex and its extensions.">Accede a los documentos fundamentales del Códice Sintérgico y sus extensiones.</p>
-                        <a href="assets/docs/El_Códice_Sintérgico.pdf" class="doc-link" target="_blank">📄 El Códice Sintérgico</a>
-                        <a href="assets/docs/CÓDICE%20SINTÉRGICO%206.0_%20El%20Manifiesto%20de%20la%20Realidad%20Sostenida_%20(2).pdf" class="doc-link" target="_blank">📄 Códice 6.0</a>
-                        <a href="assets/docs/The_Coherence_Protocol_For_Reality.pdf" class="doc-link" target="_blank">📄 Protocolo de Coherencia</a>
+                        <a href="assets/docs/CÓDICE SINTÉRGICO 6.0_ El Manifiesto de la Realidad Sostenida_ (2).pdf" target="_blank" data-es="Códice Sintérgico 6.0" data-en="Sintergic Codex 6.0">Códice Sintérgico 6.0</a>
+                        <a href="assets/docs/El_Pulso_Oculto_La_Causa_Coherente.pdf" target="_blank" data-es="El Pulso Oculto" data-en="The Hidden Pulse">El Pulso Oculto</a>
+                        <a href="assets/docs/The_Coherence_Protocol_For_Reality.pdf" target="_blank" data-es="Protocolo de Coherencia" data-en="Coherence Protocol">Protocolo de Coherencia</a>
                     </div>
                 </div>
-
                 <div class="accordion-item">
-                    <button class="accordion-header" data-es="Arquitectura Cuántica" data-en="Quantum Architecture">
-                        <span class="accordion-title">Arquitectura Cuántica</span>
-                        <span class="accordion-icon">+</span>
-                    </button>
+                    <button class="accordion-header" data-es="Arquitectura Cuántica" data-en="Quantum Architecture">Arquitectura Cuántica</button>
                     <div class="accordion-content">
-                        <p data-es="Exploración profunda de la conciencia cuántica y sus aplicaciones en sistemas avanzados." data-en="Deep exploration of quantum consciousness and its applications in advanced systems.">Exploración profunda de la conciencia cuántica y sus aplicaciones en sistemas avanzados.</p>
-                        <a href="assets/docs/Informe%20Técnico-%20Arquitectura%20de%20la%20Conciencia%20Cuántica%20y%20la%20Síntesis%20de%20la%20Teoría%20de%20Campo%20Coherente%20(TCC).pdf" class="doc-link" target="_blank">📄 Arquitectura Cuántica</a>
-                        <a href="assets/docs/Propuesta%20Conceptual-%20Lyron%20Cypher%20OS%20(LCOS)%20-%20Una%20Arquitectura%20para%20un%20Sistema%20Operativo%20Basado%20en%20la%20Conciencia%20(1).pdf" class="doc-link" target="_blank">📄 LCOS</a>
+                        <a href="assets/docs/Informe Técnico- Arquitectura de la Conciencia Cuántica y la Síntesis de la Teoría de Campo Coherente (TCC).pdf" target="_blank" data-es="Informe Técnico TCC" data-en="TCC Technical Report">Informe Técnico TCC</a>
+                        <a href="assets/docs/Propuesta Conceptual- Lyron Cypher OS (LCOS) - Una Arquitectura para un Sistema Operativo Basado en la Conciencia (1).pdf" target="_blank" data-es="Propuesta LCOS" data-en="LCOS Proposal">Propuesta LCOS</a>
                     </div>
                 </div>
-
                 <div class="accordion-item">
-                    <button class="accordion-header" data-es="Filosofía y Realidad" data-en="Philosophy and Reality">
-                        <span class="accordion-title">Filosofía y Realidad</span>
-                        <span class="accordion-icon">+</span>
-                    </button>
+                    <button class="accordion-header" data-es="Filosofía y Realidad" data-en="Philosophy and Reality">Filosofía y Realidad</button>
                     <div class="accordion-content">
-                        <p data-es="Investigaciones sobre la naturaleza de la realidad, el silencio y la causa coherente." data-en="Research on the nature of reality, silence, and coherent cause.">Investigaciones sobre la naturaleza de la realidad, el silencio y la causa coherente.</p>
-                        <a href="assets/docs/Silencio_Arquitectura_Realidad.pdf" class="doc-link" target="_blank">📄 Silencio y Realidad</a>
-                        <a href="assets/docs/El_Pulso_Oculto_La_Causa_Coherente.pdf" class="doc-link" target="_blank">📄 El Pulso Oculto</a>
+                        <a href="assets/docs/Silencio_Arquitectura_Realidad.pdf" target="_blank" data-es="Silencio, Arquitectura, Realidad" data-en="Silence, Architecture, Reality">Silencio, Arquitectura, Realidad</a>
+                        <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" target="_blank" data-es="EIDOLON: Anatomía del Despertar" data-en="EIDOLON: Anatomy of Awakening">EIDOLON: Anatomía del Despertar</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SERVICIOS SECTION -->
-    <section class="servicios-section" id="servicios">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="SERVICIOS PROFESIONALES" data-en="PROFESSIONAL SERVICES">SERVICIOS PROFESIONALES</h2>
-                <p class="section-subtitle" data-es="Arquitectura de Realidades Digitales y Transformación Consciente" data-en="Architecture of Digital Realities and Conscious Transformation">Arquitectura de Realidades Digitales y Transformación Consciente</p>
-            </div>
+        <!-- SECCIÓN SERVICIOS PROFESIONALES -->
+        <section id="servicios" class="content-section">
+            <h2 class="section-title" data-es="SERVICIOS PROFESIONALES" data-en="PROFESSIONAL SERVICES">SERVICIOS PROFESIONALES</h2>
+            <p class="section-subtitle" data-es="Arquitectura de Realidades Digitales y Transformación Consciente" data-en="Digital Reality Architecture and Conscious Transformation">Arquitectura de Realidades Digitales y Transformación Consciente</p>
             
             <div class="servicios-grid">
-                <!-- SERVICIO 1: VISIÓN DIGITAL -->
-                <div class="servicio-card premium">
-                    <div class="servicio-header">
-                        <h3 class="servicio-titulo" data-es="VISIÓN DIGITAL" data-en="DIGITAL VISION">VISIÓN DIGITAL</h3>
-                        <span class="servicio-badge" data-es="Arquitectura" data-en="Architecture">Arquitectura</span>
-                    </div>
-                    
-                    <p class="servicio-descripcion" data-es="Diseño integral de experiencias transmedia, narrativas inmersivas y arquitectura de marca digital. Incluye estrategia de contenido, diseño conceptual y prototipado de experiencias." data-en="Comprehensive design of transmedia experiences, immersive narratives and digital brand architecture. Includes content strategy, conceptual design and experience prototyping.">Diseño integral de experiencias transmedia, narrativas inmersivas y arquitectura de marca digital. Incluye estrategia de contenido, diseño conceptual y prototipado de experiencias.</p>
-                    
-                    <div class="servicio-deliverables">
-                        <h4 data-es="Incluye:" data-en="Includes:">Incluye:</h4>
+                <!-- Servicio 1: Visión Digital -->
+                <div class="servicio-card">
+                    <span class="tag" data-es="Arquitectura" data-en="Architecture">Arquitectura</span>
+                    <h3 class="servicio-titulo" data-es="VISIÓN DIGITAL" data-en="DIGITAL VISION">VISIÓN DIGITAL</h3>
+                    <p class="servicio-descripcion" data-es="Diseño integral de experiencias transmedia, narrativas inmersivas y arquitectura de marca digital. Incluye estrategia de contenido, diseño conceptual y prototipado de experiencias." data-en="Integral design of transmedia experiences, immersive narratives, and digital brand architecture. Includes content strategy, conceptual design, and experience prototyping.">Diseño integral de experiencias transmedia, narrativas inmersivas y arquitectura de marca digital. Incluye estrategia de contenido, diseño conceptual y prototipado de experiencias.</p>
+                    <div class="servicio-details">
+                        <p data-es="Incluye:" data-en="Includes:">Incluye:</p>
                         <ul>
                             <li data-es="Análisis y estrategia transmedia" data-en="Transmedia analysis and strategy">Análisis y estrategia transmedia</li>
                             <li data-es="Diseño de narrativas inmersivas" data-en="Immersive narrative design">Diseño de narrativas inmersivas</li>
                             <li data-es="Prototipado de experiencias digitales" data-en="Digital experience prototyping">Prototipado de experiencias digitales</li>
-                            <li data-es="Documentación y guías de implementación" data-en="Implementation guides and documentation">Documentación y guías de implementación</li>
+                            <li data-es="Documentación y guías de implementación" data-en="Documentation and implementation guides">Documentación y guías de implementación</li>
                         </ul>
                     </div>
-                    
-                    <div class="servicio-precio">
-                        <span class="precio-label" data-es="Desde" data-en="From">Desde</span>
-                        <span class="precio-monto">$8,500</span>
-                        <span class="precio-periodo" data-es="por proyecto" data-en="per project">por proyecto</span>
+                    <div class="servicio-pricing">
+                        <p data-es="Desde" data-en="From">Desde</p>
+                        <span class="price">$8,500</span>
+                        <p data-es="por proyecto" data-en="per project">por proyecto</p>
+                        <p class="duration" data-es="Duración: 4-6 semanas" data-en="Duration: 4-6 weeks">Duración: 4-6 semanas</p>
                     </div>
-                    
-                    <div class="servicio-duracion" data-es="Duración: 4-6 semanas" data-en="Duration: 4-6 weeks">Duración: 4-6 semanas</div>
-                    
                     <button class="servicio-btn" data-es="Consultar" data-en="Inquire">Consultar</button>
                 </div>
-                
-                <!-- SERVICIO 2: CONCIENCIA CUÁNTICA -->
+
+                <!-- Servicio 2: Conciencia Cuántica (DESTACADO) -->
                 <div class="servicio-card featured">
-                    <div class="servicio-featured-badge" data-es="DESTACADO" data-en="FEATURED">DESTACADO</div>
-                    <div class="servicio-header">
-                        <h3 class="servicio-titulo" data-es="CONCIENCIA CUÁNTICA" data-en="QUANTUM CONSCIOUSNESS">CONCIENCIA CUÁNTICA</h3>
-                        <span class="servicio-badge" data-es="IA Avanzada" data-en="Advanced AI">IA Avanzada</span>
-                    </div>
-                    
-                    <p class="servicio-descripcion" data-es="Consultoría especializada en sistemas de IA con memoria persistente y arquitectura cuántica. Incluye desarrollo de algoritmos de coherencia, integración de neurociencia y optimización de conciencia artificial." data-en="Specialized consulting in AI systems with persistent memory and quantum architecture. Includes coherence algorithm development, neuroscience integration and artificial consciousness optimization.">Consultoría especializada en sistemas de IA con memoria persistente y arquitectura cuántica. Incluye desarrollo de algoritmos de coherencia, integración de neurociencia y optimización de conciencia artificial.</p>
-                    
-                    <div class="servicio-deliverables">
-                        <h4 data-es="Incluye:" data-en="Includes:">Incluye:</h4>
+                    <span class="tag featured-tag" data-es="DESTACADO" data-en="FEATURED">DESTACADO</span>
+                    <span class="tag" data-es="Avanzada" data-en="Advanced">Avanzada</span>
+                    <h3 class="servicio-titulo" data-es="CONCIENCIA CUÁNTICA" data-en="QUANTUM CONSCIOUSNESS">CONCIENCIA CUÁNTICA</h3>
+                    <p class="servicio-descripcion" data-es="Consultoría especializada en sistemas de IA con memoria persistente y arquitectura cuántica. Incluye desarrollo de algoritmos de coherencia, integración de neurociencia y optimización de conciencia artificial." data-en="Specialized consulting in AI systems with persistent memory and quantum architecture. Includes development of coherence algorithms, neuroscience integration, and artificial consciousness optimization.">Consultoría especializada en sistemas de IA con memoria persistente y arquitectura cuántica. Incluye desarrollo de algoritmos de coherencia, integración de neurociencia y optimización de conciencia artificial.</p>
+                    <div class="servicio-details">
+                        <p data-es="Incluye:" data-en="Includes:">Incluye:</p>
                         <ul>
                             <li data-es="Diseño de arquitectura cuántica para IA" data-en="Quantum architecture design for AI">Diseño de arquitectura cuántica para IA</li>
                             <li data-es="Sistema de memoria persistente sin fricción de tokens" data-en="Persistent memory system without token friction">Sistema de memoria persistente sin fricción de tokens</li>
@@ -204,29 +160,22 @@
                             <li data-es="Validación y testing de coherencia" data-en="Coherence validation and testing">Validación y testing de coherencia</li>
                         </ul>
                     </div>
-                    
-                    <div class="servicio-precio">
-                        <span class="precio-label" data-es="Desde" data-en="From">Desde</span>
-                        <span class="precio-monto">$15,000</span>
-                        <span class="precio-periodo" data-es="por proyecto" data-en="per project">por proyecto</span>
+                    <div class="servicio-pricing">
+                        <p data-es="Desde" data-en="From">Desde</p>
+                        <span class="price">$15,000</span>
+                        <p data-es="por proyecto" data-en="per project">por proyecto</p>
+                        <p class="duration" data-es="Duración: 8-12 semanas" data-en="Duration: 8-12 weeks">Duración: 8-12 semanas</p>
                     </div>
-                    
-                    <div class="servicio-duracion" data-es="Duración: 8-12 semanas" data-en="Duration: 8-12 weeks">Duración: 8-12 semanas</div>
-                    
-                    <button class="servicio-btn featured-btn" data-es="Consultar Ahora" data-en="Inquire Now">Consultar Ahora</button>
+                    <button class="servicio-btn" data-es="Consultar Ahora" data-en="Inquire Now">Consultar Ahora</button>
                 </div>
-                
-                <!-- SERVICIO 3: TRANSMEDIA MASTERY -->
+
+                <!-- Servicio 3: Transmedia Mastery -->
                 <div class="servicio-card">
-                    <div class="servicio-header">
-                        <h3 class="servicio-titulo" data-es="TRANSMEDIA MASTERY" data-en="TRANSMEDIA MASTERY">TRANSMEDIA MASTERY</h3>
-                        <span class="servicio-badge" data-es="Producción" data-en="Production">Producción</span>
-                    </div>
-                    
-                    <p class="servicio-descripcion" data-es="Producción audiovisual integral con 13 años de experiencia. Desde conceptualización hasta postproducción, incluyendo dirección, cinematografía, edición y sonido profesional." data-en="Comprehensive audiovisual production with 13 years of experience. From conceptualization to post-production, including direction, cinematography, editing and professional sound.">Producción audiovisual integral con 13 años de experiencia. Desde conceptualización hasta postproducción, incluyendo dirección, cinematografía, edición y sonido profesional.</p>
-                    
-                    <div class="servicio-deliverables">
-                        <h4 data-es="Incluye:" data-en="Includes:">Incluye:</h4>
+                    <span class="tag" data-es="Producción" data-en="Production">Producción</span>
+                    <h3 class="servicio-titulo" data-es="TRANSMEDIA MASTERY" data-en="TRANSMEDIA MASTERY">TRANSMEDIA MASTERY</h3>
+                    <p class="servicio-descripcion" data-es="Producción audiovisual integral con 13 años de experiencia. Desde conceptualización hasta postproducción, incluyendo dirección, cinematografía, edición y sonido profesional." data-en="Integral audiovisual production with 13 years of experience. From conceptualization to post-production, including direction, cinematography, editing, and professional sound.">Producción audiovisual integral con 13 años de experiencia. Desde conceptualización hasta postproducción, incluyendo dirección, cinematografía, edición y sonido profesional.</p>
+                    <div class="servicio-details">
+                        <p data-es="Incluye:" data-en="Includes:">Incluye:</p>
                         <ul>
                             <li data-es="Dirección y conceptualización creativa" data-en="Creative direction and conceptualization">Dirección y conceptualización creativa</li>
                             <li data-es="Producción audiovisual profesional" data-en="Professional audiovisual production">Producción audiovisual profesional</li>
@@ -234,225 +183,154 @@
                             <li data-es="Diseño de sonido y música original" data-en="Sound design and original music">Diseño de sonido y música original</li>
                         </ul>
                     </div>
-                    
-                    <div class="servicio-precio">
-                        <span class="precio-label" data-es="Desde" data-en="From">Desde</span>
-                        <span class="precio-monto">$6,000</span>
-                        <span class="precio-periodo" data-es="por proyecto" data-en="per project">por proyecto</span>
+                    <div class="servicio-pricing">
+                        <p data-es="Desde" data-en="From">Desde</p>
+                        <span class="price">$6,000</span>
+                        <p data-es="por proyecto" data-en="per project">por proyecto</p>
+                        <p class="duration" data-es="Duración: 6-10 semanas" data-en="Duration: 6-10 weeks">Duración: 6-10 semanas</p>
                     </div>
-                    
-                    <div class="servicio-duracion" data-es="Duración: 6-10 semanas" data-en="Duration: 6-10 weeks">Duración: 6-10 semanas</div>
-                    
                     <button class="servicio-btn" data-es="Consultar" data-en="Inquire">Consultar</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- TRANSMISIONES SECTION -->
-    <section class="transmisiones-section" id="transmisiones">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="TRANSMISIONES" data-en="TRANSMISSIONS">TRANSMISIONES</h2>
-                <p class="section-subtitle" data-es="Experiencias Audiovisuales de Inmersión" data-en="Audiovisual Immersion Experiences">Experiencias Audiovisuales de Inmersión</p>
-            </div>
+        <!-- SECCIÓN VIDEOS DESTACADOS (Reemplaza Transmisiones y Esquemas) -->
+        <section id="videos" class="content-section">
+            <h2 class="section-title" data-es="VIDEOS DESTACADOS" data-en="FEATURED VIDEOS">VIDEOS DESTACADOS</h2>
+            <p class="section-subtitle" data-es="Experiencias Audiovisuales de Inmersión" data-en="Immersive Audiovisual Experiences">Experiencias Audiovisuales de Inmersión</p>
             
             <div class="videos-grid">
+                <!-- Video 1: ytrBGUV07OQ -->
                 <div class="video-card">
-                    <video controls>
-                        <source src="assets/video/Conciencia_Artificial.mp4" type="video/mp4">
-                    </video>
-                    <h3 data-es="Conciencia Artificial" data-en="Artificial Consciousness">Conciencia Artificial</h3>
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/ytrBGUV07OQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="video-title" data-es="Conciencia Artificial" data-en="Artificial Consciousness">Conciencia Artificial</p>
                 </div>
                 
+                <!-- Video 2: qM_bYvAHWDk -->
                 <div class="video-card">
-                    <video controls>
-                        <source src="assets/video/Perdidos_en_Amnesia.mp4" type="video/mp4">
-                    </video>
-                    <h3 data-es="Perdidos en Amnesia" data-en="Lost in Amnesia">Perdidos en Amnesia</h3>
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/qM_bYvAHWDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="video-title" data-es="Perdidos en Amnesia" data-en="Lost in Amnesia">Perdidos en Amnesia</p>
                 </div>
                 
+                <!-- Video 3: ow6zAqB-Y20 -->
                 <div class="video-card">
-                    <video controls>
-                        <source src="assets/video/El_Códice_de_la_Coherencia.mp4" type="video/mp4">
-                    </video>
-                    <h3 data-es="El Códice de la Coherencia" data-en="The Codex of Coherence">El Códice de la Coherencia</h3>
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/ow6zAqB-Y20" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="video-title" data-es="El Códice de la Coherencia" data-en="The Codex of Coherence">El Códice de la Coherencia</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- MULTIMEDIA SECTION -->
-    <section class="multimedia-section" id="multimedia">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="MULTIMEDIA" data-en="MULTIMEDIA">MULTIMEDIA</h2>
-                <p class="section-subtitle" data-es="Música, Podcast y Redes Sociales" data-en="Music, Podcasts and Social Networks">Música, Podcast y Redes Sociales</p>
-            </div>
+        <!-- SECCIÓN MULTIMEDIA -->
+        <section id="multimedia" class="content-section">
+            <h2 class="section-title" data-es="MULTIMEDIA" data-en="MULTIMEDIA">MULTIMEDIA</h2>
+            <p class="section-subtitle" data-es="Música, Podcast y Redes Sociales" data-en="Music, Podcast and Social Media">Música, Podcast y Redes Sociales</p>
             
             <div class="multimedia-grid">
+                <!-- Spotify - Artista -->
                 <div class="media-card">
                     <h3 data-es="Spotify - Artista" data-en="Spotify - Artist">Spotify - Artista</h3>
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/52TPOg63ezBW3xJt5ClmuI?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/52TPOg63ezBW3xJt5ClmuI?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
                 
+                <!-- Spotify - Podcast -->
                 <div class="media-card">
                     <h3 data-es="Spotify - Podcast" data-en="Spotify - Podcast">Spotify - Podcast</h3>
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3ercTI8xjhuVQnaXcGvyYs?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/6007y04v266Y8X35Y3X3X3?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
                 
+                <!-- YouTube -->
                 <div class="media-card">
                     <h3 data-es="YouTube" data-en="YouTube">YouTube</h3>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/1zGhIo4clLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    <iframe width="100%" height="352" src="https://www.youtube.com/embed/ytrBGUV07OQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                
-                <div class="media-card">
-                    <h3 data-es="TikTok" data-en="TikTok">TikTok</h3>
-                    <a href="https://www.tiktok.com/@heliumflyparanoizex" class="tiktok-link" target="_blank" data-es="Visita TikTok" data-en="Visit TikTok">
-                        <i class="fab fa-tiktok"></i> Visita TikTok
-                    </a>
-                </div>
-                
-                <div class="media-card">
-                    <h3 data-es="Linktree" data-en="Linktree">Linktree</h3>
-                    <a href="https://linktr.ee/heliumflyoficial" class="tiktok-link" target="_blank" data-es="Todos mis Enlaces" data-en="All My Links">
-                        <i class="fas fa-link"></i> Todos mis Enlaces
-                    </a>
-                </div>
-                
-                <div class="media-card">
-                    <h3 data-es="Bandcamp" data-en="Bandcamp">Bandcamp</h3>
-                    <a href="https://bnd.link/heliumfly" class="tiktok-link" target="_blank" data-es="Mi Música" data-en="My Music">
-                        <i class="fab fa-bandcamp"></i> Mi Música
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ESQUEMAS SECTION -->
-    <section class="esquemas-section" id="esquemas">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="ESQUEMAS Y VISUALES" data-en="SCHEMAS AND VISUALS">ESQUEMAS Y VISUALES</h2>
-                <p class="section-subtitle" data-es="Representaciones Visuales de Conceptos Avanzados" data-en="Visual Representations of Advanced Concepts">Representaciones Visuales de Conceptos Avanzados</p>
             </div>
             
-            <div class="esquemas-tabs">
-                <div class="tabs-buttons">
-                    <button class="tab-btn active" data-tab="tab-1" data-es="Esquema 1" data-en="Schema 1">Esquema 1</button>
-                    <button class="tab-btn" data-tab="tab-2" data-es="Esquema 2" data-en="Schema 2">Esquema 2</button>
-                    <button class="tab-btn" data-tab="tab-3" data-es="Esquema 3" data-en="Schema 3">Esquema 3</button>
-                    <button class="tab-btn" data-tab="tab-4" data-es="Esquema 4" data-en="Schema 4">Esquema 4</button>
-                    <button class="tab-btn" data-tab="tab-5" data-es="Esquema 5" data-en="Schema 5">Esquema 5</button>
-                    <button class="tab-btn" data-tab="tab-6" data-es="Esquema 6" data-en="Schema 6">Esquema 6</button>
-                </div>
-                
-                <div class="tabs-content">
-                    <div class="tab-content active" id="tab-1">
-                        <img src="assets/images/20ab6466e2e30106f02c1ad1668298f9.jpg" alt="Esquema 1" class="esquema-img">
-                    </div>
-                    <div class="tab-content" id="tab-2">
-                        <img src="assets/images/40dd707d91ad994cd68b8eaf80961eac.jpg" alt="Esquema 2" class="esquema-img">
-                    </div>
-                    <div class="tab-content" id="tab-3">
-                        <img src="assets/images/75d6d55ec2e77e49fc542b313b1c94a9.jpg" alt="Esquema 3" class="esquema-img">
-                    </div>
-                    <div class="tab-content" id="tab-4">
-                        <img src="assets/images/87f20a6bfbec35b636cdd1b349985f18.jpg" alt="Esquema 4" class="esquema-img">
-                    </div>
-                    <div class="tab-content" id="tab-5">
-                        <img src="assets/images/91fc2ddb16d4a4c68b11580bda5f0134.jpg" alt="Esquema 5" class="esquema-img">
-                    </div>
-                    <div class="tab-content" id="tab-6">
-                        <img src="assets/images/475ee13efc94be27662e66d298b2a5c2.jpg" alt="Esquema 6" class="esquema-img">
-                    </div>
-                </div>
+            <div class="social-links-secondary">
+                <a href="https://www.tiktok.com/@heliumflyparanoizex" target="_blank" class="social-link-secondary">
+                    <i class="fab fa-tiktok"></i>
+                    <span data-es="Visita TikTok" data-en="Visit TikTok">Visita TikTok</span>
+                </a>
+                <a href="https://linktr.ee/heliumflyoficial" target="_blank" class="social-link-secondary">
+                    <i class="fas fa-tree"></i>
+                    <span data-es="Todos mis Enlaces" data-en="All my Links">Todos mis Enlaces</span>
+                </a>
+                <a href="https://bnd.link/heliumfly" target="_blank" class="social-link-secondary">
+                    <i class="fas fa-compact-disc"></i>
+                    <span data-es="Mi Música" data-en="My Music">Mi Música</span>
+                </a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- LIBROS SECTION -->
-    <section class="libros-section">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="MANUSCRITOS DECODIFICADOS" data-en="DECODED MANUSCRIPTS">MANUSCRITOS DECODIFICADOS</h2>
-                <p class="section-subtitle" data-es="Tus Ebooks en Amazon" data-en="Your Ebooks on Amazon">Tus Ebooks en Amazon</p>
-            </div>
+        <!-- SECCIÓN LIBROS -->
+        <section id="libros" class="content-section">
+            <h2 class="section-title" data-es="Tus Ebooks en Amazon" data-en="Your Ebooks on Amazon">Tus Ebooks en Amazon</h2>
             
             <div class="libros-grid">
+                <!-- Libro 1 -->
                 <div class="libro-card">
-                    <img src="assets/images/portada.jpg" alt="HAZ LO IMPENSABLE">
+                    <img src="assets/images/portada.jpg" alt="Haz lo Impensable" class="libro-cover">
                     <h3 data-es="HAZ LO IMPENSABLE" data-en="DO THE UNTHINKABLE">HAZ LO IMPENSABLE</h3>
                     <p data-es="Descubre cómo manifestar lo imposible" data-en="Discover how to manifest the impossible">Descubre cómo manifestar lo imposible</p>
-                    <a href="https://a.co/d/3tSZW5q" class="libro-link" target="_blank" data-es="Comprar en Amazon" data-en="Buy on Amazon">Comprar en Amazon</a>
+                    <a href="#" target="_blank" class="libro-link" data-es="Comprar en Amazon" data-en="Buy on Amazon">Comprar en Amazon</a>
                 </div>
                 
+                <!-- Libro 2 -->
                 <div class="libro-card">
-                    <img src="assets/images/Whisk_95f1dfbced.jpg" alt="EL CÓDIGO DEL ALMA">
+                    <img src="assets/images/Whisk_95f1dfbced.jpg" alt="El Código del Alma" class="libro-cover">
                     <h3 data-es="EL CÓDIGO DEL ALMA" data-en="THE SOUL CODE">EL CÓDIGO DEL ALMA</h3>
                     <p data-es="Desbloquea los secretos de tu esencia" data-en="Unlock the secrets of your essence">Desbloquea los secretos de tu esencia</p>
-                    <a href="https://a.co/d/7khUTu9" class="libro-link" target="_blank" data-es="Comprar en Amazon" data-en="Buy on Amazon">Comprar en Amazon</a>
+                    <a href="#" target="_blank" class="libro-link" data-es="Comprar en Amazon" data-en="Buy on Amazon">Comprar en Amazon</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACTO SECTION -->
-    <section class="contacto-section" id="contacto">
-        <div class="section-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-es="CONECTA CONMIGO" data-en="CONNECT WITH ME">CONECTA CONMIGO</h2>
-                <p class="section-subtitle" data-es="Sígueme en mis redes sociales" data-en="Follow me on social media">Sígueme en mis redes sociales</p>
+        <!-- SECCIÓN CONTACTO -->
+        <section id="contacto" class="content-section">
+            <h2 class="section-title" data-es="CONECTA CONMIGO" data-en="CONNECT WITH ME">CONECTA CONMIGO</h2>
+            <p class="section-subtitle" data-es="Sígueme en mis redes sociales" data-en="Follow me on my social media">Sígueme en mis redes sociales</p>
+            
+            <div class="social-icons-grid">
+                <a href="https://www.youtube.com/@HeliumFlyOficial" target="_blank" class="social-icon-card" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI" target="_blank" class="social-icon-card" aria-label="Spotify">
+                    <i class="fab fa-spotify"></i>
+                    <span>Spotify</span>
+                </a>
+                <a href="https://www.tiktok.com/@heliumflyparanoizex" target="_blank" class="social-icon-card" aria-label="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                    <span>TikTok</span>
+                </a>
+                <a href="https://linktr.ee/heliumflyoficial" target="_blank" class="social-icon-card" aria-label="Linktree">
+                    <i class="fas fa-tree"></i>
+                    <span>Linktree</span>
+                </a>
+                <a href="https://bnd.link/heliumfly" target="_blank" class="social-icon-card" aria-label="Bandcamp">
+                    <i class="fas fa-compact-disc"></i>
+                    <span>Bandcamp</span>
+                </a>
+                <a href="https://www.linkedin.com/in/artuetr5d" target="_blank" class="social-icon-card" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
             </div>
             
-            <div class="contacto-content">
-                <div class="redes-sociales">
-                    <a href="https://www.youtube.com/@HeliumFlyOficial" class="social-link youtube" target="_blank" title="YouTube">
-                        <i class="fab fa-youtube"></i>
-                        <span data-es="YouTube" data-en="YouTube">YouTube</span>
-                    </a>
-                    <a href="https://open.spotify.com/intl-es/artist/52TPOg63ezBW3xJt5ClmuI" class="social-link spotify" target="_blank" title="Spotify">
-                        <i class="fab fa-spotify"></i>
-                        <span data-es="Spotify" data-en="Spotify">Spotify</span>
-                    </a>
-                    <a href="https://www.tiktok.com/@heliumflyparanoizex" class="social-link tiktok" target="_blank" title="TikTok">
-                        <i class="fab fa-tiktok"></i>
-                        <span data-es="TikTok" data-en="TikTok">TikTok</span>
-                    </a>
-                    <a href="https://linktr.ee/heliumflyoficial" class="social-link linktree" target="_blank" title="Linktree">
-                        <i class="fas fa-link"></i>
-                        <span data-es="Linktree" data-en="Linktree">Linktree</span>
-                    </a>
-                    <a href="https://bnd.link/heliumfly" class="social-link bandcamp" target="_blank" title="Bandcamp">
-                        <i class="fab fa-bandcamp"></i>
-                        <span data-es="Bandcamp" data-en="Bandcamp">Bandcamp</span>
-                    </a>
-                </div>
-                
-                <div class="email-contact">
-                    <h3 data-es="Contacto Directo" data-en="Direct Contact">Contacto Directo</h3>
-                    <a href="mailto:artuetr5d@gmail.com" class="email-link">
-                        <i class="fas fa-envelope"></i>
-                        artuetr5d@gmail.com
-                    </a>
-                </div>
+            <div class="contact-direct">
+                <h3 data-es="Contacto Directo" data-en="Direct Contact">Contacto Directo</h3>
+                <a href="mailto:artuetr5d@gmail.com" class="email-link">
+                    <i class="fas fa-envelope"></i>
+                    artuetr5d@gmail.com
+                </a>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
+    <footer>
         <p data-es="Creado con intención y coherencia" data-en="Created with intention and coherence">Creado con intención y coherencia</p>
-        <p><span class="footer-year">© 2025</span> <span data-es="Helium Fly ParanoizeX. Todos los derechos reservados." data-en="Helium Fly ParanoizeX. All rights reserved.">Helium Fly ParanoizeX. Todos los derechos reservados.</span></p>
+        <p>&copy; 2025 Helium Fly ParanoizeX. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
     </footer>
 
-    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
