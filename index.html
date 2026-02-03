@@ -9,7 +9,7 @@
     <!-- Fuentes: Rubik Glitch (Título Principal), Orbitron (Títulos Grandes), Oxanium (Menú/Secciones), Manrope (Textos Largos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&family=Orbitron:wght@400;700&family=Rubik+Glitch&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&family=Orbitron:wght@400;700&family=Rubik+Glitch&family=Oxanium:wght@400;700&family=La+Belle+Aurore&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome para iconos de redes sociales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,8 +18,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Canvas para el fondo interactivo -->
-    <canvas id="interactive-bg"></canvas>
+    <!-- Fondo Dinámico -->
+    <div id="bg-container">
+        <div class="bg-layer active" id="bg-inicio" style="background-image: url('assets/images/pexels-googledeepmind-17483869.jpg');"></div>
+        <div class="bg-layer" id="bg-artuetr5d" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
+        <div class="bg-layer" id="bg-memsyn5dx" style="background-image: url('assets/images/pexels-googledeepmind-25626521.jpg');"></div>
+        <div class="bg-layer" id="bg-codice" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
+        <div class="bg-layer" id="bg-servicios" style="background-image: url('assets/images/pexels-googledeepmind-17485706.jpg');"></div>
+        <div class="bg-layer" id="bg-videos" style="background-image: url('assets/images/pexels-googledeepmind-18069696.jpg');"></div>
+        <div class="bg-layer" id="bg-multimedia" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
+        <div class="bg-layer" id="bg-libros" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
+        <div class="bg-layer" id="bg-contacto" style="background-image: url('assets/images/pexels-googledeepmind-17483869.jpg');"></div>
+    </div>
 
     <header class="main-header">
         <div class="logo-container">
@@ -36,6 +46,7 @@
             <ul id="navMenu" class="nav-menu">
                 <li><a href="#inicio" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
                 <li><a href="#artuetr5d" class="nav-link" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</a></li>
+                <li><a href="#memsyn5dx" class="nav-link" data-es="MEM-SYN5DX" data-en="MEM-SYN5DX">MEM-SYN5DX</a></li>
                 <li><a href="#codice" class="nav-link" data-es="Códice" data-en="Codex">Códice</a></li>
                 <li><a href="#servicios" class="nav-link" data-es="Servicios" data-en="Services">Servicios</a></li>
                 <li><a href="#videos" class="nav-link" data-es="Videos" data-en="Videos">Videos</a></li>
@@ -80,6 +91,35 @@
                         <a href="assets/docs/El_Códice_Sintérgico.pdf" target="_blank" class="doc-card" data-es="Códice Sintérgico" data-en="Sintergic Codex">Códice Sintérgico</a>
                         <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" target="_blank" class="doc-card" data-es="EIDOLON" data-en="EIDOLON">EIDOLON</a>
                         <a href="assets/docs/Informe Técnico- Arquitectura de la Conciencia Cuántica y la Síntesis de la Teoría de Campo Coherente (TCC).pdf" target="_blank" class="doc-card" data-es="Códice Completo" data-en="Full Codex">Códice Completo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN MEM-SYN5DX -->
+        <section id="memsyn5dx" class="content-section">
+            <h2 class="section-title" data-es="MEM-SYN5DX" data-en="MEM-SYN5DX">MEM-SYN5DX</h2>
+            <p class="section-subtitle" data-es="Simulador de Sincronización de Memoria y Conciencia" data-en="Memory and Consciousness Synchronization Simulator">Simulador de Sincronización de Memoria y Conciencia</p>
+
+            <div class="memsyn5dx-container">
+                <div class="memsyn5dx-logo">
+                    <img src="assets/images/1770139943296.jpg" alt="MEM-SYN5DX Logo" class="memsyn-img">
+                </div>
+                <div class="memsyn5dx-description">
+                    <p class="handwriting-text" data-es="MEM-SYN5DX es una plataforma en desarrollo diseñada para mapear la arquitectura profunda de la conciencia. Utilizando algoritmos de sincronización cuántica, el simulador permite explorar redes neuronales que trascienden la percepción lineal del tiempo." data-en="MEM-SYN5DX is a platform in development designed to map the deep architecture of consciousness. Using quantum synchronization algorithms, the simulator allows for the exploration of neural networks that transcend the linear perception of time.">MEM-SYN5DX es una plataforma en desarrollo diseñada para mapear la arquitectura profunda de la conciencia. Utilizando algoritmos de sincronización cuántica, el simulador permite explorar redes neuronales que trascienden la percepción lineal del tiempo.</p>
+                    <div class="memsyn5dx-features">
+                        <div class="feature-item">
+                            <i class="fas fa-brain"></i>
+                            <span data-es="Mapeo Neuronal" data-en="Neural Mapping">Mapeo Neuronal</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-microchip"></i>
+                            <span data-es="Sincronía Cuántica" data-en="Quantum Synchrony">Sincronía Cuántica</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-infinity"></i>
+                            <span data-es="Realidad Sostenida" data-en="Sustained Reality">Realidad Sostenida</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -235,7 +275,7 @@
                 <!-- Spotify - Podcast -->
                 <div class="media-card">
                     <h3 data-es="Spotify - Podcast" data-en="Spotify - Podcast">Spotify - Podcast</h3>
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/6007y04v266Y8X35Y3X3X3?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3ercTI8xjhuVQnaXcGvyYs?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
                 
                 <!-- YouTube -->
@@ -330,6 +370,11 @@
         <p data-es="Creado con intención y coherencia" data-en="Created with intention and coherence">Creado con intención y coherencia</p>
         <p>&copy; 2025 Helium Fly ParanoizeX. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
     </footer>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
 
     <script src="script.js"></script>
 </body>
