@@ -10,7 +10,10 @@
     --font-title: 'Orbitron', sans-serif;
     --font-menu: 'Oxanium', monospace;
     --font-body: 'Manrope', sans-serif;
-    --transition-speed: 0.3s;
+    --font-handwriting: 'La Belle Aurore', cursive;
+    --font-creative: 'Caveat', cursive;
+    --transition-speed: 0.5s;
+    --blur-intensity: 10px;
 }
 
 * {
@@ -32,15 +35,43 @@ body {
     position: relative;
 }
 
-/* FONDO INTERACTIVO (CANVAS) */
-#interactive-bg {
+/* FONDO DINÁMICO E INMERSIVO */
+#bg-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    opacity: 0.15; /* Opacidad sutil */
+    z-index: -2;
+    overflow: hidden;
+    background: #000;
+}
+
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, filter 1s ease-in-out;
+    filter: blur(5px) brightness(0.4);
+}
+
+.bg-layer.active {
+    opacity: 1;
+    filter: blur(0px) brightness(0.5);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
 }
 
 /* HEADER Y NAVEGACIÓN */
@@ -468,14 +499,21 @@ main {
 }
 
 .servicio-card {
-    background-color: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 35px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 255, 255, 0.25);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-    transition: transform 0.5s, box-shadow 0.5s, border-color 0.5s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s, box-shadow 0.5s, border-color 0.5s, background 0.5s;
     position: relative;
     overflow: hidden;
+}
+
+.servicio-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--color-primary);
 }
 
 .servicio-card::before {
@@ -897,6 +935,56 @@ footer {
     font-size: 0.85rem;
     color: var(--color-text-light);
     background-color: rgba(10, 10, 10, 0.5);
+}
+
+/* ESTILOS MEM-SYN5DX */
+.memsyn5dx-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.memsyn-img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+}
+
+.handwriting-text {
+    font-family: var(--font-handwriting);
+    font-size: 1.8rem;
+    line-height: 1.4;
+    color: var(--color-text-light);
+    margin-bottom: 30px;
+}
+
+.memsyn5dx-features {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--color-primary);
+}
+
+.feature-item i {
+    color: var(--color-primary);
+}
+
+.feature-item span {
+    font-family: var(--font-menu);
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 /* RESPONSIVE DESIGN */
