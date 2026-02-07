@@ -171,4 +171,157 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         });
     });
+
+    // -----------------------------------------------------------------
+    // 8. SIMULADOR MEM-SYN5DX (SINTERGIC RESONANCE)
+    // -----------------------------------------------------------------
+    const canvas = document.getElementById('memsyn-sim');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let nodes = [];
+        const nodeCount = 50;
+        const connectionDistance = 150;
+        let mouse = { x: null, y: null };
+
+        // Ajustar tamaño
+        function resize() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Clase Nodo
+        class Node {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 2 + 1;
+                this.energy = 0;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Rebotar
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Interacción con mouse
+                if (mouse.x !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        this.energy = Math.min(this.energy + 0.02, 1);
+                        // Atracción suave
+                        this.vx += dx * 0.0001;
+                        this.vy += dy * 0.0001;
+                    } else {
+                        this.energy = Math.max(this.energy - 0.01, 0);
+                    }
+                } else {
+                    this.energy = Math.max(this.energy - 0.01, 0);
+                }
+
+                // Vibración (Sintergic Resonance)
+                this.x += Math.sin(Date.now() * 0.005) * 0.1;
+                this.y += Math.cos(Date.now() * 0.005) * 0.1;
+
+                // Límites de velocidad
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+            }
+
+            draw() {
+                // Pulso a 0.1 Hz (un ciclo cada 10 segundos)
+                const pulse = Math.sin(Date.now() * (2 * Math.PI * 0.1 / 1000)) * 0.5 + 0.5;
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius + this.energy * 3, 0, Math.PI * 2);
+
+                // Color transiciona entre cian y magenta basado en energía y pulso
+                const r = Math.floor(this.energy * 255);
+                const g = Math.floor((1 - this.energy) * 255);
+                const b = 255;
+
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.4 + pulse * 0.4})`;
+                ctx.fill();
+
+                if (this.energy > 0.2) {
+                    ctx.shadowBlur = 15 * this.energy;
+                    ctx.shadowColor = `rgba(255, 0, 255, ${this.energy})`;
+                } else {
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        // Inicializar nodos
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node());
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        const opacity = (1 - (dist / connectionDistance)) * 0.3;
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        canvas.addEventListener('mousedown', () => {
+            nodes.forEach(node => {
+                const dx = mouse.x - node.x;
+                const dy = mouse.y - node.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 200) {
+                    node.energy = 1;
+                    node.vx += (Math.random() - 0.5) * 5;
+                    node.vy += (Math.random() - 0.5) * 5;
+                }
+            });
+        });
+
+        animate();
+    }
 });
