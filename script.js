@@ -2,7 +2,12 @@
 // SCRIPT.JS - INTERACTIVIDAD, LENIS Y GSAP
 // =================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+let isInitialized = false;
+
+function initSite() {
+    if (isInitialized) return;
+    isInitialized = true;
+
     // -----------------------------------------------------------------
     // 1. INICIALIZACIÓN DE LENIS (SMOOTH SCROLL)
     // -----------------------------------------------------------------
@@ -35,15 +40,44 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.ticker.lagSmoothing(0);
 
     // -----------------------------------------------------------------
-    // 2. NAVEGACIÓN Y MENÚ
+    // 2. PRELOADER & STARTUP ANIMATIONS
+    // -----------------------------------------------------------------
+    const preloader = document.getElementById('preloader');
+
+    // Timeline inicial
+    const tl = gsap.timeline();
+
+    if (preloader) {
+        tl.to(preloader, {
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                preloader.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    // Animación del Hero (se ejecuta después del preloader)
+    tl.from('.hero-content', {
+        scale: 0.9,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'expo.out'
+    }, "-=0.5"); // Solapa ligeramente con el fade out
+
+    // -----------------------------------------------------------------
+    // 3. NAVEGACIÓN Y MENÚ
     // -----------------------------------------------------------------
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    menuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    }
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -57,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -----------------------------------------------------------------
-    // 3. TRANSICIÓN DE FONDOS (SCROLLTRIGGER)
+    // 4. TRANSICIÓN DE FONDOS (SCROLLTRIGGER)
     // -----------------------------------------------------------------
     const sections = document.querySelectorAll('section');
     const bgLayers = document.querySelectorAll('.bg-layer');
@@ -82,11 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -----------------------------------------------------------------
-    // 4. ANIMACIONES DE ENTRADA (GSAP)
+    // 5. ANIMACIONES DE ENTRADA (GSAP)
     // -----------------------------------------------------------------
     gsap.registerPlugin(ScrollTrigger);
 
     sections.forEach(section => {
+        // Excluir hero-content porque ya se animó en el inicio
         const elements = section.querySelectorAll('.section-title, .section-subtitle, .artuetr5d-content, .memsyn5dx-container, .servicios-grid, .videos-grid, .multimedia-grid, .libros-grid, .social-icons-grid');
 
         gsap.from(elements, {
@@ -103,16 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Animación especial para el Hero
-    gsap.from('.hero-content', {
-        scale: 0.9,
-        opacity: 0,
-        duration: 1.5,
-        ease: 'expo.out'
-    });
-
     // -----------------------------------------------------------------
-    // 5. INTERACCIÓN CON EL MOUSE (PARALLAX)
+    // 6. INTERACCIÓN CON EL MOUSE (PARALLAX)
     // -----------------------------------------------------------------
     document.addEventListener('mousemove', (e) => {
         const { clientX, clientY } = e;
@@ -136,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -----------------------------------------------------------------
-    // 6. ACORDEÓN (CÓDICE SINTÉRGICO)
+    // 7. ACORDEÓN (CÓDICE SINTÉRGICO)
     // -----------------------------------------------------------------
     const accordionHeaders = document.querySelectorAll('.accordion-header');
 
@@ -158,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -----------------------------------------------------------------
-    // 7. LÓGICA DE BOTONES DE SERVICIO
+    // 8. LÓGICA DE BOTONES DE SERVICIO
     // -----------------------------------------------------------------
     document.querySelectorAll('.servicio-btn').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -173,155 +200,209 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -----------------------------------------------------------------
-    // 8. SIMULADOR MEM-SYN5DX (SINTERGIC RESONANCE)
+    // 9. SIMULADOR MEM-SYN5DX (SINTERGIC RESONANCE) - THREE.JS UPGRADE
     // -----------------------------------------------------------------
     const canvas = document.getElementById('memsyn-sim');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let nodes = [];
-        const nodeCount = 50;
-        const connectionDistance = 150;
-        let mouse = { x: null, y: null };
+    if (canvas && typeof THREE !== 'undefined') {
+        // --- CONFIGURACIÓN THREE.JS ---
+        const scene = new THREE.Scene();
+        // Fondo transparente para ver el diseño CSS detrás si se desea,
+        // o negro puro. Usaremos negro para mejor contraste de partículas.
+        scene.background = new THREE.Color(0x000000);
 
-        // Ajustar tamaño
-        function resize() {
-            const container = canvas.parentElement;
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
+        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.z = 20;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // --- SISTEMA DE PARTÍCULAS (SHADER MATERIAL) ---
+        // Geometría: Un plano de puntos densos (adaptativo según dispositivo)
+        const isMobile = window.innerWidth < 768;
+        const segX = isMobile ? 60 : 100;
+        const segY = isMobile ? 35 : 60;
+
+        const particlesGeometry = new THREE.PlaneGeometry(50, 30, segX, segY);
+        const count = particlesGeometry.attributes.position.count;
+
+        // Añadir atributo 'initialPosition' para referencia en vertex shader
+        // (Aunque PlaneGeometry ya tiene 'position', necesitamos uno estático para volver a él)
+        const initialPositions = new Float32Array(count * 3);
+        const positions = particlesGeometry.attributes.position.array;
+        for (let i = 0; i < count * 3; i++) {
+            initialPositions[i] = positions[i];
         }
-        window.addEventListener('resize', resize);
-        resize();
+        particlesGeometry.setAttribute('initialPosition', new THREE.BufferAttribute(initialPositions, 3));
 
-        // Clase Nodo
-        class Node {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 2 + 1;
-                this.energy = 0;
-            }
+        // Shader Uniforms
+        const uniforms = {
+            uTime: { value: 0 },
+            uMouse: { value: new THREE.Vector2(9999, 9999) }, // Fuera de pantalla inicialmente
+            uResolution: { value: new THREE.Vector2(canvas.clientWidth, canvas.clientHeight) },
+            uColor1: { value: new THREE.Color(0x00FFFF) }, // Cian
+            uColor2: { value: new THREE.Color(0xFF00FF) }  // Magenta
+        };
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+        // Material Shader
+        const particlesMaterial = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: `
+                uniform float uTime;
+                uniform vec2 uMouse;
+                attribute vec3 initialPosition;
+                varying float vDistance;
 
-                // Rebotar
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                void main() {
+                    vec3 pos = initialPosition;
 
-                // Interacción con mouse
-                if (mouse.x !== null) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        this.energy = Math.min(this.energy + 0.02, 1);
-                        // Atracción suave
-                        this.vx += dx * 0.0001;
-                        this.vy += dy * 0.0001;
-                    } else {
-                        this.energy = Math.max(this.energy - 0.01, 0);
-                    }
-                } else {
-                    this.energy = Math.max(this.energy - 0.01, 0);
+                    // Proyectar posición a espacio de pantalla (aproximado para interacción simple 2D en plano 3D)
+                    // Asumimos que el plano está en Z=0 y la cámara mira de frente.
+                    // Para mayor precisión, usamos la distancia en el mundo 3D entre el punto y el rayo del mouse.
+
+                    // Efecto de Onda (Resonancia) constante
+                    float wave = sin(pos.x * 0.5 + uTime) * 0.2 + cos(pos.y * 0.5 + uTime * 0.8) * 0.2;
+                    pos.z += wave;
+
+                    // Interacción Mouse (Distorsión Magnética)
+                    // Convertimos coordenada mouse (normalizada -1 a 1 por JS) a espacio mundo aproximado
+                    // Dado que la cámara está en z=20, el campo de visión es X ancho.
+
+                    // En lugar de proyección compleja, pasamos el mouse ya proyectado al plano Z=0 desde JS.
+                    float d = distance(pos.xy, uMouse);
+                    float radius = 8.0;
+                    float force = smoothstep(radius, 0.0, d);
+
+                    // Empujar partículas lejos del mouse y hacia arriba en Z
+                    vec2 dir = normalize(pos.xy - uMouse);
+                    pos.xy += dir * force * 1.5;
+                    pos.z += force * 5.0; // Levantar partículas cerca del mouse
+
+                    vDistance = force; // Para colorear en fragment shader
+
+                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                    gl_Position = projectionMatrix * mvPosition;
+
+                    // Tamaño de partícula dinámico
+                    gl_PointSize = (3.0 / -mvPosition.z) * 30.0;
+                    if (gl_PointSize < 1.0) gl_PointSize = 1.0;
                 }
+            `,
+            fragmentShader: `
+                uniform vec3 uColor1;
+                uniform vec3 uColor2;
+                varying float vDistance;
 
-                // Vibración (Sintergic Resonance)
-                this.x += Math.sin(Date.now() * 0.005) * 0.1;
-                this.y += Math.cos(Date.now() * 0.005) * 0.1;
+                void main() {
+                    // Círculo suave para cada partícula
+                    vec2 coord = gl_PointCoord - vec2(0.5);
+                    float dist = length(coord);
+                    if (dist > 0.5) discard;
 
-                // Límites de velocidad
-                this.vx *= 0.99;
-                this.vy *= 0.99;
-            }
+                    float strength = 1.0 - (dist * 2.0);
+                    strength = pow(strength, 2.0);
 
-            draw() {
-                // Pulso a 0.1 Hz (un ciclo cada 10 segundos)
-                const pulse = Math.sin(Date.now() * (2 * Math.PI * 0.1 / 1000)) * 0.5 + 0.5;
+                    // Mezclar colores: Magenta cerca del mouse, Cian lejos
+                    vec3 color = mix(uColor1, uColor2, vDistance);
 
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius + this.energy * 3, 0, Math.PI * 2);
+                    // Añadir brillo blanco en el centro
+                    color += vec3(1.0) * strength * vDistance * 0.5;
 
-                // Color transiciona entre cian y magenta basado en energía y pulso
-                const r = Math.floor(this.energy * 255);
-                const g = Math.floor((1 - this.energy) * 255);
-                const b = 255;
-
-                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.4 + pulse * 0.4})`;
-                ctx.fill();
-
-                if (this.energy > 0.2) {
-                    ctx.shadowBlur = 15 * this.energy;
-                    ctx.shadowColor = `rgba(255, 0, 255, ${this.energy})`;
-                } else {
-                    ctx.shadowBlur = 0;
+                    gl_FragColor = vec4(color, strength * 0.8); // Alpha
                 }
-            }
-        }
+            `,
+            transparent: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
 
-        // Inicializar nodos
-        for (let i = 0; i < nodeCount; i++) {
-            nodes.push(new Node());
-        }
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
 
-        function drawConnections() {
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
+        // --- MANEJO DE EVENTOS ---
 
-                    if (dist < connectionDistance) {
-                        ctx.beginPath();
-                        ctx.moveTo(nodes[i].x, nodes[i].y);
-                        ctx.lineTo(nodes[j].x, nodes[j].y);
-                        const opacity = (1 - (dist / connectionDistance)) * 0.3;
-                        ctx.strokeStyle = `rgba(0, 255, 255, ${opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
+        // Mouse Move
+        function updateMouse(x, y) {
+            // Convertir coordenadas de pantalla a coordenadas de mundo (plano Z=0)
+            const vec = new THREE.Vector3();
+            const pos = new THREE.Vector3();
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            vec.set(
+                (x / canvas.clientWidth) * 2 - 1,
+                -(y / canvas.clientHeight) * 2 + 1,
+                0.5
+            );
 
-            nodes.forEach(node => {
-                node.update();
-                node.draw();
-            });
+            vec.unproject(camera);
+            vec.sub(camera.position).normalize();
 
-            drawConnections();
-            requestAnimationFrame(animate);
+            const distance = -camera.position.z / vec.z;
+            pos.copy(camera.position).add(vec.multiplyScalar(distance));
+
+            uniforms.uMouse.value.set(pos.x, pos.y);
         }
 
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
+            updateMouse(e.clientX - rect.left, e.clientY - rect.top);
         });
+
+        // Touch Move (Móvil)
+        canvas.addEventListener('touchmove', (e) => {
+            // Permitimos el scroll nativo (no llamamos preventDefault) para mejor UX
+            // El usuario puede tocar y ver el efecto mientras hace scroll
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches.length > 0) {
+                updateMouse(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+            }
+        }, { passive: true });
 
         canvas.addEventListener('mouseleave', () => {
-            mouse.x = null;
-            mouse.y = null;
+             // Mover el punto de interacción lejos suavemente o dejarlo estático
+             // uniforms.uMouse.value.set(9999, 9999);
         });
 
-        canvas.addEventListener('mousedown', () => {
-            nodes.forEach(node => {
-                const dx = mouse.x - node.x;
-                const dy = mouse.y - node.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 200) {
-                    node.energy = 1;
-                    node.vx += (Math.random() - 0.5) * 5;
-                    node.vy += (Math.random() - 0.5) * 5;
-                }
-            });
-        });
+        // Resize
+        function onWindowResize() {
+            const container = canvas.parentElement;
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+
+            uniforms.uResolution.value.set(width, height);
+        }
+        window.addEventListener('resize', onWindowResize);
+
+        // --- ANIMACIÓN LOOP ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+            uniforms.uTime.value = elapsedTime;
+
+            // Rotar levemente la cámara o el objeto para dar profundidad 3D constante
+            particlesMesh.rotation.y = Math.sin(elapsedTime * 0.1) * 0.1;
+            particlesMesh.rotation.x = Math.cos(elapsedTime * 0.1) * 0.05;
+
+            renderer.render(scene, camera);
+        }
 
         animate();
     }
-});
+}
+
+// Inicializar cuando todos los recursos (imágenes, fuentes) estén cargados
+window.addEventListener('load', initSite);
+
+// Fallback de seguridad por si load falla o tarda demasiado (5 segundos)
+setTimeout(() => {
+    if (!isInitialized) {
+        console.warn("Load timeout triggered. Forcing init.");
+        initSite();
+    }
+}, 5000);
