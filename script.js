@@ -206,14 +206,13 @@ function initSite() {
     if (canvas && typeof THREE !== 'undefined') {
         // --- CONFIGURACIÓN THREE.JS ---
         const scene = new THREE.Scene();
-        // Fondo transparente para ver el diseño CSS detrás si se desea,
-        // o negro puro. Usaremos negro para mejor contraste de partículas.
-        scene.background = new THREE.Color(0x000000);
+        // Usamos el fondo negro por defecto del renderer para mejor contraste de partículas
+        // y un setup más simple y eficiente.
 
         const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
         camera.position.z = 20;
 
-        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
