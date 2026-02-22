@@ -4,6 +4,18 @@
 
 let isInitialized = false;
 
+/**
+ * Generates a mailto link for a given service name.
+ * @param {string} serviceName - The name of the service.
+ * @returns {string} The generated mailto link.
+ */
+function generateMailtoLink(serviceName) {
+    const email = 'artuetr5d@gmail.com';
+    const subject = encodeURIComponent(`Consulta sobre: ${serviceName}`);
+    const body = encodeURIComponent(`Hola, estoy interesado en el servicio: ${serviceName}`);
+    return `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
 function initSite() {
     if (isInitialized) return;
     isInitialized = true;
@@ -191,11 +203,7 @@ function initSite() {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const serviceName = button.closest('.servicio-card').querySelector('.servicio-titulo').textContent;
-            const email = 'artuetr5d@gmail.com';
-            const subject = encodeURIComponent(`Consulta sobre: ${serviceName}`);
-            const body = encodeURIComponent(`Hola, estoy interesado en el servicio: ${serviceName}`);
-            
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            window.location.href = generateMailtoLink(serviceName);
         });
     });
 
@@ -396,12 +404,18 @@ function initSite() {
 }
 
 // Inicializar cuando todos los recursos (imágenes, fuentes) estén cargados
-window.addEventListener('load', initSite);
+if (typeof window !== 'undefined') {
+    window.addEventListener('load', initSite);
 
-// Fallback de seguridad por si load falla o tarda demasiado (5 segundos)
-setTimeout(() => {
-    if (!isInitialized) {
-        console.warn("Load timeout triggered. Forcing init.");
-        initSite();
-    }
-}, 5000);
+    // Fallback de seguridad por si load falla o tarda demasiado (5 segundos)
+    setTimeout(() => {
+        if (!isInitialized) {
+            console.warn("Load timeout triggered. Forcing init.");
+            initSite();
+        }
+    }, 5000);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { generateMailtoLink };
+}

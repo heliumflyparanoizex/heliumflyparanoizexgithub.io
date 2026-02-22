@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Bienvenido al repositorio oficial de **Helium Fly ParanoizeX**, el Arquitecto de Realidades Digitales y creador de **ARTUETR5D**.",
+  "main": "script.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io/issues"
+  },
+  "homepage": "https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io#readme"
+}
