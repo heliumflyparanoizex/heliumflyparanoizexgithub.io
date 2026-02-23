@@ -401,6 +401,213 @@ function initSite() {
 
         animate();
     }
+
+    // -----------------------------------------------------------------
+    // 10. ANIMACIÓN MATRIZ DE COMPETENCIAS (BARRAS DE PROGRESO)
+    // -----------------------------------------------------------------
+    const skillBars = document.querySelectorAll('.skill-progress');
+
+    if (skillBars.length > 0) {
+        ScrollTrigger.create({
+            trigger: '.skills-matrix-container',
+            start: 'top 80%',
+            onEnter: () => {
+                skillBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }
+        });
+    }
+
+    // -----------------------------------------------------------------
+    // 11. PDF VIEWER INTERACTIVO (CÓDICE)
+    // -----------------------------------------------------------------
+    const pdfCanvas = document.getElementById('pdf-canvas');
+    if (pdfCanvas && typeof pdfjsLib !== 'undefined') {
+        const ctx = pdfCanvas.getContext('2d');
+        const pdfTabs = document.querySelectorAll('.codex-tab');
+        const prevBtn = document.getElementById('pdf-prev');
+        const nextBtn = document.getElementById('pdf-next');
+        const pageNumDisplay = document.getElementById('pdf-page-num');
+        const downloadBtn = document.getElementById('pdf-download');
+        const loadingBar = document.getElementById('pdf-loading-bar');
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5; // Escala inicial
+
+        // Ajustar escala según dispositivo
+        if (window.innerWidth < 768) scale = 0.8;
+
+        function renderPage(num) {
+            pageRendering = true;
+
+            // Fetch page
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({scale: scale});
+
+                // Set canvas dimensions
+                pdfCanvas.height = viewport.height;
+                pdfCanvas.width = viewport.width;
+
+                // Render context
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                const renderTask = page.render(renderContext);
+
+                // Wait for render to finish
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    loadingBar.style.display = 'none';
+
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Update page counters
+            pageNumDisplay.textContent = `${num} / ${pdfDoc.numPages}`;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        function loadPDF(url) {
+            loadingBar.style.display = 'flex';
+            // Cargar documento
+            pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                pageNum = 1;
+                renderPage(pageNum);
+                downloadBtn.href = url;
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                loadingBar.innerHTML = 'Error loading Document';
+            });
+        }
+
+        // Event Listeners
+        prevBtn.addEventListener('click', onPrevPage);
+        nextBtn.addEventListener('click', onNextPage);
+
+        pdfTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all
+                pdfTabs.forEach(t => t.classList.remove('active'));
+                // Add active to clicked
+                tab.classList.add('active');
+
+                // Load PDF
+                const url = tab.getAttribute('data-doc');
+                loadPDF(url);
+            });
+        });
+
+        // Cargar el primer PDF por defecto (Manifesto)
+        if (pdfTabs.length > 0) {
+            loadPDF(pdfTabs[0].getAttribute('data-doc'));
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // 12. GALERÍA DINÁMICA & LIGHTBOX
+    // -----------------------------------------------------------------
+    const galleryContainer = document.getElementById('gallery-container');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeLightbox = document.querySelector('.close-lightbox');
+
+    if (galleryContainer) {
+        // Lista de imágenes nuevas (detectadas previamente)
+        const galleryImages = [
+            'assets/images/1770139943296.jpg',
+            'assets/images/20ab6466e2e30106f02c1ad1668298f9.jpg',
+            'assets/images/40dd707d91ad994cd68b8eaf80961eac.jpg',
+            'assets/images/475ee13efc94be27662e66d298b2a5c2.jpg',
+            'assets/images/75d6d55ec2e77e49fc542b313b1c94a9.jpg',
+            'assets/images/87f20a6bfbec35b636cdd1b349985f18.jpg',
+            'assets/images/91fc2ddb16d4a4c68b11580bda5f0134.jpg',
+            'assets/images/9353b554cdfefaa0c93f122a651b2205.jpg',
+            'assets/images/bef47e2924e2634d4e888be2b6f7b4c1.jpg',
+            'assets/images/c0e3ec8819e6ec3043f7102bf57c0598.jpg',
+            'assets/images/c396a99f21b4f4176ef9a491ab085147 (1).jpg',
+            'assets/images/d2cbe5e000664f84cd9675cf6ef6b02a.jpg',
+            'assets/images/e00f2be57f9f92bec9d2edc10c947beb.jpg',
+            'assets/images/e26041023c1e4a5a60ad39225d2b9ea9.jpg',
+            'assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg'
+        ];
+
+        // Generar items de galería
+        galleryImages.forEach(src => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Entity Record';
+            img.loading = 'lazy'; // Lazy load nativo
+
+            const overlay = document.createElement('div');
+            overlay.className = 'gallery-overlay';
+            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            item.appendChild(img);
+            item.appendChild(overlay);
+
+            // Evento Click para Lightbox
+            item.addEventListener('click', () => {
+                lightbox.style.display = 'block';
+                lightboxImg.src = src;
+                document.body.style.overflow = 'hidden'; // Bloquear scroll
+            });
+
+            galleryContainer.appendChild(item);
+        });
+
+        // Cerrar Lightbox
+        if (closeLightbox) {
+            closeLightbox.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Cerrar al hacer clic fuera de la imagen
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 }
 
 // Inicializar cuando todos los recursos (imágenes, fuentes) estén cargados
