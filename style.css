@@ -35,8 +35,21 @@ body {
     position: relative;
 }
 
+/* WEBGL EXPERIENCE */
+#webgl-experience {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none; /* La interacción se manejará vía window event listeners */
+}
+
 /* FONDO DINÁMICO E INMERSIVO */
 #bg-container {
+    /* Reactivado */
     position: fixed;
     top: 0;
     left: 0;
