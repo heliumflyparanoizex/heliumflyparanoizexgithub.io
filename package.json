@@ -4,7 +4,9 @@
   "description": "Bienvenido al repositorio oficial de **Helium Fly ParanoizeX**, el Arquitecto de Realidades Digitales y creador de **ARTUETR5D**.",
   "main": "script.js",
   "scripts": {
-    "test": "node --test"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/mailto.test.js",
+    "test:e2e": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -17,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io/issues"
   },
-  "homepage": "https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io#readme"
+  "homepage": "https://github.com/heliumflyparanoizex/heliumflyparanoizexgithub.io#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "http-server": "^14.1.1"
+  }
 }
