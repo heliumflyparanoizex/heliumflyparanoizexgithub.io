@@ -4,21 +4,73 @@
 
 let isInitialized = false;
 
+// Constant for the contact email address
+const CONTACT_EMAIL = 'artuetr5d@gmail.com';
+
 /**
  * Generates a mailto link for a given service name.
  * @param {string} serviceName - The name of the service.
  * @returns {string} The generated mailto link.
  */
 function generateMailtoLink(serviceName) {
-    const email = 'artuetr5d@gmail.com';
     const subject = encodeURIComponent(`Consulta sobre: ${serviceName}`);
     const body = encodeURIComponent(`Hola, estoy interesado en el servicio: ${serviceName}`);
-    return `mailto:${email}?subject=${subject}&body=${body}`;
+    return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
+
+/**
+ * Updates all static mailto links in the DOM to use the centralized email constant.
+ * This ensures consistency across the site without manually editing HTML.
+ */
+function updateStaticEmailLinks() {
+    const mailtoLinks = document.querySelectorAll('a[href^="mailto:"]');
+    mailtoLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const emailMatch = href.match(/mailto:([^?]+)/);
+
+        if (emailMatch && emailMatch[1] !== CONTACT_EMAIL) {
+            // Replace the email in the href attribute
+            const newHref = href.replace(emailMatch[1], CONTACT_EMAIL);
+            link.setAttribute('href', newHref);
+
+            // If the link text is exactly the old email, update it to the new one
+            // We trim to avoid issues with whitespace
+            if (link.textContent.trim() === emailMatch[1]) {
+                 // Check if the link has children (like icons) to avoid overwriting them entirely if not intended
+                 // In the provided HTML, the email link has an icon: <i class="fas fa-envelope"></i>\n artuetr5d@gmail.com
+                 // So we need to be careful.
+                 // Strategy: traverse child nodes and replace text nodes that match the email.
+
+                 link.childNodes.forEach(node => {
+                     if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === emailMatch[1]) {
+                         node.textContent = node.textContent.replace(emailMatch[1], CONTACT_EMAIL);
+                     }
+                 });
+            }
+        } else if (emailMatch && emailMatch[1] === CONTACT_EMAIL) {
+             // Even if the email matches, let's ensure the displayed text matches (if it's meant to be the email)
+             // This handles cases where the HTML might have the right href but wrong text, or vice versa if we change the constant.
+             // However, strictly speaking, the requirement is to update based on the constant.
+
+             // Let's look for text nodes containing the *old* email if we knew it, but we don't necessarily know the "old" one if we just look at the constant.
+             // But we can check if the text content *looks* like an email and is NOT the current constant.
+             // For now, let's just stick to updating the href.
+        }
+    });
+
+    // Specifically target elements that display the email text but might not be links or might need specific updating
+    // Based on index.html: <a href="mailto:artuetr5d@gmail.com" class="email-link"><i class="fas fa-envelope"></i>\n artuetr5d@gmail.com</a>
+    // The previous loop handles the href. Now let's handle the text content more robustly for specific known classes if needed.
+    // The previous loop's text node logic should cover the case in index.html where the text is a direct child.
+}
+
 
 function initSite() {
     if (isInitialized) return;
     isInitialized = true;
+
+    // Update static email links
+    updateStaticEmailLinks();
 
     // -----------------------------------------------------------------
     // 1. INICIALIZACIÓN DE LENIS (SMOOTH SCROLL)
@@ -417,5 +469,5 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { generateMailtoLink };
+    module.exports = { generateMailtoLink, CONTACT_EMAIL };
 }
