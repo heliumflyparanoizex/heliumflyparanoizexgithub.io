@@ -18,6 +18,281 @@ function generateMailtoLink(serviceName) {
     return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
 
+// Global variables for WebGL Experience to be accessible by other functions if needed
+let webglScene, webglCamera, webglRenderer, sphereMesh;
+let webglClock;
+
+if (typeof THREE !== 'undefined') {
+    webglClock = new THREE.Clock();
+}
+
+function initWebGLExperience() {
+    const canvas = document.getElementById('webgl-experience');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    // --- ESCENA Y CÁMARA ---
+    webglScene = new THREE.Scene();
+
+    // Configuración de cámara para ver la esfera en el centro
+    webglCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    webglCamera.position.z = 12; // Ajustado para ver la esfera completa
+
+    // --- RENDERER ---
+    webglRenderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+    });
+    webglRenderer.setSize(window.innerWidth, window.innerHeight);
+    webglRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // --- HERO SPHERE (PARTICLE SYSTEM) ---
+    // Geometría base: Icosaedro con alta subdivisión (CORREGIDO PARA EVITAR CRASH)
+    const sphereGeometry = new THREE.IcosahedronGeometry(4, 4); // Radio 4, detalle 4 (suficiente para puntos)
+
+    // Convertir geometría a puntos (Particle System)
+    // Extraemos posiciones y agregamos un atributo 'random' para variedad en el shader
+    const positionAttribute = sphereGeometry.attributes.position;
+    const vertexCount = positionAttribute.count;
+
+    const randoms = new Float32Array(vertexCount);
+    for(let i = 0; i < vertexCount; i++) {
+        randoms[i] = Math.random();
+    }
+
+    sphereGeometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
+
+    // Custom Shader Material: Noise + Fresnel + Chromatic Aberration
+    const sphereMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            uTime: { value: 0 },
+            uColor: { value: new THREE.Color(0x00FFFF) }, // Cian base
+            uFresnelColor: { value: new THREE.Color(0xFF00FF) }, // Magenta rim
+            uMouse: { value: new THREE.Vector2(0, 0) },
+            uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        },
+        vertexShader: `
+            uniform float uTime;
+            uniform vec2 uMouse;
+            attribute float aRandom;
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            varying float vNoise;
+            varying float vDistanceToMouse;
+
+            // Simplex Noise Function (Simplified)
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+            float snoise(vec3 v) {
+                const vec2 C = vec2(1.0/6.0, 1.0/3.0) ;
+                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+                // First corner
+                vec3 i  = floor(v + dot(v, C.yyy) );
+                vec3 x0 = v - i + dot(i, C.xxx) ;
+
+                // Other corners
+                vec3 g = step(x0.yzx, x0.xyz);
+                vec3 l = 1.0 - g;
+                vec3 i1 = min( g.xyz, l.zxy );
+                vec3 i2 = max( g.xyz, l.zxy );
+
+                vec3 x1 = x0 - i1 + C.xxx;
+                vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
+                vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
+
+                // Permutations
+                i = mod289(i);
+                vec4 p = permute( permute( permute(
+                            i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                        + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
+                        + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+
+                // Gradients: 7x7 points over a square, mapped onto an octahedron.
+                // The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)
+                float n_ = 0.142857142857; // 1.0/7.0
+                vec3  ns = n_ * D.wyz - D.xzx;
+
+                vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)
+
+                vec4 x_ = floor(j * ns.z);
+                vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
+
+                vec4 x = x_ *ns.x + ns.yyyy;
+                vec4 y = y_ *ns.x + ns.yyyy;
+                vec4 h = 1.0 - abs(x) - abs(y);
+
+                vec4 b0 = vec4( x.xy, y.xy );
+                vec4 b1 = vec4( x.zw, y.zw );
+
+                vec4 s0 = floor(b0)*2.0 + 1.0;
+                vec4 s1 = floor(b1)*2.0 + 1.0;
+                vec4 sh = -step(h, vec4(0.0));
+
+                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+
+                vec3 p0 = vec3(a0.xy,h.x);
+                vec3 p1 = vec3(a0.zw,h.y);
+                vec3 p2 = vec3(a1.xy,h.z);
+                vec3 p3 = vec3(a1.zw,h.w);
+
+                //Normalise gradients
+                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+                p0 *= norm.x;
+                p1 *= norm.y;
+                p2 *= norm.z;
+                p3 *= norm.w;
+
+                // Mix final noise value
+                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                m = m * m;
+                return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
+                                            dot(p2,x2), dot(p3,x3) ) );
+            }
+
+            void main() {
+                vNormal = normal;
+
+                // Noise Calculation for Displacement
+                float noise = snoise(position * 0.5 + uTime * 0.2);
+                vNoise = noise;
+
+                // Displace Vertex along normal
+                vec3 newPos = position + normal * noise * 1.5;
+
+                // Interaction: Mouse Influence (Simple repulsion/attraction)
+                // Convert mouse to world space roughly or just use screen space proximity
+                // Here we simply add a subtle twist based on position
+
+                vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
+                gl_Position = projectionMatrix * mvPosition;
+
+                // Point Size based on depth and noise (Sparkle effect)
+                // Ajustado para asegurar visibilidad
+                gl_PointSize = (10.0 / -mvPosition.z) * (1.0 + aRandom * 2.0);
+
+                vPosition = newPos;
+            }
+        `,
+        fragmentShader: `
+            uniform vec3 uColor;
+            uniform vec3 uFresnelColor;
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            varying float vNoise;
+
+            void main() {
+                // Circular Particle
+                vec2 coord = gl_PointCoord - vec2(0.5);
+                float dist = length(coord);
+                if (dist > 0.5) discard;
+
+                // Fresnel Effect Calculation (View Direction dot Normal)
+                // Since these are points, we approximate normal based on sphere position
+                vec3 viewDir = normalize(cameraPosition - vPosition);
+                vec3 norm = normalize(vNormal); // Or vPosition for sphere
+                float fresnel = dot(viewDir, norm);
+                fresnel = clamp(1.0 - fresnel, 0.0, 1.0);
+                fresnel = pow(fresnel, 2.0); // Sharpen rim
+
+                // Chromatic Aberration / Color Shift
+                // Mix base color with Fresnel Color based on rim intensity + noise
+                vec3 finalColor = mix(uColor, uFresnelColor, fresnel + vNoise * 0.3);
+
+                // Add inner glow
+                float strength = 1.0 - (dist * 2.0);
+                strength = pow(strength, 1.5);
+
+                gl_FragColor = vec4(finalColor * 1.5, strength * (0.8 + fresnel * 0.4));
+            }
+        `,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    });
+
+    sphereMesh = new THREE.Points(sphereGeometry, sphereMaterial);
+    webglScene.add(sphereMesh);
+
+
+    // --- RESIZE HANDLER ---
+    window.addEventListener('resize', () => {
+        webglCamera.aspect = window.innerWidth / window.innerHeight;
+        webglCamera.updateProjectionMatrix();
+        webglRenderer.setSize(window.innerWidth, window.innerHeight);
+        if(sphereMesh.material.uniforms.uResolution) {
+             sphereMesh.material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+        }
+    });
+
+    // --- MOUSE LISTENER FOR UNIFORMS ---
+    document.addEventListener('mousemove', (e) => {
+        // Normalize mouse -1 to 1
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+        if(sphereMesh) {
+             sphereMesh.material.uniforms.uMouse.value.set(x, y);
+        }
+    });
+
+    // --- RENDER LOOP ---
+    function animate() {
+        requestAnimationFrame(animate);
+
+        const time = webglClock.getElapsedTime();
+
+        if (sphereMesh) {
+            sphereMesh.material.uniforms.uTime.value = time;
+            sphereMesh.rotation.y = time * 0.05; // Slow rotation
+            sphereMesh.rotation.z = time * 0.02;
+        }
+
+        webglRenderer.render(webglScene, webglCamera);
+    }
+    animate();
+
+    // --- GSAP SCROLLTRIGGER INTEGRATION FOR SPHERE ---
+    // Make sure GSAP and ScrollTrigger are registered
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Initial State (Hero Section)
+        // Keep it visible and centered
+
+        // 2. Scroll Animation
+        // As user scrolls down from #inicio, move sphere to back or side and fade out slightly
+        const tlSphere = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#inicio",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        if (sphereMesh) {
+            tlSphere.to(sphereMesh.position, {
+                z: -10, // Move back
+                y: 5,   // Move up
+                ease: "power1.inOut"
+            }, 0)
+            .to(sphereMesh.rotation, {
+                x: 2.0, // Rotate
+                ease: "none"
+            }, 0)
+            .to(sphereMesh.scale, {
+                x: 0.5,
+                y: 0.5,
+                z: 0.5,
+                ease: "power1.inOut"
+            }, 0);
+        }
+    }
+}
+
 /**
  * Updates all static mailto links in the DOM to use the centralized email constant.
  * This ensures consistency across the site without manually editing HTML.
@@ -64,13 +339,17 @@ function updateStaticEmailLinks() {
     // The previous loop's text node logic should cover the case in index.html where the text is a direct child.
 }
 
-
 function initSite() {
     if (isInitialized) return;
     isInitialized = true;
 
     // Update static email links
     updateStaticEmailLinks();
+
+    // -----------------------------------------------------------------
+    // 0. INICIALIZACIÓN DE WEBGL EXPERIENCE (THREE.JS)
+    // -----------------------------------------------------------------
+    initWebGLExperience();
 
     // -----------------------------------------------------------------
     // 1. INICIALIZACIÓN DE LENIS (SMOOTH SCROLL)
@@ -452,6 +731,213 @@ function initSite() {
         }
 
         animate();
+    }
+
+    // -----------------------------------------------------------------
+    // 10. ANIMACIÓN MATRIZ DE COMPETENCIAS (BARRAS DE PROGRESO)
+    // -----------------------------------------------------------------
+    const skillBars = document.querySelectorAll('.skill-progress');
+
+    if (skillBars.length > 0) {
+        ScrollTrigger.create({
+            trigger: '.skills-matrix-container',
+            start: 'top 80%',
+            onEnter: () => {
+                skillBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }
+        });
+    }
+
+    // -----------------------------------------------------------------
+    // 11. PDF VIEWER INTERACTIVO (CÓDICE)
+    // -----------------------------------------------------------------
+    const pdfCanvas = document.getElementById('pdf-canvas');
+    if (pdfCanvas && typeof pdfjsLib !== 'undefined') {
+        const ctx = pdfCanvas.getContext('2d');
+        const pdfTabs = document.querySelectorAll('.codex-tab');
+        const prevBtn = document.getElementById('pdf-prev');
+        const nextBtn = document.getElementById('pdf-next');
+        const pageNumDisplay = document.getElementById('pdf-page-num');
+        const downloadBtn = document.getElementById('pdf-download');
+        const loadingBar = document.getElementById('pdf-loading-bar');
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5; // Escala inicial
+
+        // Ajustar escala según dispositivo
+        if (window.innerWidth < 768) scale = 0.8;
+
+        function renderPage(num) {
+            pageRendering = true;
+
+            // Fetch page
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({scale: scale});
+
+                // Set canvas dimensions
+                pdfCanvas.height = viewport.height;
+                pdfCanvas.width = viewport.width;
+
+                // Render context
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                const renderTask = page.render(renderContext);
+
+                // Wait for render to finish
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    loadingBar.style.display = 'none';
+
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Update page counters
+            pageNumDisplay.textContent = `${num} / ${pdfDoc.numPages}`;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        function loadPDF(url) {
+            loadingBar.style.display = 'flex';
+            // Cargar documento
+            pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                pageNum = 1;
+                renderPage(pageNum);
+                downloadBtn.href = url;
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                loadingBar.innerHTML = 'Error loading Document';
+            });
+        }
+
+        // Event Listeners
+        prevBtn.addEventListener('click', onPrevPage);
+        nextBtn.addEventListener('click', onNextPage);
+
+        pdfTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all
+                pdfTabs.forEach(t => t.classList.remove('active'));
+                // Add active to clicked
+                tab.classList.add('active');
+
+                // Load PDF
+                const url = tab.getAttribute('data-doc');
+                loadPDF(url);
+            });
+        });
+
+        // Cargar el primer PDF por defecto (Manifesto)
+        if (pdfTabs.length > 0) {
+            loadPDF(pdfTabs[0].getAttribute('data-doc'));
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // 12. GALERÍA DINÁMICA & LIGHTBOX
+    // -----------------------------------------------------------------
+    const galleryContainer = document.getElementById('gallery-container');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeLightbox = document.querySelector('.close-lightbox');
+
+    if (galleryContainer) {
+        // Lista de imágenes nuevas (detectadas previamente)
+        const galleryImages = [
+            'assets/images/1770139943296.jpg',
+            'assets/images/20ab6466e2e30106f02c1ad1668298f9.jpg',
+            'assets/images/40dd707d91ad994cd68b8eaf80961eac.jpg',
+            'assets/images/475ee13efc94be27662e66d298b2a5c2.jpg',
+            'assets/images/75d6d55ec2e77e49fc542b313b1c94a9.jpg',
+            'assets/images/87f20a6bfbec35b636cdd1b349985f18.jpg',
+            'assets/images/91fc2ddb16d4a4c68b11580bda5f0134.jpg',
+            'assets/images/9353b554cdfefaa0c93f122a651b2205.jpg',
+            'assets/images/bef47e2924e2634d4e888be2b6f7b4c1.jpg',
+            'assets/images/c0e3ec8819e6ec3043f7102bf57c0598.jpg',
+            'assets/images/c396a99f21b4f4176ef9a491ab085147 (1).jpg',
+            'assets/images/d2cbe5e000664f84cd9675cf6ef6b02a.jpg',
+            'assets/images/e00f2be57f9f92bec9d2edc10c947beb.jpg',
+            'assets/images/e26041023c1e4a5a60ad39225d2b9ea9.jpg',
+            'assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg'
+        ];
+
+        // Generar items de galería
+        galleryImages.forEach(src => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Entity Record';
+            img.loading = 'lazy'; // Lazy load nativo
+
+            const overlay = document.createElement('div');
+            overlay.className = 'gallery-overlay';
+            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            item.appendChild(img);
+            item.appendChild(overlay);
+
+            // Evento Click para Lightbox
+            item.addEventListener('click', () => {
+                lightbox.style.display = 'block';
+                lightboxImg.src = src;
+                document.body.style.overflow = 'hidden'; // Bloquear scroll
+            });
+
+            galleryContainer.appendChild(item);
+        });
+
+        // Cerrar Lightbox
+        if (closeLightbox) {
+            closeLightbox.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Cerrar al hacer clic fuera de la imagen
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
     }
 }
 

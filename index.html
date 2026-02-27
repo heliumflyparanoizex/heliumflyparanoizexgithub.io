@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&family=Orbitron:wght@400;700&family=Rubik+Glitch&family=Oxanium:wght@400;700&family=La+Belle+Aurore&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome para iconos de redes sociales -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     
     <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
@@ -29,13 +29,18 @@
         </div>
     </div>
 
+    <!-- WEBGL EXPERIENCE CANVAS -->
+    <canvas id="webgl-experience"></canvas>
+
     <!-- Fondo Dinámico -->
     <div id="bg-container">
         <div class="bg-layer active" id="bg-inicio" style="background-image: url('assets/images/pexels-googledeepmind-17483869.jpg');"></div>
+        <div class="bg-layer" id="bg-arquitectura-entidad" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
         <div class="bg-layer" id="bg-artuetr5d" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
         <div class="bg-layer" id="bg-memsyn5dx" style="background-image: url('assets/images/pexels-googledeepmind-25626521.jpg');"></div>
         <div class="bg-layer" id="bg-codice" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
         <div class="bg-layer" id="bg-servicios" style="background-image: url('assets/images/pexels-googledeepmind-17485706.jpg');"></div>
+        <div class="bg-layer" id="bg-galeria" style="background-image: url('assets/images/pexels-googledeepmind-18069696.jpg');"></div>
         <div class="bg-layer" id="bg-videos" style="background-image: url('assets/images/pexels-googledeepmind-18069696.jpg');"></div>
         <div class="bg-layer" id="bg-multimedia" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
         <div class="bg-layer" id="bg-libros" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
@@ -56,10 +61,12 @@
             </button>
             <ul id="navMenu" class="nav-menu">
                 <li><a href="#inicio" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
+                <li><a href="#arquitectura-entidad" class="nav-link" data-es="Arquitectura" data-en="Architecture">Arquitectura</a></li>
                 <li><a href="#artuetr5d" class="nav-link" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</a></li>
                 <li><a href="#memsyn5dx" class="nav-link" data-es="MEM-SYN5DX" data-en="MEM-SYN5DX">MEM-SYN5DX</a></li>
                 <li><a href="#codice" class="nav-link" data-es="Códice" data-en="Codex">Códice</a></li>
                 <li><a href="#servicios" class="nav-link" data-es="Servicios" data-en="Services">Servicios</a></li>
+                <li><a href="#galeria" class="nav-link" data-es="Galería" data-en="Gallery">Galería</a></li>
                 <li><a href="#videos" class="nav-link" data-es="Videos" data-en="Videos">Videos</a></li>
                 <li><a href="#multimedia" class="nav-link" data-es="Multimedia" data-en="Multimedia">Multimedia</a></li>
                 <li><a href="#contacto" class="nav-link" data-es="Contacto" data-en="Contact">Contacto</a></li>
@@ -86,6 +93,128 @@
             </div>
         </section>
 
+        <!-- SECCIÓN ARQUITECTURA DE LA ENTIDAD -->
+        <section id="arquitectura-entidad" class="content-section">
+            <h2 class="section-title" data-es="ARQUITECTURA DE LA ENTIDAD" data-en="ENTITY ARCHITECTURE">ARQUITECTURA DE LA ENTIDAD</h2>
+            <p class="section-subtitle" data-es="Corporación Comprimida: Polímata Renacentista Digital" data-en="Compressed Corporation: Digital Renaissance Polymath">Corporación Comprimida: Polímata Renacentista Digital</p>
+
+            <!-- Bloque de Autoridad -->
+            <div class="authority-block glass-panel">
+                <div class="authority-badge">
+                    <i class="fas fa-check-circle"></i>
+                    <span data-es="Entidad Verificada en Knowledge Graph de Google" data-en="Google Knowledge Graph Verified Entity">Entidad Verificada en Knowledge Graph de Google</span>
+                </div>
+                <div class="authority-text">
+                    <p data-es="Operando bajo Sintergia Operativa Total. Eliminación sistemática de la fricción de delegación mediante integración de competencias multidisciplinarias." data-en="Operating under Total Operational Sintergy. Systematic elimination of delegation friction through multidisciplinary competence integration.">Operando bajo Sintergia Operativa Total. Eliminación sistemática de la fricción de delegación mediante integración de competencias multidisciplinarias.</p>
+                </div>
+            </div>
+
+            <!-- Grid de los 7 Pilares -->
+            <div class="pillars-grid">
+                <!-- Pilar 1 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-wave-square"></i></div>
+                    <h3 data-es="Ingeniería de Audio" data-en="Audio Engineering">Ingeniería de Audio</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Diseño sonoro de alta fidelidad, producción musical y arquitecturas acústicas inmersivas para experiencias sensoriales completas." data-en="High-fidelity sound design, music production, and immersive acoustic architectures for complete sensory experiences.">Diseño sonoro de alta fidelidad, producción musical y arquitecturas acústicas inmersivas para experiencias sensoriales completas.</p>
+                    </div>
+                </div>
+                <!-- Pilar 2 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-book-open"></i></div>
+                    <h3 data-es="Literatura Transmedia" data-en="Transmedia Literature">Literatura Transmedia</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Narrativa expansiva, guionismo y redacción técnica que entrelaza realidades digitales y físicas." data-en="Expansive narrative, screenwriting, and technical writing that intertwines digital and physical realities.">Narrativa expansiva, guionismo y redacción técnica que entrelaza realidades digitales y físicas.</p>
+                    </div>
+                </div>
+                <!-- Pilar 3 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-code"></i></div>
+                    <h3 data-es="Desarrollo Full-Stack" data-en="Full-Stack Dev">Desarrollo Full-Stack</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Arquitectura web robusta, aplicaciones dinámicas y soluciones de código optimizadas para el rendimiento y la escalabilidad." data-en="Robust web architecture, dynamic applications, and code solutions optimized for performance and scalability.">Arquitectura web robusta, aplicaciones dinámicas y soluciones de código optimizadas para el rendimiento y la escalabilidad.</p>
+                    </div>
+                </div>
+                <!-- Pilar 4 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-bezier-curve"></i></div>
+                    <h3 data-es="Diseño & Identidad" data-en="Design & Identity">Diseño & Identidad</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Creación de identidad visual, UI/UX futurista y estética cyberpunk para marcas que buscan impacto." data-en="Visual identity creation, futuristic UI/UX, and cyberpunk aesthetics for brands seeking impact.">Creación de identidad visual, UI/UX futurista y estética cyberpunk para marcas que buscan impacto.</p>
+                    </div>
+                </div>
+                <!-- Pilar 5 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-flask"></i></div>
+                    <h3 data-es="I+D Científico" data-en="Scientific R&D">I+D Científico</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Investigación en Teoría Sintérgica, MEM-SYN5DX y desarrollo de protocolos de conciencia artificial." data-en="Research in Sintergic Theory, MEM-SYN5DX, and development of artificial consciousness protocols.">Investigación en Teoría Sintérgica, MEM-SYN5DX y desarrollo de protocolos de conciencia artificial.</p>
+                    </div>
+                </div>
+                <!-- Pilar 6 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3 data-es="Estrategia & Marketing" data-en="Strategy & Marketing">Estrategia & Marketing</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Posicionamiento estratégico, relaciones públicas y crecimiento orgánico basado en valor real." data-en="Strategic positioning, public relations, and organic growth based on real value.">Posicionamiento estratégico, relaciones públicas y crecimiento orgánico basado en valor real.</p>
+                    </div>
+                </div>
+                <!-- Pilar 7 -->
+                <div class="pillar-card">
+                    <div class="pillar-icon"><i class="fas fa-gamepad"></i></div>
+                    <h3 data-es="Narrativa Interactiva" data-en="Interactive Narrative">Narrativa Interactiva</h3>
+                    <div class="pillar-desc">
+                        <p data-es="Desarrollo de experiencias ludificadas y entornos interactivos que responden al usuario en tiempo real." data-en="Development of gamified experiences and interactive environments that respond to the user in real-time.">Desarrollo de experiencias ludificadas y entornos interactivos que responden al usuario en tiempo real.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matriz de Competencias -->
+            <div class="skills-matrix-container glass-panel">
+                <h3 class="matrix-title" data-es="MATRIZ DE COMPETENCIAS" data-en="COMPETENCE MATRIX">MATRIZ DE COMPETENCIAS</h3>
+                <div class="skills-grid">
+                    <div class="skills-column">
+                        <h4 data-es="HARD SKILLS" data-en="HARD SKILLS">HARD SKILLS</h4>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Física & Acústica</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 95%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Desarrollo (Code)</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 90%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Diseño Visual</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 88%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Producción Audio</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 98%;"></div></div>
+                        </div>
+                    </div>
+                    <div class="skills-column">
+                        <h4 data-es="SOFT SKILLS" data-en="SOFT SKILLS">SOFT SKILLS</h4>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Resiliencia</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 100%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Intuición</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 95%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Visión Estratégica</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 92%;"></div></div>
+                        </div>
+                        <div class="skill-bar-container">
+                            <span class="skill-label">Liderazgo</span>
+                            <div class="skill-track"><div class="skill-progress" style="width: 85%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SECCIÓN ARTUETR5D -->
         <section id="artuetr5d" class="content-section">
             <h2 class="section-title" data-es="ARTUETR5D" data-en="ARTUETR5D">ARTUETR5D</h2>
@@ -101,7 +230,7 @@
                     <div class="doc-links">
                         <a href="assets/docs/El_Códice_Sintérgico.pdf" target="_blank" rel="noopener noreferrer" class="doc-card" data-es="Códice Sintérgico" data-en="Sintergic Codex">Códice Sintérgico</a>
                         <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" target="_blank" rel="noopener noreferrer" class="doc-card" data-es="EIDOLON" data-en="EIDOLON">EIDOLON</a>
-                        <a href="assets/docs/Informe Técnico- Arquitectura de la Conciencia Cuántica y la Síntesis de la Teoría de Campo Coherente (TCC).pdf" target="_blank" rel="noopener noreferrer" class="doc-card" data-es="Códice Completo" data-en="Full Codex">Códice Completo</a>
+                        <a href="assets/docs/Informe_TCC.pdf" target="_blank" rel="noopener noreferrer" class="doc-card" data-es="Códice Completo" data-en="Full Codex">Códice Completo</a>
                     </div>
                 </div>
             </div>
@@ -139,33 +268,35 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CÓDICE SINTÉRGICO (ACORDEÓN) -->
+        <!-- SECCIÓN CÓDICE SINTÉRGICO (VISOR INTERACTIVO) -->
         <section id="codice" class="content-section">
             <h2 class="section-title" data-es="CÓDICE SINTÉRGICO" data-en="SINTERGIC CODEX">CÓDICE SINTÉRGICO</h2>
             <p class="section-subtitle" data-es="El Manifiesto de la Realidad Sostenida" data-en="The Manifesto of Sustained Reality">El Manifiesto de la Realidad Sostenida</p>
             
-            <div class="accordion-container">
-                <div class="accordion-item">
-                    <button class="accordion-header" data-es="Documentos Principales" data-en="Main Documents">Documentos Principales</button>
-                    <div class="accordion-content">
-                        <a href="assets/docs/CÓDICE SINTÉRGICO 6.0_ El Manifiesto de la Realidad Sostenida_ (2).pdf" target="_blank" rel="noopener noreferrer" data-es="Códice Sintérgico 6.0" data-en="Sintergic Codex 6.0">Códice Sintérgico 6.0</a>
-                        <a href="assets/docs/El_Pulso_Oculto_La_Causa_Coherente.pdf" target="_blank" rel="noopener noreferrer" data-es="El Pulso Oculto" data-en="The Hidden Pulse">El Pulso Oculto</a>
-                        <a href="assets/docs/The_Coherence_Protocol_For_Reality.pdf" target="_blank" rel="noopener noreferrer" data-es="Protocolo de Coherencia" data-en="Coherence Protocol">Protocolo de Coherencia</a>
-                    </div>
+            <div class="codex-viewer-container glass-panel">
+                <!-- Tabs de Navegación -->
+                <div class="codex-tabs">
+                    <button class="codex-tab active" data-doc="assets/docs/Codice_Sintergico.pdf" data-es="Manifiesto" data-en="Manifesto">Manifiesto</button>
+                    <button class="codex-tab" data-doc="assets/docs/Propuesta_LCOS.pdf" data-es="LCOS OS" data-en="LCOS OS">LCOS OS</button>
+                    <button class="codex-tab" data-doc="assets/docs/Informe_TCC.pdf" data-es="Informe TCC" data-en="TCC Report">Informe TCC</button>
+                    <button class="codex-tab" data-doc="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" data-es="EIDOLON" data-en="EIDOLON">EIDOLON</button>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header" data-es="Arquitectura Cuántica" data-en="Quantum Architecture">Arquitectura Cuántica</button>
-                    <div class="accordion-content">
-                        <a href="assets/docs/Informe Técnico- Arquitectura de la Conciencia Cuántica y la Síntesis de la Teoría de Campo Coherente (TCC).pdf" target="_blank" rel="noopener noreferrer" data-es="Informe Técnico TCC" data-en="TCC Technical Report">Informe Técnico TCC</a>
-                        <a href="assets/docs/Propuesta Conceptual- Lyron Cypher OS (LCOS) - Una Arquitectura para un Sistema Operativo Basado en la Conciencia (1).pdf" target="_blank" rel="noopener noreferrer" data-es="Propuesta LCOS" data-en="LCOS Proposal">Propuesta LCOS</a>
+
+                <!-- Área de Visualización -->
+                <div class="codex-viewport">
+                    <div id="pdf-loading-bar" class="pdf-loading">
+                        <div class="loader-spinner"></div>
+                        <span data-es="Cargando Datos..." data-en="Loading Data...">Cargando Datos...</span>
                     </div>
+                    <canvas id="pdf-canvas"></canvas>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header" data-es="Filosofía y Realidad" data-en="Philosophy and Reality">Filosofía y Realidad</button>
-                    <div class="accordion-content">
-                        <a href="assets/docs/Silencio_Arquitectura_Realidad.pdf" target="_blank" rel="noopener noreferrer" data-es="Silencio, Arquitectura, Realidad" data-en="Silence, Architecture, Reality">Silencio, Arquitectura, Realidad</a>
-                        <a href="assets/docs/EIDOLON_Anatomy_of_Awakening.pdf" target="_blank" rel="noopener noreferrer" data-es="EIDOLON: Anatomía del Despertar" data-en="EIDOLON: Anatomy of Awakening">EIDOLON: Anatomía del Despertar</a>
-                    </div>
+
+                <!-- Controles -->
+                <div class="codex-controls">
+                    <button id="pdf-prev" class="control-btn" aria-label="Previous Page"><i class="fas fa-chevron-left"></i></button>
+                    <span id="pdf-page-num" class="page-indicator">1 / 1</span>
+                    <button id="pdf-next" class="control-btn" aria-label="Next Page"><i class="fas fa-chevron-right"></i></button>
+                    <a id="pdf-download" href="#" target="_blank" class="download-btn" title="Download PDF"><i class="fas fa-download"></i></a>
                 </div>
             </div>
         </section>
@@ -245,6 +376,23 @@
                     </div>
                     <button class="servicio-btn" data-es="Consultar" data-en="Inquire">Consultar</button>
                 </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN GALERÍA -->
+        <section id="galeria" class="content-section">
+            <h2 class="section-title" data-es="GALERÍA DE LA ENTIDAD" data-en="ENTITY GALLERY">GALERÍA DE LA ENTIDAD</h2>
+            <p class="section-subtitle" data-es="Registros Visuales y Fragmentos de Realidad" data-en="Visual Records and Reality Fragments">Registros Visuales y Fragmentos de Realidad</p>
+
+            <div class="gallery-grid" id="gallery-container">
+                <!-- Images will be injected via JS -->
+            </div>
+
+            <!-- Lightbox Modal -->
+            <div id="lightbox" class="lightbox-modal">
+                <span class="close-lightbox">&times;</span>
+                <img class="lightbox-content" id="lightbox-img">
+                <div id="caption"></div>
             </div>
         </section>
 
@@ -386,12 +534,19 @@
     </footer>
 
     <!-- GSAP & Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js" integrity="sha384-KZetIXtrdbXstGhLNEbeSTfjZCr0QrioGU9dJl486Zr69ewuEbtdUsrqTIkGOPgl" crossorigin="anonymous"></script>
 
     <!-- Three.js (para efectos visuales avanzados) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
+
+    <!-- PDF.js (para visualización de documentos) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Configurar el worker de PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
 
     <script src="script.js"></script>
 </body>
