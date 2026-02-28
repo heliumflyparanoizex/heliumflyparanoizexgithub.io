@@ -14,6 +14,14 @@
     <!-- Font Awesome para iconos de redes sociales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     
+    <!-- MediaPipe Hands (IA para detección de manos) -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+    <!-- Tailwind CSS (Para UI Interactivo de la cámara) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -29,22 +37,16 @@
         </div>
     </div>
 
+    <!-- VIDEO BACKGROUND CONTROLLER -->
+    <div id="video-bg-container">
+        <video id="bg-video" muted playsinline preload="auto"></video>
+    </div>
+
     <!-- WEBGL EXPERIENCE CANVAS -->
     <canvas id="webgl-experience"></canvas>
 
-    <!-- Fondo Dinámico -->
-    <div id="bg-container">
-        <div class="bg-layer active" id="bg-inicio" style="background-image: url('assets/images/pexels-googledeepmind-17483869.jpg');"></div>
-        <div class="bg-layer" id="bg-arquitectura-entidad" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
-        <div class="bg-layer" id="bg-artuetr5d" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
-        <div class="bg-layer" id="bg-memsyn5dx" style="background-image: url('assets/images/pexels-googledeepmind-25626521.jpg');"></div>
-        <div class="bg-layer" id="bg-codice" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
-        <div class="bg-layer" id="bg-servicios" style="background-image: url('assets/images/pexels-googledeepmind-17485706.jpg');"></div>
-        <div class="bg-layer" id="bg-galeria" style="background-image: url('assets/images/pexels-googledeepmind-18069696.jpg');"></div>
-        <div class="bg-layer" id="bg-videos" style="background-image: url('assets/images/pexels-googledeepmind-18069696.jpg');"></div>
-        <div class="bg-layer" id="bg-multimedia" style="background-image: url('assets/images/pexels-googledeepmind-25626518.jpg');"></div>
-        <div class="bg-layer" id="bg-libros" style="background-image: url('assets/images/pexels-googledeepmind-25626593.jpg');"></div>
-        <div class="bg-layer" id="bg-contacto" style="background-image: url('assets/images/pexels-googledeepmind-17483869.jpg');"></div>
+    <!-- Fondo Dinámico (Disabled) -->
+    <div id="bg-container" style="display: none;">
     </div>
 
     <header class="main-header">
@@ -80,12 +82,72 @@
     </header>
 
     <main>
+        <!-- Pantalla de Carga de IA -->
+        <div id="loader" class="absolute inset-0 z-[1000] bg-black/90 flex flex-col items-center justify-center pointer-events-none hidden" style="position: fixed;">
+            <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-blue-400 tracking-widest uppercase text-sm animate-pulse">Sincronizando Módulo MediaPipe...</p>
+        </div>
+
+        <!-- Preview de Cámara -->
+        <div id="video-preview-container" class="glass-panel" style="display:none;">
+            <video id="webcam-video" autoplay playsinline></video>
+            <div id="camera-status" class="absolute bottom-1 left-1 text-xs bg-black/50 px-2 py-1 rounded text-gray-300">Cámara off</div>
+        </div>
+
         <!-- SECCIÓN INICIO (HERO) -->
-        <section id="inicio" class="hero-section">
-            <div class="hero-content">
+        <section id="inicio" class="hero-section" style="position: relative;">
+            <div class="hero-content" style="z-index: 2; position: relative;">
                 <h1 class="glitch-text" data-text="HELIUM FLY PARANOIZEX">HELIUM FLY PARANOIZEX</h1>
                 <p class="subtitle" data-es="Arquitecto de Realidades Digitales" data-en="Digital Reality Architect">Arquitecto de Realidades Digitales</p>
                 <p class="tagline" data-es="Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real" data-en="Creator of ARTUETR5D - Sustained Reality in Real Time">Creador de ARTUETR5D - Realidad Sostenida en Tiempo Real</p>
+
+                <!-- Panel de Control Glassmorphism (Partículas) -->
+                <div id="ui-layer" class="flex flex-col items-center p-6 ui-visible mt-8">
+                    <div class="glass-panel rounded-2xl p-5 w-80 flex flex-col gap-6" style="pointer-events: auto; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px);">
+
+                        <!-- Botón de Cámara -->
+                        <div>
+                            <button id="btn-start-camera" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-medium transition-all shadow-lg hover:shadow-cyan-500/25 active:scale-95 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                <span id="camera-btn-text">Activar Realidad Sostenida</span>
+                            </button>
+                        </div>
+
+                        <!-- Selector de Color -->
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Frecuencias de Color (LVU)</label>
+                            <div class="grid grid-cols-2 gap-2" id="palette-buttons">
+                                <button data-palette="lvu" class="palette-btn w-full py-2 rounded bg-gradient-to-r from-cyan-400 to-blue-600 text-[10px] uppercase tracking-wider text-white font-bold shadow active-palette border border-white/40">LVU Clásico</button>
+                                <button data-palette="nebula" class="palette-btn w-full py-2 rounded bg-gradient-to-r from-fuchsia-500 to-purple-700 text-[10px] uppercase tracking-wider text-white font-bold shadow border border-transparent hover:border-white/40">Nebulosa</button>
+                                <button data-palette="solar" class="palette-btn w-full py-2 rounded bg-gradient-to-r from-amber-400 to-red-600 text-[10px] uppercase tracking-wider text-white font-bold shadow border border-transparent hover:border-white/40">Fuego Solar</button>
+                                <button data-palette="quantum" class="palette-btn w-full py-2 rounded bg-gradient-to-r from-emerald-400 to-teal-600 text-[10px] uppercase tracking-wider text-white font-bold shadow border border-transparent hover:border-white/40">Quantum</button>
+                            </div>
+                        </div>
+
+                        <!-- Plantillas / Arquetipos -->
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Arquetipo Holográfico</label>
+                            <div class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2" id="template-buttons" style="scrollbar-width: thin;">
+                                <button data-shape="fireworks" class="template-btn w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm transition-colors border border-transparent hover:border-white/20 active-template">
+                                    ✨ Fuegos Artificiales
+                                </button>
+                                <button data-shape="heart" class="template-btn w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-sm transition-colors border border-transparent hover:border-white/20">
+                                    ❤️ Corazón
+                                </button>
+                                <button data-shape="flower" class="template-btn w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-sm transition-colors border border-transparent hover:border-white/20">
+                                    🌸 Flor Cuántica
+                                </button>
+                                <button data-shape="saturn" class="template-btn w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-sm transition-colors border border-transparent hover:border-white/20">
+                                    🪐 Saturno
+                                </button>
+                                <button data-shape="buddha" class="template-btn w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-sm transition-colors border border-transparent hover:border-white/20">
+                                    🧘‍♂️ Buda (Trance)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="scroll-indicator">
                     <p data-es="DESPLÁZATE" data-en="SCROLL DOWN">DESPLÁZATE</p>
                     <i class="fas fa-chevron-down"></i>
