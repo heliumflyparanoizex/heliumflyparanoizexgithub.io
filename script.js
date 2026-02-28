@@ -1199,11 +1199,28 @@ function initSite() {
                 lightbox.style.display = 'none';
                 document.body.style.overflow = 'auto';
             });
+
+            // Cerrar con Enter/Espacio en el botón
+            closeLightbox.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
         }
 
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Cerrar con la tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.style.display === 'block') {
                 lightbox.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
