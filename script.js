@@ -657,54 +657,27 @@ function initSite() {
     // 4. TRANSICIÓN DE FONDOS (VIDEOS ANIMADOS CON SCROLL)
     // -----------------------------------------------------------------
     const sections = document.querySelectorAll('section');
-    const bgVideo = document.getElementById('bg-video');
+    const bgVideo1 = document.getElementById('bg-video-1');
+    const bgVideo2 = document.getElementById('bg-video-2');
 
-    if (bgVideo) {
+    if (bgVideo1 && bgVideo2) {
         // Mapear los 14 videos a la ruta correspondiente
         const videoSources = Array.from({ length: 14 }, (_, i) => `assets/animaciones fondo pag/${i + 1}.mp4`);
         let currentVideoIndex = 0;
+        let activeVideoEl = bgVideo1;
+        let hiddenVideoEl = bgVideo2;
 
-        bgVideo.src = videoSources[currentVideoIndex];
-        bgVideo.load();
+        activeVideoEl.src = videoSources[currentVideoIndex];
+        activeVideoEl.load();
+        activeVideoEl.play().catch(e => console.warn("Autoplay prevenido. Interacción requerida.", e));
 
-        // El video siempre está reproduciéndose (slow motion cuando no hay scroll)
-        bgVideo.play().catch(e => console.warn("Autoplay prevenido. Interacción requerida.", e));
-        bgVideo.playbackRate = 0.2; // Slow motion default
+        // Preload next
+        if (videoSources.length > 1) {
+            hiddenVideoEl.src = videoSources[1];
+            hiddenVideoEl.load();
+        }
 
-        // Manejo del scroll para avanzar/retroceder y cambiar de video
-        let lastScrollTop = 0;
-        let scrollTimeout;
-
-        lenis.on('scroll', (e) => {
-            const st = e.scroll;
-            const scrollDelta = st - lastScrollTop;
-            lastScrollTop = st;
-
-            // Si está escroleando hacia abajo (avanza)
-            if (scrollDelta > 0) {
-                bgVideo.playbackRate = Math.min(2.0, bgVideo.playbackRate + 0.1);
-            }
-            // Si está escroleando hacia arriba (retrocede - en video web no podemos reproducir hacia atrás nativamente de forma fluida siempre)
-            // Para simular retroceso de forma simple o al menos indicar cambio, mantenemos la velocidad normal pero pausamos si se desea un scrub real,
-            // Sin embargo, para no complicar la carga de videos, si sube, podemos poner el playback rate normal o muy lento.
-            else if (scrollDelta < 0) {
-                // Retroceder el tiempo un poco
-                if (bgVideo.currentTime > 0.1) {
-                    bgVideo.currentTime -= 0.1;
-                }
-            }
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                // Volver a slow motion cuando se detiene
-                gsap.to(bgVideo, { playbackRate: 0.2, duration: 0.5 });
-            }, 150);
-        });
-
-        // Cambiar el video según la sección
-        // Distribuimos los 14 videos a lo largo de las 11 secciones (algunas secciones pueden compartir o avanzar múltiples videos)
-        // Para simplificar, mapeamos el % de scroll total al índice del video
-
+        // Cambiar el video según la sección mediante el scroll (crossfade)
         lenis.on('scroll', (e) => {
             const progress = e.progress; // 0 to 1
             const totalVideos = videoSources.length;
@@ -712,18 +685,33 @@ function initSite() {
 
             if (targetIndex !== currentVideoIndex && targetIndex >= 0) {
                 currentVideoIndex = targetIndex;
-                const time = bgVideo.currentTime; // Intentar mantener una transición suave o resetear
 
-                // Fade out -> change src -> fade in
-                gsap.to(bgVideo, {
-                    opacity: 0,
-                    duration: 0.3,
-                    onComplete: () => {
-                        bgVideo.src = videoSources[currentVideoIndex];
-                        bgVideo.play().catch(() => {});
-                        gsap.to(bgVideo, { opacity: 0.5, duration: 0.3 }); // Opacidad base del css
+                // Preparar el video oculto con la nueva fuente si es necesario
+                const currentSrc = hiddenVideoEl.getAttribute('src');
+                if (currentSrc !== videoSources[currentVideoIndex]) {
+                    hiddenVideoEl.src = videoSources[currentVideoIndex];
+                    hiddenVideoEl.load();
+                }
+
+                hiddenVideoEl.play().catch(() => {});
+
+                // Ejecutar crossfade
+                hiddenVideoEl.classList.add('active');
+                activeVideoEl.classList.remove('active');
+
+                // Pausar el video que se ocultó después de la transición
+                const prevActive = activeVideoEl;
+                setTimeout(() => {
+                    // Only pause if it's still not the active video (prevents freezing on rapid scrolls)
+                    if (!prevActive.classList.contains('active')) {
+                        prevActive.pause();
                     }
-                });
+                }, 1000); // 1s coincide con el CSS transition
+
+                // Intercambiar referencias
+                const temp = activeVideoEl;
+                activeVideoEl = hiddenVideoEl;
+                hiddenVideoEl = temp;
             }
         });
     }

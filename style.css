@@ -78,13 +78,20 @@ body {
     background: #000;
 }
 
-#bg-video {
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    opacity: 0.5; /* Oscurecemos para legibilidad */
+    opacity: 0;
     filter: blur(2px) brightness(0.7);
-    transition: filter 0.3s ease;
+    transition: opacity 1s ease-in-out, filter 0.3s ease;
+}
+
+.bg-video.active {
+    opacity: 0.5; /* Oscurecemos para legibilidad */
 }
 
 /* FONDO DINÁMICO E INMERSIVO */
