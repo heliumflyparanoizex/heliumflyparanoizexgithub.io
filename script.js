@@ -26,6 +26,37 @@ if (typeof THREE !== 'undefined') {
     webglClock = new THREE.Clock();
 }
 
+/**
+ * Calculates the openness of the hand (tension) based on MediaPipe landmarks.
+ * @param {Array} landmarks - Hand landmarks.
+ * @returns {number} Tension value between 0.1 and 2.5.
+ */
+function calculateHandOpenness(landmarks) {
+    if (!landmarks || !Array.isArray(landmarks) || landmarks.length < 21) return 1.0;
+
+    // Puntos clave: muñeca (0), puntas de los dedos (8, 12, 16, 20)
+    const wrist = landmarks[0];
+    const indexTip = landmarks[8];
+    const middleTip = landmarks[12];
+    const ringTip = landmarks[16];
+    const pinkyTip = landmarks[20];
+
+    // Safety check for landmark objects
+    if (!wrist || !indexTip || !middleTip || !ringTip || !pinkyTip) return 1.0;
+
+    // Calcular distancias medias desde la muñeca a las puntas
+    const distIndex = Math.hypot(indexTip.x - wrist.x, indexTip.y - wrist.y);
+    const distMiddle = Math.hypot(middleTip.x - wrist.x, middleTip.y - wrist.y);
+    const distRing = Math.hypot(ringTip.x - wrist.x, ringTip.y - wrist.y);
+    const distPinky = Math.hypot(pinkyTip.x - wrist.x, pinkyTip.y - wrist.y);
+
+    const avgDist = (distIndex + distMiddle + distRing + distPinky) / 4.0;
+
+    // Normalizar (0.1 puño cerrado, 0.6 mano abierta aprox)
+    let tension = (avgDist - 0.1) * 2.0 + 0.5;
+    return Math.max(0.1, Math.min(tension, 2.5)); // Limitar entre 0.1 y 2.5
+}
+
 function initWebGLExperience() {
     const canvas = document.getElementById('webgl-experience');
     if (!canvas || typeof THREE === 'undefined') return;
@@ -323,30 +354,6 @@ function initWebGLExperience() {
     const cameraStatus = document.getElementById('camera-status');
     const loader = document.getElementById('loader');
     const cameraBtnText = document.getElementById('camera-btn-text');
-
-    // Función para calcular la apertura de la mano (tensión)
-    function calculateHandOpenness(landmarks) {
-        if (!landmarks) return 1.0;
-
-        // Puntos clave: muñeca (0), puntas de los dedos (8, 12, 16, 20)
-        const wrist = landmarks[0];
-        const indexTip = landmarks[8];
-        const middleTip = landmarks[12];
-        const ringTip = landmarks[16];
-        const pinkyTip = landmarks[20];
-
-        // Calcular distancias medias desde la muñeca a las puntas
-        const distIndex = Math.hypot(indexTip.x - wrist.x, indexTip.y - wrist.y);
-        const distMiddle = Math.hypot(middleTip.x - wrist.x, middleTip.y - wrist.y);
-        const distRing = Math.hypot(ringTip.x - wrist.x, ringTip.y - wrist.y);
-        const distPinky = Math.hypot(pinkyTip.x - wrist.x, pinkyTip.y - wrist.y);
-
-        const avgDist = (distIndex + distMiddle + distRing + distPinky) / 4.0;
-
-        // Normalizar (0.1 puño cerrado, 0.6 mano abierta aprox)
-        let tension = (avgDist - 0.1) * 2.0 + 0.5;
-        return Math.max(0.1, Math.min(tension, 2.5)); // Limitar entre 0.1 y 2.5
-    }
 
     function onResults(results) {
         if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
@@ -1213,5 +1220,5 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { generateMailtoLink, CONTACT_EMAIL };
+    module.exports = { generateMailtoLink, CONTACT_EMAIL, calculateHandOpenness };
 }

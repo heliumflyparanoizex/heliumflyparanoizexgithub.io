@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "node --test tests/mailto.test.js",
+    "test:unit": "node --test tests/*.test.js",
     "test:e2e": "playwright test"
   },
   "repository": {
