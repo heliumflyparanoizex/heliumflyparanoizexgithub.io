@@ -538,14 +538,17 @@ function updateStaticEmailLinks() {
             if (link.textContent.trim() === emailMatch[1]) {
                  // Check if the link has children (like icons) to avoid overwriting them entirely if not intended
                  // In the provided HTML, the email link has an icon: <i class="fas fa-envelope"></i>\n artuetr5d@gmail.com
-                 // So we need to be careful.
-                 // Strategy: traverse child nodes and replace text nodes that match the email.
 
-                 link.childNodes.forEach(node => {
+                 // Refined strategy: update only text nodes to preserve child elements (icons) and state
+                 const nodes = link.childNodes;
+                 for (let i = 0; i < nodes.length; i++) {
+                     const node = nodes[i];
                      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === emailMatch[1]) {
                          node.textContent = node.textContent.replace(emailMatch[1], CONTACT_EMAIL);
+                         // Since we're looking for a specific email, we can usually stop after the first match
+                         break;
                      }
-                 });
+                 }
             }
         } else if (emailMatch && emailMatch[1] === CONTACT_EMAIL) {
              // Even if the email matches, let's ensure the displayed text matches (if it's meant to be the email)
