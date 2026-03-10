@@ -836,7 +836,14 @@ main {
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
-.gallery-item:hover img {
+.gallery-item:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
     transform: scale(1.1);
 }
 
@@ -854,7 +861,8 @@ main {
     align-items: center;
 }
 
-.gallery-item:hover .gallery-overlay {
+.gallery-item:hover .gallery-overlay,
+.gallery-item:focus-visible .gallery-overlay {
     opacity: 1;
 }
 
