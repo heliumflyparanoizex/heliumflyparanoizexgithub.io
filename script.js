@@ -1140,6 +1140,7 @@ function initSite() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeLightbox = document.querySelector('.close-lightbox');
+    let lastFocusedElement = null;
 
     if (galleryContainer) {
         // Lista de imágenes nuevas (detectadas previamente)
@@ -1162,9 +1163,12 @@ function initSite() {
         ];
 
         // Generar items de galería
-        galleryImages.forEach(src => {
+        galleryImages.forEach((src, index) => {
             const item = document.createElement('div');
             item.className = 'gallery-item';
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', `Ampliar imagen de galería ${index + 1}`);
 
             const img = document.createElement('img');
             img.src = src;
@@ -1173,34 +1177,54 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>';
 
             item.appendChild(img);
             item.appendChild(overlay);
 
-            // Evento Click para Lightbox
-            item.addEventListener('click', () => {
+            const openLightbox = () => {
+                lastFocusedElement = document.activeElement;
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+                // Shift focus inside the modal for accessibility
+                if (closeLightbox) {
+                    closeLightbox.focus();
+                }
+            };
+
+            // Evento Click para Lightbox
+            item.addEventListener('click', openLightbox);
+
+            // Evento Teclado para Lightbox
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox();
+                }
             });
 
             galleryContainer.appendChild(item);
         });
 
         // Cerrar Lightbox
+        const handleCloseLightbox = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
+        };
+
         if (closeLightbox) {
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
+            closeLightbox.addEventListener('click', handleCloseLightbox);
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    handleCloseLightbox();
                 }
             });
         }
@@ -1208,16 +1232,14 @@ function initSite() {
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                handleCloseLightbox();
             }
         });
 
         // Cerrar con la tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                handleCloseLightbox();
             }
         });
     }
