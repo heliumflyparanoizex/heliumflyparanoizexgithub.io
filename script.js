@@ -213,10 +213,6 @@ function initWebGLExperience() {
     });
 
     // Generadores de Arquetipos (Plantillas 3D)
-    function getBaseShapeScale() {
-        return 25; // Escala base
-    }
-
     const shapes = {
         fireworks: () => {
             for (let i = 0; i < PARTICLE_COUNT; i++) {
