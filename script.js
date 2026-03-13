@@ -1106,7 +1106,7 @@ function initSite() {
                 downloadBtn.href = url;
             }).catch(function(error) {
                 console.error('Error loading PDF:', error);
-                loadingBar.innerHTML = 'Error loading Document';
+                loadingBar.textContent = 'Error loading Document';
             });
         }
 
