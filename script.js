@@ -199,9 +199,10 @@ function initWebGLExperience() {
     applyPalette('lvu');
 
     // UI Listeners para Paletas
-    document.querySelectorAll('.palette-btn').forEach(btn => {
+    const paletteBtns = document.querySelectorAll('.palette-btn');
+    paletteBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.palette-btn').forEach(b => {
+            paletteBtns.forEach(b => {
                 b.classList.remove('border-white/40');
                 b.classList.add('border-transparent');
             });
@@ -324,9 +325,10 @@ function initWebGLExperience() {
     applyShape('fireworks');
 
     // UI Listeners para Formas
-    document.querySelectorAll('.template-btn').forEach(btn => {
+    const templateBtns = document.querySelectorAll('.template-btn');
+    templateBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.template-btn').forEach(b => {
+            templateBtns.forEach(b => {
                 b.classList.remove('bg-white/10', 'border-white/20');
             });
             e.currentTarget.classList.add('bg-white/10', 'border-white/20');
