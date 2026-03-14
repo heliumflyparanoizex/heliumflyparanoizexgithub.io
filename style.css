@@ -1698,3 +1698,8 @@ footer {
         padding: 0 15px;
     }
 }
+
+.gallery-item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
