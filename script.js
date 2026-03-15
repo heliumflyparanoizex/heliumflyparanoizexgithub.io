@@ -1163,6 +1163,9 @@ function initSite() {
         galleryImages.forEach(src => {
             const item = document.createElement('div');
             item.className = 'gallery-item';
+            item.tabIndex = 0;
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ampliar imagen de galería');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1171,16 +1174,26 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>';
 
             item.appendChild(img);
             item.appendChild(overlay);
 
-            // Evento Click para Lightbox
-            item.addEventListener('click', () => {
+            const openLightbox = () => {
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+            };
+
+            // Evento Click para Lightbox
+            item.addEventListener('click', openLightbox);
+
+            // Evento Keydown para Accesibilidad
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox();
+                }
             });
 
             galleryContainer.appendChild(item);
