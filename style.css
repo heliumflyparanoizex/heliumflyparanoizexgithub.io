@@ -905,6 +905,12 @@ main {
     color: var(--color-secondary);
 }
 
+.close-lightbox:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
 /* SERVICIOS PROFESIONALES */
 .servicios-grid {
     display: grid;
