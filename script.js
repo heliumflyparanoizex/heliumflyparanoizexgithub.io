@@ -1140,6 +1140,8 @@ function initSite() {
     const closeLightbox = document.querySelector('.close-lightbox');
 
     if (galleryContainer) {
+        let lastFocusedElement = null;
+
         // Lista de imágenes nuevas (detectadas previamente)
         const galleryImages = [
             'assets/images/1770139943296.jpg',
@@ -1164,6 +1166,11 @@ function initSite() {
             const item = document.createElement('div');
             item.className = 'gallery-item';
 
+            // UX/A11y enhancements
+            item.tabIndex = 0;
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ampliar imagen');
+
             const img = document.createElement('img');
             img.src = src;
             img.alt = 'Entity Record';
@@ -1171,34 +1178,66 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            // XSS prevention & ARIA
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-expand-arrows-alt';
+            icon.setAttribute('aria-hidden', 'true');
+            overlay.appendChild(icon);
 
             item.appendChild(img);
             item.appendChild(overlay);
 
+            // Visual focus management (JS inline since custom CSS is off-limits)
+            item.addEventListener('focus', () => {
+                item.style.outline = '2px solid var(--color-primary)';
+                item.style.outlineOffset = '4px';
+            });
+            item.addEventListener('blur', () => {
+                item.style.outline = 'none';
+                item.style.outlineOffset = '0';
+            });
+
+            // Keyboard support for activating the modal
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
+                }
+            });
+
             // Evento Click para Lightbox
             item.addEventListener('click', () => {
+                lastFocusedElement = document.activeElement;
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+                if (closeLightbox) closeLightbox.focus();
             });
 
             galleryContainer.appendChild(item);
         });
 
+        function closeLightboxModal() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+                lastFocusedElement = null;
+            }
+        }
+
         // Cerrar Lightbox
         if (closeLightbox) {
             closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxModal();
             });
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxModal();
                 }
             });
         }
@@ -1206,16 +1245,14 @@ function initSite() {
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxModal();
             }
         });
 
         // Cerrar con la tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxModal();
             }
         });
     }
