@@ -854,8 +854,14 @@ main {
     align-items: center;
 }
 
-.gallery-item:hover .gallery-overlay {
+.gallery-item:hover .gallery-overlay,
+.gallery-item:focus-visible .gallery-overlay {
     opacity: 1;
+}
+
+.gallery-item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 .gallery-overlay i {
