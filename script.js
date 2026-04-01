@@ -1163,6 +1163,9 @@ function initSite() {
         galleryImages.forEach(src => {
             const item = document.createElement('div');
             item.className = 'gallery-item';
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ver imagen ampliada');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1171,34 +1174,76 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-expand-arrows-alt';
+            icon.setAttribute('aria-hidden', 'true');
+            overlay.appendChild(icon);
 
             item.appendChild(img);
             item.appendChild(overlay);
 
             // Evento Click para Lightbox
-            item.addEventListener('click', () => {
+            const openLightbox = () => {
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+                // Focus management
+                if (closeLightbox) {
+                    closeLightbox.focus();
+                }
+            };
+
+            item.addEventListener('click', openLightbox);
+
+            // Evento Teclado para Lightbox
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox();
+                }
             });
 
             galleryContainer.appendChild(item);
         });
 
+        // Focus management state
+        let lastFocusedElement = null;
+
+        // Wrap the open function from loop to track the clicked item
+        galleryContainer.addEventListener('click', (e) => {
+            const item = e.target.closest('.gallery-item');
+            if (item) lastFocusedElement = item;
+        });
+        galleryContainer.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const item = e.target.closest('.gallery-item');
+                if (item) lastFocusedElement = item;
+            }
+        });
+
+
         // Cerrar Lightbox
+        const closeLightboxAction = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+
+            // Restore focus
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+                lastFocusedElement = null;
+            }
+        };
+
         if (closeLightbox) {
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
+            closeLightbox.addEventListener('click', closeLightboxAction);
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxAction();
                 }
             });
         }
@@ -1206,16 +1251,14 @@ function initSite() {
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
 
         // Cerrar con la tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
     }
