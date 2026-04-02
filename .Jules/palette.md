@@ -1,3 +1,7 @@
 ## 2024-05-24 - Focus Visibility using Utility Classes
 **Learning:** Adding accessible focus states to interactive UI elements that lack them is critical for keyboard navigation. Using existing Tailwind utility classes (e.g., `focus-visible:ring-2`, `focus-visible:outline-none`, `focus-visible:ring-{color}`) provides an immediate, semantic way to introduce focus visibility without creating custom CSS overrides, keeping the styling tightly coupled to the component architecture.
 **Action:** When working in codebases that utilize Tailwind CSS, always prioritize `focus-visible` utility classes for accessible focus styling on interactive elements (buttons, links) rather than relying on custom CSS styles.
+
+## 2024-05-27 - Dynamic Gallery Accessibility & Focus Management
+**Learning:** When generating interactive grids (like a gallery) programmatically, it's easy to miss foundational accessibility because the HTML isn't written explicitly. Items need `tabindex="0"`, `role="button"`, and `keydown` listeners (Space/Enter) to be keyboard operable. Furthermore, custom lightboxes must capture focus from the triggering element and return it upon closing (`lastFocusedElement`) to prevent screen readers and keyboard users from losing their context in the DOM.
+**Action:** Always verify that dynamic DOM generation (e.g., mapping over an array to create items) injects the same ARIA attributes, focus states, and keyboard event handlers that would be expected in static HTML. Ensure strict focus trapping and restoration for custom modals/lightboxes.
