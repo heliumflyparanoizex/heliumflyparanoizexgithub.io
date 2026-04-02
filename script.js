@@ -1140,6 +1140,8 @@ function initSite() {
     const closeLightbox = document.querySelector('.close-lightbox');
 
     if (galleryContainer) {
+        let lastFocusedElement = null;
+
         // Lista de imágenes nuevas (detectadas previamente)
         const galleryImages = [
             'assets/images/1770139943296.jpg',
@@ -1159,10 +1161,31 @@ function initSite() {
             'assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg'
         ];
 
+        const openLightbox = (src) => {
+            lastFocusedElement = document.activeElement;
+            lightbox.style.display = 'block';
+            lightboxImg.src = src;
+            document.body.style.overflow = 'hidden'; // Bloquear scroll
+            if (closeLightbox) {
+                closeLightbox.focus();
+            }
+        };
+
+        const closeLightboxAction = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
+        };
+
         // Generar items de galería
         galleryImages.forEach(src => {
             const item = document.createElement('div');
             item.className = 'gallery-item';
+            item.tabIndex = 0;
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'View expanded image');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1171,16 +1194,25 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-expand-arrows-alt';
+            icon.setAttribute('aria-hidden', 'true');
+            overlay.appendChild(icon);
 
             item.appendChild(img);
             item.appendChild(overlay);
 
             // Evento Click para Lightbox
             item.addEventListener('click', () => {
-                lightbox.style.display = 'block';
-                lightboxImg.src = src;
-                document.body.style.overflow = 'hidden'; // Bloquear scroll
+                openLightbox(src);
+            });
+
+            // Evento Keydown para accesibilidad
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(src);
+                }
             });
 
             galleryContainer.appendChild(item);
@@ -1188,17 +1220,13 @@ function initSite() {
 
         // Cerrar Lightbox
         if (closeLightbox) {
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
+            closeLightbox.addEventListener('click', closeLightboxAction);
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxAction();
                 }
             });
         }

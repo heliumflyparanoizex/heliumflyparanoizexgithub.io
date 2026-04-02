@@ -1,0 +1,50 @@
+Starting up http-server, serving ./
+
+http-server version: 14.1.1
+
+http-server settings:
+CORS: disabled
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:8080
+  http://192.168.0.2:8080
+Hit CTRL-C to stop the server
+
+[2026-04-02T16:58:27.825Z]  "GET /" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+(node:40356) [DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2026-04-02T16:58:27.858Z]  "GET /style.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:27.861Z]  "GET /assets/images/Logo-2025oct02-10-13-56p.m..png" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:27.864Z]  "GET /assets/images/portada.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:27.894Z]  "GET /assets/images/Whisk_95f1dfbced.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:28.088Z]  "GET /script.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:28.493Z]  "GET /assets/images/LOGO.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:31.539Z]  "GET /assets/animaciones%20fondo%20pag/1.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:31.544Z]  "GET /assets/animaciones%20fondo%20pag/2.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:32.778Z]  "GET /assets/docs/Codice_Sintergico.pdf" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.438Z]  "GET /assets/animaciones%20fondo%20pag/5.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.675Z]  "GET /assets/images/1770139943296.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.677Z]  "GET /assets/images/20ab6466e2e30106f02c1ad1668298f9.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.678Z]  "GET /assets/images/40dd707d91ad994cd68b8eaf80961eac.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.678Z]  "GET /assets/images/475ee13efc94be27662e66d298b2a5c2.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.680Z]  "GET /assets/images/75d6d55ec2e77e49fc542b313b1c94a9.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.681Z]  "GET /assets/images/87f20a6bfbec35b636cdd1b349985f18.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.692Z]  "GET /assets/images/91fc2ddb16d4a4c68b11580bda5f0134.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.693Z]  "GET /assets/images/9353b554cdfefaa0c93f122a651b2205.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.694Z]  "GET /assets/images/bef47e2924e2634d4e888be2b6f7b4c1.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.694Z]  "GET /assets/images/c0e3ec8819e6ec3043f7102bf57c0598.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.695Z]  "GET /assets/images/c396a99f21b4f4176ef9a491ab085147%20(1).jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.695Z]  "GET /assets/images/d2cbe5e000664f84cd9675cf6ef6b02a.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.713Z]  "GET /assets/images/e00f2be57f9f92bec9d2edc10c947beb.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.713Z]  "GET /assets/images/e26041023c1e4a5a60ad39225d2b9ea9.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.714Z]  "GET /assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.714Z]  "GET /assets/animaciones%20fondo%20pag/8.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:34.915Z]  "GET /assets/animaciones%20fondo%20pag/9.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-04-02T16:58:35.344Z]  "GET /assets/animaciones%20fondo%20pag/10.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
