@@ -40,11 +40,10 @@ test.describe('E2E Test for Page Load', () => {
     page.on('console', msg => {
       if (msg.type() === 'error') {
         const text = msg.text();
-        // Now that we are serving via http, 404s for local assets should be real errors.
-        // However, we might still have missing favicons or external blocked resources.
-        // Let's be strict but allow known external failures if any.
-        // For now, let's catch everything.
-        errors.push(text);
+        // Filter out known non-fatal errors
+        if (!text.includes('Permissions policy violation: compute-pressure is not allowed')) {
+            errors.push(text);
+        }
       }
     });
 
