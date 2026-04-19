@@ -1139,6 +1139,8 @@ function initSite() {
     const lightboxImg = document.getElementById('lightbox-img');
     const closeLightbox = document.querySelector('.close-lightbox');
 
+    let lastFocusedElement = null; // Para gestión de foco en el lightbox
+
     if (galleryContainer) {
         // Lista de imágenes nuevas (detectadas previamente)
         const galleryImages = [
@@ -1159,10 +1161,26 @@ function initSite() {
             'assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg'
         ];
 
+        // Función para cerrar el lightbox
+        const closeLightboxModal = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            if (lastFocusedElement) {
+                // Pequeño timeout para asegurar que el elemento está disponible
+                setTimeout(() => {
+                    lastFocusedElement.focus();
+                    lastFocusedElement = null;
+                }, 10);
+            }
+        };
+
         // Generar items de galería
         galleryImages.forEach(src => {
             const item = document.createElement('div');
-            item.className = 'gallery-item';
+            item.className = 'gallery-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400';
+            item.tabIndex = 0;
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ver imagen ampliada');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1171,16 +1189,40 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-expand-arrows-alt';
+            icon.setAttribute('aria-hidden', 'true');
+            overlay.appendChild(icon);
 
             item.appendChild(img);
             item.appendChild(overlay);
 
-            // Evento Click para Lightbox
-            item.addEventListener('click', () => {
+            const openLightboxModal = (e) => {
+                // Use the explicit target if passed, else fallback to activeElement
+                lastFocusedElement = item;
+
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+                // Allow a small delay for modal display before setting focus
+                setTimeout(() => {
+                    if (closeLightbox) {
+                        closeLightbox.focus();
+                    }
+                }, 10);
+            };
+
+            // Evento Click para Lightbox
+            item.addEventListener('click', openLightboxModal);
+
+            // Evento Teclado para Lightbox
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightboxModal(e);
+                }
             });
 
             galleryContainer.appendChild(item);
@@ -1188,17 +1230,13 @@ function initSite() {
 
         // Cerrar Lightbox
         if (closeLightbox) {
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
+            closeLightbox.addEventListener('click', closeLightboxModal);
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxModal();
                 }
             });
         }
