@@ -1162,7 +1162,10 @@ function initSite() {
         // Generar items de galería
         galleryImages.forEach(src => {
             const item = document.createElement('div');
-            item.className = 'gallery-item';
+            item.className = 'gallery-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400';
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'View image fullscreen');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1181,6 +1184,16 @@ function initSite() {
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+            });
+
+            // Evento Keydown para Lightbox (Accesibilidad de teclado)
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    lightbox.style.display = 'block';
+                    lightboxImg.src = src;
+                    document.body.style.overflow = 'hidden'; // Bloquear scroll
+                }
             });
 
             galleryContainer.appendChild(item);
