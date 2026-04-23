@@ -1138,6 +1138,7 @@ function initSite() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeLightbox = document.querySelector('.close-lightbox');
+    let lastFocusedElement = null;
 
     if (galleryContainer) {
         // Lista de imágenes nuevas (detectadas previamente)
@@ -1160,9 +1161,12 @@ function initSite() {
         ];
 
         // Generar items de galería
-        galleryImages.forEach(src => {
+        galleryImages.forEach((src, index) => {
             const item = document.createElement('div');
-            item.className = 'gallery-item';
+            item.className = 'gallery-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400';
+            item.role = 'button';
+            item.tabIndex = 0;
+            item.setAttribute('aria-label', `Abrir imagen ${index + 1} en galería`);
 
             const img = document.createElement('img');
             img.src = src;
@@ -1171,16 +1175,28 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>';
 
             item.appendChild(img);
             item.appendChild(overlay);
 
             // Evento Click para Lightbox
             item.addEventListener('click', () => {
+                lastFocusedElement = document.activeElement;
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+                setTimeout(() => {
+                    if (closeLightbox) closeLightbox.focus();
+                }, 10);
+            });
+
+            // Evento Keydown para Lightbox
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
+                }
             });
 
             galleryContainer.appendChild(item);
@@ -1191,6 +1207,10 @@ function initSite() {
             closeLightbox.addEventListener('click', () => {
                 lightbox.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                    lastFocusedElement = null;
+                }
             });
 
             // Cerrar con Enter/Espacio en el botón
@@ -1199,6 +1219,10 @@ function initSite() {
                     e.preventDefault();
                     lightbox.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                    if (lastFocusedElement) {
+                        lastFocusedElement.focus();
+                        lastFocusedElement = null;
+                    }
                 }
             });
         }

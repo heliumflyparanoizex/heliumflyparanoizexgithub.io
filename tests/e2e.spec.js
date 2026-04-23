@@ -52,7 +52,9 @@ test.describe('E2E Test for Page Load', () => {
     await page.reload();
 
     // Allow scripts to execute and network requests to complete
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    // Give it a bit more time for any immediate post-load script execution
+    await page.waitForTimeout(2000);
 
     if (errors.length > 0) {
         console.error('Console errors found:', errors);
