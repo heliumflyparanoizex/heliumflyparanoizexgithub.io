@@ -1704,3 +1704,14 @@ footer {
         padding: 0 15px;
     }
 }
+
+/* KEYBOARD ACCESSIBILITY FOCUS STATES */
+.nav-link:focus-visible,
+.menu-toggle:focus-visible,
+.lang-toggle:focus-visible,
+.btn-memsyn:focus-visible,
+.servicio-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
