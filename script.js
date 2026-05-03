@@ -1171,7 +1171,10 @@ function initSite() {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-expand-arrows-alt';
+            overlay.appendChild(icon);
 
             item.appendChild(img);
             item.appendChild(overlay);
