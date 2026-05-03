@@ -460,13 +460,18 @@ function initWebGLExperience() {
     let targetScrollTension = 1.0;
 
     // Asignamos globalmente un listener simple en window además de lenis para asegurar reactividad
+    let isScrolling = false;
     window.addEventListener('scroll', () => {
-        if (!isCameraActive && sphereMesh) {
-            targetScrollTension = 2.5; // Expande las partículas
-            clearTimeout(particleScrollTimeout);
-            particleScrollTimeout = setTimeout(() => {
-                targetScrollTension = 1.0; // Contrae
-            }, 200);
+        if (!isScrolling && !isCameraActive && sphereMesh) {
+            isScrolling = true;
+            requestAnimationFrame(() => {
+                targetScrollTension = 2.5; // Expande las partículas
+                clearTimeout(particleScrollTimeout);
+                particleScrollTimeout = setTimeout(() => {
+                    targetScrollTension = 1.0; // Contrae
+                }, 200);
+                isScrolling = false;
+            });
         }
     });
 
