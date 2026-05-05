@@ -135,6 +135,63 @@ body {
 }
 
 /* HEADER Y NAVEGACIÓN */
+
+/* =========================================
+   ACCESSIBILITY: KEYBOARD FOCUS VISIBILITY
+   ========================================= */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* Base focus outline for interactive components */
+.nav-link:focus-visible,
+.menu-toggle:focus-visible,
+.lang-toggle:focus-visible,
+.doc-card:focus-visible,
+.servicio-btn:focus-visible,
+.social-icon-card:focus-visible,
+.control-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+/* Mirror hover state logic for focus-visible */
+.nav-link:focus-visible {
+    color: var(--color-primary);
+    text-shadow: 0 0 10px var(--color-primary);
+}
+
+.nav-link:focus-visible::after {
+    width: 100%;
+}
+
+.doc-card:focus-visible {
+    background-color: var(--color-secondary);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 0, 255, 0.4);
+}
+
+.servicio-btn:focus-visible {
+    background-color: var(--color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 0, 255, 0.4);
+}
+
+.social-icon-card:focus-visible {
+    color: var(--color-secondary);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.3);
+    border-color: var(--color-primary);
+}
+
+.social-icon-card:focus-visible i {
+    color: var(--color-secondary);
+    text-shadow: 0 0 15px var(--color-secondary);
+}
+
 .main-header {
     position: fixed;
     top: 0;
