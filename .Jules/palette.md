@@ -1,3 +1,7 @@
 ## 2024-05-24 - Focus Visibility using Utility Classes
 **Learning:** Adding accessible focus states to interactive UI elements that lack them is critical for keyboard navigation. Using existing Tailwind utility classes (e.g., `focus-visible:ring-2`, `focus-visible:outline-none`, `focus-visible:ring-{color}`) provides an immediate, semantic way to introduce focus visibility without creating custom CSS overrides, keeping the styling tightly coupled to the component architecture.
 **Action:** When working in codebases that utilize Tailwind CSS, always prioritize `focus-visible` utility classes for accessible focus styling on interactive elements (buttons, links) rather than relying on custom CSS styles.
+
+## 2024-10-25 - Focus Visibility with Tailwind CDN
+**Learning:** In projects that use Tailwind CSS via a CDN without a build step, arbitrary values (like `focus-visible:ring-[var(--color-primary)]`) or newly introduced utility classes might be inert and fail to render. This creates a silent accessibility failure where focus states appear to be coded correctly but aren't visually present.
+**Action:** Always verify if a project uses a Tailwind build step. If it relies on a CDN, implement accessibility styles like `:focus-visible` directly in the project's custom CSS file (e.g., `style.css`) to ensure they are applied reliably, and verify visually using tools like Playwright or manual testing.
