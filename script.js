@@ -1243,5 +1243,5 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { generateMailtoLink, CONTACT_EMAIL, calculateHandOpenness };
+    module.exports = { generateMailtoLink, CONTACT_EMAIL, calculateHandOpenness, updateStaticEmailLinks };
 }
