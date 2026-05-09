@@ -179,6 +179,7 @@ function initWebGLExperience() {
         quantum: [new THREE.Color(0x00ffaa), new THREE.Color(0x0088ff)] // Esmeralda a Azul
     };
 
+    const tempColor = new THREE.Color();
     function applyPalette(paletteName) {
         if (!palettes[paletteName]) return;
         const c1 = palettes[paletteName][0];
@@ -187,10 +188,10 @@ function initWebGLExperience() {
         for(let i=0; i<PARTICLE_COUNT; i++) {
             // Interpolar basándose en un patrón pseudo-aleatorio para dar efecto de volumen mixto
             const mixRatio = (Math.sin(i * 0.01) + 1.0) / 2.0;
-            const finalColor = c1.clone().lerp(c2, mixRatio);
-            colors[i*3] = finalColor.r;
-            colors[i*3+1] = finalColor.g;
-            colors[i*3+2] = finalColor.b;
+            tempColor.copy(c1).lerp(c2, mixRatio);
+            colors[i*3] = tempColor.r;
+            colors[i*3+1] = tempColor.g;
+            colors[i*3+2] = tempColor.b;
         }
         geometry.attributes.color.needsUpdate = true;
     }
