@@ -1143,6 +1143,7 @@ function initSite() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeLightbox = document.querySelector('.close-lightbox');
+    let lastFocusedElement = null; // Guardar el elemento enfocado antes de abrir el lightbox
 
     if (galleryContainer) {
         // Lista de imágenes nuevas (detectadas previamente)
@@ -1167,7 +1168,10 @@ function initSite() {
         // Generar items de galería
         galleryImages.forEach(src => {
             const item = document.createElement('div');
-            item.className = 'gallery-item';
+            item.className = 'gallery-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400';
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ver imagen ampliada');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1184,29 +1188,51 @@ function initSite() {
             item.appendChild(img);
             item.appendChild(overlay);
 
-            // Evento Click para Lightbox
-            item.addEventListener('click', () => {
+            // Función para abrir el lightbox
+            const openLightbox = () => {
+                lastFocusedElement = document.activeElement; // Capturar foco actual
                 lightbox.style.display = 'block';
                 lightboxImg.src = src;
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+                // Mover foco al botón de cerrar
+                if (closeLightbox) {
+                    setTimeout(() => closeLightbox.focus(), 10);
+                }
+            };
+
+            // Eventos para Lightbox
+            item.addEventListener('click', openLightbox);
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox();
+                }
             });
 
             galleryContainer.appendChild(item);
         });
 
+        // Función para cerrar el lightbox
+        const closeLightboxAction = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+
+            // Restaurar foco
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
+        };
+
         // Cerrar Lightbox
         if (closeLightbox) {
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
+            closeLightbox.addEventListener('click', closeLightboxAction);
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxAction();
                 }
             });
         }
@@ -1214,16 +1240,14 @@ function initSite() {
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
 
         // Cerrar con la tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
     }
