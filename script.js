@@ -1164,10 +1164,39 @@ function initSite() {
             'assets/images/eecccdec0aa43c529abb21d4899b5dcd.jpg'
         ];
 
+        let lastFocusedElement = null;
+
+        // Función para abrir el Lightbox con gestión de foco
+        const openLightbox = (src) => {
+            lastFocusedElement = document.activeElement;
+            lightbox.style.display = 'block';
+            lightboxImg.src = src;
+            document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+            // Shift focus al botón de cerrar
+            if (closeLightbox) {
+                setTimeout(() => closeLightbox.focus(), 10);
+            }
+        };
+
+        // Función para cerrar el Lightbox con gestión de foco
+        const closeLightboxAction = () => {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+
+            // Restaurar foco
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
+        };
+
         // Generar items de galería
         galleryImages.forEach(src => {
             const item = document.createElement('div');
-            item.className = 'gallery-item';
+            item.className = 'gallery-item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400';
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', 'Ampliar imagen de la galería');
 
             const img = document.createElement('img');
             img.src = src;
@@ -1186,9 +1215,15 @@ function initSite() {
 
             // Evento Click para Lightbox
             item.addEventListener('click', () => {
-                lightbox.style.display = 'block';
-                lightboxImg.src = src;
-                document.body.style.overflow = 'hidden'; // Bloquear scroll
+                openLightbox(src);
+            });
+
+            // Evento Teclado para Lightbox
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(src);
+                }
             });
 
             galleryContainer.appendChild(item);
@@ -1197,16 +1232,14 @@ function initSite() {
         // Cerrar Lightbox
         if (closeLightbox) {
             closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             });
 
             // Cerrar con Enter/Espacio en el botón
             closeLightbox.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    closeLightboxAction();
                 }
             });
         }
@@ -1214,16 +1247,14 @@ function initSite() {
         // Cerrar al hacer clic fuera de la imagen
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
 
         // Cerrar con la tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeLightboxAction();
             }
         });
     }
