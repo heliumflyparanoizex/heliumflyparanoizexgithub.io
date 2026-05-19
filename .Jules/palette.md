@@ -1,3 +1,7 @@
 ## 2024-05-24 - Focus Visibility using Utility Classes
 **Learning:** Adding accessible focus states to interactive UI elements that lack them is critical for keyboard navigation. Using existing Tailwind utility classes (e.g., `focus-visible:ring-2`, `focus-visible:outline-none`, `focus-visible:ring-{color}`) provides an immediate, semantic way to introduce focus visibility without creating custom CSS overrides, keeping the styling tightly coupled to the component architecture.
 **Action:** When working in codebases that utilize Tailwind CSS, always prioritize `focus-visible` utility classes for accessible focus styling on interactive elements (buttons, links) rather than relying on custom CSS styles.
+
+## 2024-05-18 - Skip Links for Single-Page Applications
+**Learning:** In SPAs with complex top navigation menus (like ARTUETR5D), "Skip to main content" links are critical. Without them, keyboard users and screen reader users must tab through every single navigation item (11 items in this case) on every page load or simulated page transition before reaching the actual content.
+**Action:** Always include a visually hidden, focusable "Skip to content" link at the very top of the DOM structure (right after `<body>`) that jumps directly to the primary `<main>` or hero section. Use existing Tailwind utilities (`sr-only focus:not-sr-only focus:absolute focus:z-[9999]`) to ensure it only appears when explicitly focused via keyboard navigation.
