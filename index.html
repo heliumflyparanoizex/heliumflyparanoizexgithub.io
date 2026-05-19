@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- SKIP LINK -->
+    <a href="#inicio" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[9999] px-4 py-2 bg-black text-white font-bold rounded-lg border-2 border-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400" data-es="Saltar al contenido principal" data-en="Skip to main content">Saltar al contenido principal</a>
+
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="loader-content">
@@ -360,7 +363,7 @@
                     <button id="pdf-prev" class="control-btn" aria-label="Previous Page"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
                     <span id="pdf-page-num" class="page-indicator">1 / 1</span>
                     <button id="pdf-next" class="control-btn" aria-label="Next Page"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-                    <a id="pdf-download" href="#" target="_blank" class="download-btn" title="Download PDF"><i class="fas fa-download" aria-hidden="true"></i></a>
+                    <a id="pdf-download" href="#" target="_blank" class="download-btn" title="Download PDF" aria-label="Download PDF"><i class="fas fa-download" aria-hidden="true"></i></a>
                 </div>
             </div>
         </section>
