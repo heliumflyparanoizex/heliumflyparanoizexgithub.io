@@ -35,6 +35,14 @@ body {
     position: relative;
 }
 
+/* ACCESSIBILITY */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
 /* WEBGL EXPERIENCE */
 #webgl-experience {
     position: fixed;
