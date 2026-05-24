@@ -22,6 +22,18 @@
     box-sizing: border-box;
 }
 
+
+/* Accesibilidad: Estilos de foco global para navegación por teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
 html {
     scroll-behavior: smooth;
 }
