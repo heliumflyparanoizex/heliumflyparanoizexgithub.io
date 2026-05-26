@@ -44,7 +44,9 @@ test.describe('E2E Test for Page Load', () => {
         // However, we might still have missing favicons or external blocked resources.
         // Let's be strict but allow known external failures if any.
         // For now, let's catch everything.
-        errors.push(text);
+        if (!text.includes('Permissions policy violation: compute-pressure is not allowed in this document')) {
+            errors.push(text);
+        }
       }
     });
 
